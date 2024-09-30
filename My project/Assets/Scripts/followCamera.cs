@@ -1,15 +1,16 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class followCamera : MonoBehaviour
 {
-    public Transform target;    // ¨¤¦â¡]¥D¨¤¡^ªºTransform
-    public Vector3 offset;      // ¬Û¾÷»P¨¤¦â¤§¶¡ªº¶ZÂ÷
+    public Transform target;    // è§’è‰²ï¼ˆä¸»è§’ï¼‰çš„Transform
+    public Vector3 offset;      // ç›¸æœºä¸è§’è‰²ä¹‹é—´çš„è·ç¦»
+    public bool isShaking = false;  // æ ‡è®°æ˜¯å¦æ­£åœ¨éœ‡åŠ¨
 
     void Start()
     {
-        // ¦pªG¨S¦³¤â°Ê³]¸m offset¡A«h¦Û°Ê³]¸m¤@­Ó¦X²zªº¶ZÂ÷
+        // å¦‚æœæ²¡æœ‰æ‰‹åŠ¨è®¾ç½® offsetï¼Œåˆ™è‡ªåŠ¨è®¾ç½®ä¸€ä¸ªåˆç†çš„è·ç¦»
         if (offset == Vector3.zero)
         {
             offset = transform.position - target.position;
@@ -18,10 +19,13 @@ public class followCamera : MonoBehaviour
 
     void LateUpdate()
     {
-        // ¬Û¾÷¸òÀH¨¤¦â¡A«O«ù offset ¶ZÂ÷
-        transform.position = target.position + offset;
-
-        // ¬Û¾÷¬İ¦V¨¤¦â
-        transform.LookAt(target);
+        // åªæœ‰åœ¨ä¸éœ‡åŠ¨æ—¶ï¼Œæ‰æ›´æ–°ç›¸æœºçš„ä½ç½®
+        if (!isShaking)
+        {
+            // ç›¸æœºè·Ÿéšè§’è‰²ï¼Œä¿æŒ offset è·ç¦»
+            transform.position = target.position + offset;
+            // ç›¸æœºçœ‹å‘è§’è‰²
+            transform.LookAt(target);
+        }
     }
 }
