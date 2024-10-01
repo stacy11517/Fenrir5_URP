@@ -1,67 +1,67 @@
-using UnityEngine;
-using UnityEngine.UI;          // ¥Î©ó UI ¾Ş§@
-using TMPro;                 // ¥Î©ó TextMeshPro
+ï»¿using UnityEngine;
+using UnityEngine.UI;          // ç”¨æ–¼ UI æ“ä½œ
+using TMPro;                 // ç”¨æ–¼ TextMeshPro
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int maxHealth = 100;          // ª±®a³Ì¤j¥Í©R­È
-    public int currentHealth;             // ª±®a·í«e¥Í©R­È
-    public int healthPackCount = 0;       // ¸É¦å¥]ªº¼Æ¶q
-    public Image healthBar;                // ¦å±ø UI
-    public TMP_Text healthPackText;        // ¦å¶q¥]¼Æ¶qªº TextMeshPro ¤¸¥ó
+    public int maxHealth = 100;          // ç©å®¶æœ€å¤§ç”Ÿå‘½å€¼
+    public int currentHealth;             // ç©å®¶ç•¶å‰ç”Ÿå‘½å€¼
+    public int healthPackCount = 0;       // è£œè¡€åŒ…çš„æ•¸é‡
+    public Image healthBar;                // è¡€æ¢ UI
+    public TMP_Text healthPackText;        // è¡€é‡åŒ…æ•¸é‡çš„ TextMeshPro å…ƒä»¶
 
     void Start()
     {
-        // ªì©l¤Æª±®a¥Í©R­È
+        // åˆå§‹åŒ–ç©å®¶ç”Ÿå‘½å€¼
         currentHealth = maxHealth;
-        UpdateHealthBar();              // ªì©l¤Æ¦å±ø
-        UpdateHealthPackText();         // ªì©l¤Æ¸É¦å¥]¼Æ¶q¤å¥»
+        UpdateHealthBar();              // åˆå§‹åŒ–è¡€æ¢
+        UpdateHealthPackText();         // åˆå§‹åŒ–è£œè¡€åŒ…æ•¸é‡æ–‡æœ¬
     }
 
-    // «ì´_¥Í©R­Èªº¤èªk
+    // æ¢å¾©ç”Ÿå‘½å€¼çš„æ–¹æ³•
     public void Heal(int amount)
     {
-        // «ì´_¥Í©R­È¡A¦ı¤£¶W¹L³Ì¤j¥Í©R­È
+        // æ¢å¾©ç”Ÿå‘½å€¼ï¼Œä½†ä¸è¶…éæœ€å¤§ç”Ÿå‘½å€¼
         currentHealth += amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         Debug.Log("Player healed! Current health: " + currentHealth);
-        UpdateHealthBar();              // §ó·s¦å±ø
+        UpdateHealthBar();              // æ›´æ–°è¡€æ¢
     }
 
-    // ·í¸I¨ì¸É¦å¥]®ÉÄ²µo
+    // ç•¶ç¢°åˆ°è£œè¡€åŒ…æ™‚è§¸ç™¼
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("HealthPack"))
         {
-            // ¾ß°_¸É¦å¥]¡A¼Æ¶q¼W¥[
+            // æ’¿èµ·è£œè¡€åŒ…ï¼Œæ•¸é‡å¢åŠ 
             healthPackCount++;
             Debug.Log("Health pack picked up! Total packs: " + healthPackCount);
-            UpdateHealthPackText();       // §ó·s¸É¦å¥]¼Æ¶q¤å¥»
+            UpdateHealthPackText();       // æ›´æ–°è£œè¡€åŒ…æ•¸é‡æ–‡æœ¬
 
-            // ¾P·´¸É¦å¥]ª«¥ó
+            // éŠ·æ¯€è£œè¡€åŒ…ç‰©ä»¶
             Destroy(other.gameObject);
         }
     }
 
-    // ¨Ï¥Î¸É¦å¥]
+    // ä½¿ç”¨è£œè¡€åŒ…
     void Update()
     {
-        // «ö¤U X Áä¨Ó¨Ï¥Î¸É¦å¥]
+        // æŒ‰ä¸‹ X éµä¾†ä½¿ç”¨è£œè¡€åŒ…
         if (Input.GetKeyDown(KeyCode.X) && healthPackCount > 0)
         {
             UseHealthPack();
         }
     }
 
-    // ¨Ï¥Î¸É¦å¥]«ì´_¥Í©R
+    // ä½¿ç”¨è£œè¡€åŒ…æ¢å¾©ç”Ÿå‘½
     void UseHealthPack()
     {
         if (currentHealth < maxHealth)
         {
-            Heal(10);                    // «ì´_10ÂI¥Í©R­È
-            healthPackCount--;           // ¸É¦å¥]¼Æ¶q´î¤Ö
+            Heal(10);                    // æ¢å¾©10é»ç”Ÿå‘½å€¼
+            healthPackCount--;           // è£œè¡€åŒ…æ•¸é‡æ¸›å°‘
             Debug.Log("Health pack used! Remaining packs: " + healthPackCount);
-            UpdateHealthPackText();      // §ó·s¸É¦å¥]¼Æ¶q¤å¥»
+            UpdateHealthPackText();      // æ›´æ–°è£œè¡€åŒ…æ•¸é‡æ–‡æœ¬
         }
         else
         {
@@ -69,16 +69,36 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    // §ó·s¦å±øÅã¥Ü
+    // æ›´æ–°è¡€æ¢é¡¯ç¤º
     void UpdateHealthBar()
     {
         float healthPercent = (float)currentHealth / maxHealth;
-        healthBar.fillAmount = healthPercent;  // ½Õ¾ã¦å±øªºªø«×
+        healthBar.fillAmount = healthPercent;  // èª¿æ•´è¡€æ¢çš„é•·åº¦
     }
 
-    // §ó·s¸É¦å¥]¼Æ¶q¤å¥»Åã¥Ü
+    // æ›´æ–°è£œè¡€åŒ…æ•¸é‡æ–‡æœ¬é¡¯ç¤º
     void UpdateHealthPackText()
     {
-        healthPackText.text = healthPackCount > 0 ? healthPackCount.ToString() : "";  // ·í¼Æ¶q¤j©ó 0 ®ÉÅã¥Ü¼Æ¦r¡A§_«h¤£Åã¥Ü
+        healthPackText.text = healthPackCount > 0 ? healthPackCount.ToString() : "";  // ç•¶æ•¸é‡å¤§æ–¼ 0 æ™‚é¡¯ç¤ºæ•¸å­—ï¼Œå¦å‰‡ä¸é¡¯ç¤º
+    }
+    public void TakeDamage(int damage)
+    {
+        // æ‰£é™¤ç”Ÿå‘½å€¼
+        currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        Debug.Log("Player took damage! Current health: " + currentHealth);
+
+        // æ£€æŸ¥æ˜¯å¦æ­»äº¡
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        // ç©å®¶æ­»äº¡å¤„ç†é€»è¾‘
+        Debug.Log("Player died!");
+        // å¯ä»¥åœ¨è¿™é‡Œæ·»åŠ æ­»äº¡åŠ¨ç”»ã€é‡ç”Ÿé€»è¾‘ç­‰
     }
 }
