@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f468486ead5e2154b981277f7db6fa0c
+guid: 73b603658319cb0438baab77d444ccad
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -95,7 +95,91 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: UI_ButtonSet_0
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 288
+        width: 173
+        height: 173
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 1, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 375affcf935fa274ca8caea38c22cce3
+      internalID: 1384254266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_ButtonSet_1
+      rect:
+        serializedVersion: 2
+        x: 281
+        y: 288
+        width: 173
+        height: 173
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5884f1633aaca614b899b8aa39162e58
+      internalID: -1222660818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_ButtonSet_2
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 74
+        width: 173
+        height: 173
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5f04d0916e062f418b476c20e912c93
+      internalID: 178325970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_ButtonSet_3
+      rect:
+        serializedVersion: 2
+        x: 282
+        y: 74
+        width: 173
+        height: 173
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 104066d1afe975944a0d5b9bceb2dc2a
+      internalID: -1669613553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -106,7 +190,11 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      UI_ButtonSet_0: 1384254266
+      UI_ButtonSet_1: -1222660818
+      UI_ButtonSet_2: 178325970
+      UI_ButtonSet_3: -1669613553
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
