@@ -11,10 +11,12 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController controller;
     private Vector3 moveDirection = Vector3.zero;
+    private Animator animator; // 新增 Animator 變數
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>(); // 獲取 Animator 元件
     }
 
     void Update()
@@ -32,9 +34,12 @@ public class PlayerController : MonoBehaviour
             moveDirection = new Vector3(horizontal, 0, vertical);
             moveDirection *= moveSpeed;
 
-            // 如果有移動輸入，讓角色朝移動方向旋轉
-            if (moveDirection.x != 0 || moveDirection.z != 0)
+            // 更新動畫狀態
+            if (horizontal != 0 || vertical != 0)
             {
+                // 當角色有移動時，播放 "走路" 動畫
+                animator.SetBool("isWalking", true);
+
                 // 計算角色要面對的目標方向
                 Vector3 targetDirection = new Vector3(horizontal, 0, vertical);
 
@@ -44,11 +49,17 @@ public class PlayerController : MonoBehaviour
                 // 平滑旋轉角色，避免瞬間轉向
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
             }
+            else
+            {
+                // 當角色沒有移動時，播放 "閒置" 動畫
+                animator.SetBool("isWalking", false);
+            }
 
             // 跳躍
             if (Input.GetButton("Jump"))
             {
                 moveDirection.y = jumpSpeed;
+                animator.SetTrigger("Jump"); // 播放跳躍動畫
             }
             else
             {
