@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
 public class SkillTree : MonoBehaviour
 {
@@ -16,85 +15,146 @@ public class SkillTree : MonoBehaviour
     private bool canRoar = true;
     private bool canUseBreath = true;
 
+    public float comboResetTime = 1f; // 连击重置时间
+    private int comboStep = 0;        // 追踪连击步骤
+    private float lastComboTime = 0;  // 记录上一次攻击的时间
+
     // 攻击参数
-    public float attackRange = 2f;    // 攻击范围
-    public int attackDamage = 10;     // 攻击伤害
+    public float attackRange = 2f;          // 攻击范围
+    public int normalAttackDamage = 10;     // 普通攻击伤害
+    public int roarDamage = 15;             // 吼叫攻击伤害
+    public int dashDamage = 20;             // 冲刺攻击伤害
+    public int breathDamage = 25;           // 吐息攻击伤害
 
     void Start()
     {
         // 獲取 Animator 和 CameraShake 元件
         animator = GetComponent<Animator>();
         cameraShake = Camera.main.GetComponent<CameraShake>(); // 確保 Camera 上有 CameraShake 腳本
+
+        if (cameraShake == null)
+        {
+            Debug.LogError("CameraShake component not found on the main camera.");
+        }
     }
 
     void Update()
     {
-        Attack();
+        ComboAttack();  // 连击攻击处理
         Roar();
         Dash();
         Breath();
     }
 
-    // X 普攻、长按蓄力重击 (Xbox 控制器 X 鍵對應 joystick button 2)
-    void Attack()
+    // 普通攻击处理，带有连击机制
+    void ComboAttack()
     {
-        if (Input.GetKeyDown(KeyCode.JoystickButton2))
+        // 检查是否按下攻击键 (Xbox 控制器 X 键对应 joystick button 2 或键盘 E)
+        if (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.E))
         {
-            animator.SetTrigger("Attack");  // 触发普攻动画
-            cameraShake.TriggerShake();     // 触发画面震动
-            PerformAttack();                // 调用 PerformAttack 方法执行攻击逻辑
+            // 如果超过了连击窗口，重置连击计数器
+            if (Time.time - lastComboTime > comboResetTime)
+            {
+                comboStep = 0;
+            }
+
+            // 更新连击步骤和时间
+            comboStep++;
+            lastComboTime = Time.time;
+
+            // 根据 comboStep 触发不同的动画
+            if (comboStep == 1)
+            {
+                animator.SetTrigger("BasicAttack1");  // 第一击动画
+            }
+            else if (comboStep == 2)
+            {
+                animator.SetTrigger("BasicAttack2");  // 第二击动画
+            }
+            else if (comboStep == 3)
+            {
+                animator.SetTrigger("BasicAttack3");  // 第三击动画
+                comboStep = 0;  // 在第三击后重置连击
+            }
+
+            // 这里不再直接调用 PerformAttack，而是在动画事件中调用
+        }
+
+        // 如果超过了连击窗口时间，自动重置连击计数器
+        if (Time.time - lastComboTime > comboResetTime)
+        {
+            comboStep = 0;
         }
     }
 
-    // 具体的攻击逻辑
-    void PerformAttack()
+    // 吼叫
+    void Roar()
     {
-        // 攻击时，在玩家周围生成一个短暂的碰撞区域
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackRange);
+        if (Input.GetKeyDown(KeyCode.JoystickButton1) && canRoar)
+        {
+            animator.SetTrigger("Roar");  // 触发震吼动画
+            StartCoroutine(RoarCooldown());
+            // 让动画事件来处理 PerformAttack 和 TriggerShake
+        }
+    }
 
+    // 冲刺
+    void Dash()
+    {
+        if (Input.GetKeyDown(KeyCode.JoystickButton0) && canDash)
+        {
+            animator.SetTrigger("Dash");  // 触发冲刺动画
+            StartCoroutine(DashCooldown());
+            // 让动画事件来处理 PerformAttack 和 TriggerShake
+        }
+    }
+
+    // 吐息攻击
+    void Breath()
+    {
+        if (Input.GetKeyDown(KeyCode.JoystickButton3) && canUseBreath)
+        {
+            animator.SetTrigger("Breath");  // 触发冰吐息动画
+            StartCoroutine(BreathCooldown());
+            // 让动画事件来处理 PerformAttack 和 TriggerShake
+        }
+    }
+
+    // 具体的攻击逻辑，传入伤害值
+    public void PerformAttack(int damage)
+    {
+        // 使用 OverlapSphere 检测攻击范围内的所有碰撞体
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, attackRange);
         foreach (Collider hitCollider in hitColliders)
         {
-            // 确认是否检测到敌人
-            EnemyHealth enemyHealth = hitCollider.GetComponent<EnemyHealth>();
-            if (enemyHealth != null)
+            // 检查是否是敌人
+            if (hitCollider.CompareTag("Enemy"))
             {
-                // 对敌人造成伤害
-                enemyHealth.TakeDamage(attackDamage);
-                Debug.Log("Enemy hit: " + hitCollider.name + " Damage dealt: " + attackDamage);
+                EnemyHealth enemyHealth = hitCollider.GetComponent<EnemyHealth>();
+                if (enemyHealth != null)
+                {
+                    enemyHealth.TakeDamage(damage);
+                    Debug.Log("Enemy hit: " + hitCollider.name + " Damage dealt: " + damage);
+                }
+            }
+            // 检查是否是可互动物件
+            else if (hitCollider.CompareTag("Interactable"))
+            {
+                InteractableObject interactable = hitCollider.GetComponent<InteractableObject>();
+                if (interactable != null)
+                {
+                    interactable.Interact();
+                }
             }
         }
     }
 
-    void Roar()
+    // 触发画面震动
+    public void TriggerShake()
     {
-        // B 震吼 (Xbox 控制器 B 鍵對應 joystick button 1)
-        if (Input.GetKeyDown(KeyCode.JoystickButton1) && canRoar)
+        if (cameraShake != null)
         {
-            animator.SetTrigger("Roar");  // 触发震吼动画
-            cameraShake.TriggerShake();   // 触发画面震动
-            StartCoroutine(RoarCooldown());  // 开始冷却
-        }
-    }
-
-    void Dash()
-    {
-        // A 小冲刺 (Xbox 控制器 A 键对应该 joystick button 0)
-        if (Input.GetKeyDown(KeyCode.JoystickButton0) && canDash)
-        {
-            animator.SetTrigger("Dash");  // 触发冲刺动画
-            cameraShake.TriggerShake();   // 触发画面震动
-            StartCoroutine(DashCooldown());  // 开始冷却
-        }
-    }
-
-    void Breath()
-    {
-        // Y 特殊技能（冰吐息）(Xbox 控制器 Y 键对应该 joystick button 3)
-        if (Input.GetKeyDown(KeyCode.JoystickButton3) && canUseBreath)
-        {
-            animator.SetTrigger("Breath");  // 触发冰吐息动画
-            cameraShake.TriggerShake();     // 触发画面震动
-            StartCoroutine(BreathCooldown());  // 开始冷却
+            cameraShake.TriggerShake();  // 触发画面震动
         }
     }
 
@@ -118,5 +178,26 @@ public class SkillTree : MonoBehaviour
         canUseBreath = false;
         yield return new WaitForSeconds(breathCooldown);
         canUseBreath = true;
+    }
+
+    // 可视化攻击范围
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
+    // 处理与可互动物件的碰撞
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Interactable"))
+        {
+            InteractableObject interactable = other.GetComponent<InteractableObject>();
+            if (interactable != null)
+            {
+                // 執行可互動物件的互動行為
+                interactable.Interact();
+            }
+        }
     }
 }
