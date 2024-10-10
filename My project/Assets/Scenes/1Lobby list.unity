@@ -810,6 +810,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8ebd62891b3ed41bf4efdb9507e0d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PauseUI: {fileID: 0}
+  SettingUI: {fileID: 0}
+  buttons: []
 --- !u!4 &855429400
 Transform:
   m_ObjectHideFlags: 0
@@ -838,7 +841,7 @@ GameObject:
   - component: {fileID: 1233722121}
   - component: {fileID: 1233722120}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: Button_Level2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -907,7 +910,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1233722121}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 855429399}
+        m_TargetAssemblyTypeName: UIbutton, Assembly-CSharp
+        m_MethodName: EnterLevel2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1233722121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -959,7 +974,7 @@ GameObject:
   - component: {fileID: 1678126476}
   - component: {fileID: 1678126475}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Button_Level1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1028,7 +1043,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1678126476}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 855429399}
+        m_TargetAssemblyTypeName: UIbutton, Assembly-CSharp
+        m_MethodName: EnterLevel1
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1678126476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1284,7 +1311,7 @@ GameObject:
   - component: {fileID: 2134901274}
   - component: {fileID: 2134901273}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: Button_Level3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1353,7 +1380,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2134901274}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 855429399}
+        m_TargetAssemblyTypeName: UIbutton, Assembly-CSharp
+        m_MethodName: EnterLevel3
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2134901274
 MonoBehaviour:
   m_ObjectHideFlags: 0
