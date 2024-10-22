@@ -2,23 +2,30 @@
 
 public class EnemyHealth : MonoBehaviour
 {
-    public int maxHealth = 50;    // 敌人最大生命值
-    public int currentHealth;     // 敌人当前生命值
+    public int maxHealth = 50;
+    public int currentHealth;
+    public PortalManager portalManager;  // PortalManager 的引用
+    public Animator animator;  // Animator 用於控制動畫
+    public float deathDelay = 2f;  // 死亡後延遲多少時間銷毀物件
+
+    private bool isDead = false;
 
     void Start()
     {
-        // 初始化敌人生命值
         currentHealth = maxHealth;
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();  // 獲取 Animator 元件
+        }
     }
 
     public void TakeDamage(int damage)
     {
-        // 扣除生命值
+        if (isDead) return;  // 如果已經死亡，不再扣血
+
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        Debug.Log("Enemy took damage! Current health: " + currentHealth);
 
-        // 检查是否死亡
         if (currentHealth <= 0)
         {
             Die();
@@ -27,9 +34,24 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
-        // 敌人死亡处理逻辑
-        Debug.Log("Enemy died!");
-        // 可以在这里添加死亡动画、销毁对象等
-        Destroy(gameObject);
+        if (isDead) return;  // 防止重複執行死亡邏輯
+
+        isDead = true;
+        Debug.Log("敵人死亡！");
+
+        // 觸發死亡動畫
+        if (animator != null)
+        {
+            animator.SetTrigger("Die");
+        }
+
+        // 告訴 PortalManager 擊殺數增加
+        if (portalManager != null)
+        {
+            portalManager.AddKill();
+        }
+
+        // 在死亡動畫播放完畢後銷毀物件
+        Destroy(gameObject, deathDelay);
     }
 }
