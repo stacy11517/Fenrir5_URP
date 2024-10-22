@@ -1,137 +1,98 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class SkillTree : MonoBehaviour
 {
     public Animator animator;         // Animator 元件引用
     public CameraShake cameraShake;   // CameraShake 引用
 
-    // 冷却时间参数
-    public float attack01Cooldown = 1f;
-    public float attack02Cooldown = 2f;
-    public float dashCooldown = 3f;
-    public float skill01Cooldown = 4f;
-    public float skill02Cooldown = 5f;
-
-    // 技能是否可以使用
-    private bool canUseAttack01 = true;
-    private bool canUseAttack02 = true;
-    private bool canDash = true;
-    private bool canUseSkill01 = true;
-    private bool canUseSkill02 = true;
+    // 攻击参数
+    public float attackRange = 2f;          // 攻击范围
+    public int normalAttackDamage = 10;     // 普通攻击伤害
+    public int dashDamage = 20;             // 冲刺攻击伤害
+    public int skill01Damage = 15;          // 技能1伤害
+    public int skill02Damage = 25;          // 技能2伤害
 
     void Start()
     {
-        // 确保 Animator 和 CameraShake 已经附加到对象
+        // 初始化 Animator 和 CameraShake
         animator = GetComponent<Animator>();
         cameraShake = Camera.main.GetComponent<CameraShake>();
-
-        if (cameraShake == null)
-        {
-            Debug.LogError("CameraShake component not found on the main camera.");
-        }
     }
 
     void Update()
     {
-        HandleSkills();  // 处理技能输入
+        // 调用攻击和技能逻辑
+        ComboAttack();
+        Dash();
+        Skill01();
+        Skill02();
     }
 
-    // 处理技能输入
-    void HandleSkills()
+    // 普通攻击处理
+    void ComboAttack()
     {
-        if (Input.GetKeyDown(KeyCode.JoystickButton0) && canUseAttack01)  // Attack01 对应按钮
+        if (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.E))
         {
-            TriggerSkill("Attack01", attack01Cooldown, SkillType.Attack01);
-        }
-        else if (Input.GetKeyDown(KeyCode.JoystickButton1) && canUseAttack02)  // Attack02 对应按钮
-        {
-            TriggerSkill("Attack02", attack02Cooldown, SkillType.Attack02);
-        }
-        else if (Input.GetKeyDown(KeyCode.JoystickButton2) && canDash)  // Dash 对应按钮
-        {
-            TriggerSkill("Dash", dashCooldown, SkillType.Dash);
-        }
-        else if (Input.GetKeyDown(KeyCode.JoystickButton3) && canUseSkill01)  // Skill01 对应按钮
-        {
-            TriggerSkill("Skill01", skill01Cooldown, SkillType.Skill01);
-        }
-        else if (Input.GetKeyDown(KeyCode.JoystickButton4) && canUseSkill02)  // Skill02 对应按钮
-        {
-            TriggerSkill("Skill02", skill02Cooldown, SkillType.Skill02);
+            // 触发攻击动画 (可以设置为连击动画)
+            animator.SetTrigger("Attack01");
+
+            // 调用 PerformAttack 来对敌人造成伤害
+            PerformAttack(normalAttackDamage);
         }
     }
 
-    // 定义技能类型枚举
-    enum SkillType
+    // 冲刺技能
+    void Dash()
     {
-        Attack01,
-        Attack02,
-        Dash,
-        Skill01,
-        Skill02
+        if (Input.GetKeyDown(KeyCode.JoystickButton0))
+        {
+            animator.SetTrigger("Dash");
+            PerformAttack(dashDamage);  // 对敌人造成冲刺伤害
+        }
     }
 
-    // 触发技能的方法
-    void TriggerSkill(string skillName, float cooldown, SkillType skillType)
+    // 技能1
+    void Skill01()
     {
-        // 播放对应技能的动画
-        animator.SetTrigger(skillName);
-
-        // 触发画面震动
-        if (cameraShake != null)
+        if (Input.GetKeyDown(KeyCode.JoystickButton1))
         {
-            cameraShake.TriggerShake();
+            animator.SetTrigger("Skill01");
+            PerformAttack(skill01Damage);  // 对敌人造成技能1伤害
         }
-
-        // 根据技能类型调用冷却协程
-        StartCoroutine(SkillCooldown(cooldown, skillType));
     }
 
-    // 冷却处理的协程
-    IEnumerator SkillCooldown(float cooldownTime, SkillType skillType)
+    // 技能2
+    void Skill02()
     {
-        // 禁用对应技能
-        switch (skillType)
+        if (Input.GetKeyDown(KeyCode.JoystickButton3))
         {
-            case SkillType.Attack01:
-                canUseAttack01 = false;
-                break;
-            case SkillType.Attack02:
-                canUseAttack02 = false;
-                break;
-            case SkillType.Dash:
-                canDash = false;
-                break;
-            case SkillType.Skill01:
-                canUseSkill01 = false;
-                break;
-            case SkillType.Skill02:
-                canUseSkill02 = false;
-                break;
+            animator.SetTrigger("Skill02");
+            PerformAttack(skill02Damage);  // 对敌人造成技能2伤害
         }
+    }
 
-        // 等待冷却时间
-        yield return new WaitForSeconds(cooldownTime);
+    // 具体的攻击逻辑，传入伤害值
+    public void PerformAttack(int damage)
+    {
+        // 使用 OverlapSphere 检测攻击范围内的所有敌人
+        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, attackRange);
 
-        // 冷却结束后启用技能
-        switch (skillType)
+        foreach (Collider enemy in hitEnemies)
         {
-            case SkillType.Attack01:
-                canUseAttack01 = true;
-                break;
-            case SkillType.Attack02:
-                canUseAttack02 = true;
-                break;
-            case SkillType.Dash:
-                canDash = true;
-                break;
-            case SkillType.Skill01:
-                canUseSkill01 = true;
-                break;
-            case SkillType.Skill02:
-                canUseSkill02 = true;
-                break;
+            // 检查是否是敌人并对敌人造成伤害
+            EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(damage);
+                Debug.Log("Enemy hit: " + enemy.name + " Damage dealt: " + damage);
+            }
         }
+    }
+
+    // 可视化攻击范围
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }
