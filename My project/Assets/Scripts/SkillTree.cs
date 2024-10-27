@@ -1,98 +1,161 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class SkillTree : MonoBehaviour
 {
     public Animator animator;         // Animator 元件引用
     public CameraShake cameraShake;   // CameraShake 引用
+    public Transform attackPoint;     // 攻擊範圍起點
+    public Transform spinAttackPoint; // 起跳旋轉攻擊的起點
 
-    // 攻击参数
-    public float attackRange = 2f;          // 攻击范围
-    public int normalAttackDamage = 10;     // 普通攻击伤害
-    public int dashDamage = 20;             // 冲刺攻击伤害
-    public int skill01Damage = 15;          // 技能1伤害
-    public int skill02Damage = 25;          // 技能2伤害
+    // 技能冷卻時間
+    public float dashCooldown = 1f;
+    public float dualAttackCooldown = 2f;
+    public float spinAttackCooldown = 3f;
+
+    private bool canDash = true;
+    private bool canDualAttack = true;
+    private bool canSpinAttack = true;
+
+    // 攻擊範圍及傷害
+    public float attackRange = 2f;
+    public int attackDamage = 10;
+    public int spinAttackDamage = 15;
 
     void Start()
     {
-        // 初始化 Animator 和 CameraShake
         animator = GetComponent<Animator>();
         cameraShake = Camera.main.GetComponent<CameraShake>();
+
+        if (cameraShake == null)
+        {
+            Debug.LogError("CameraShake component not found on the main camera.");
+        }
     }
 
     void Update()
     {
-        // 调用攻击和技能逻辑
-        ComboAttack();
-        Dash();
-        Skill01();
-        Skill02();
+        HandleDash();
+        HandleDualAttack();
+        HandleSpinAttack();
     }
 
-    // 普通攻击处理
-    void ComboAttack()
+    // 衝刺技能
+    void HandleDash()
     {
-        if (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.E))
-        {
-            // 触发攻击动画 (可以设置为连击动画)
-            animator.SetTrigger("Attack01");
-
-            // 调用 PerformAttack 来对敌人造成伤害
-            PerformAttack(normalAttackDamage);
-        }
-    }
-
-    // 冲刺技能
-    void Dash()
-    {
-        if (Input.GetKeyDown(KeyCode.JoystickButton0))
+        if (Input.GetKeyDown(KeyCode.JoystickButton0) && canDash)
         {
             animator.SetTrigger("Dash");
-            PerformAttack(dashDamage);  // 对敌人造成冲刺伤害
+            StartCoroutine(PerformDash());
+            StartCoroutine(DashCooldown());
         }
     }
 
-    // 技能1
-    void Skill01()
+    IEnumerator PerformDash()
     {
-        if (Input.GetKeyDown(KeyCode.JoystickButton1))
+        float dashTime = 0.5f;
+        float dashSpeed = 20f;
+        float startTime = Time.time;
+
+        while (Time.time < startTime + dashTime)
         {
-            animator.SetTrigger("Skill01");
-            PerformAttack(skill01Damage);  // 对敌人造成技能1伤害
+            transform.Translate(Vector3.forward * dashSpeed * Time.deltaTime);
+            yield return null;
         }
+
+        // 可選擇在衝刺結束後觸發相機震動
+        cameraShake.TriggerShake();
     }
 
-    // 技能2
-    void Skill02()
+    IEnumerator DashCooldown()
     {
-        if (Input.GetKeyDown(KeyCode.JoystickButton3))
+        canDash = false;
+        yield return new WaitForSeconds(dashCooldown);
+        canDash = true;
+    }
+
+    // 來回攻擊技能（Animation Event 觸發）
+    void HandleDualAttack()
+    {
+        if (Input.GetKeyDown(KeyCode.JoystickButton1) && canDualAttack)
         {
-            animator.SetTrigger("Skill02");
-            PerformAttack(skill02Damage);  // 对敌人造成技能2伤害
+            animator.SetTrigger("DualAttack");
+            StartCoroutine(DualAttackCooldown());
         }
     }
 
-    // 具体的攻击逻辑，传入伤害值
-    public void PerformAttack(int damage)
+    public void PerformDualAttack()  // 在 Animation Event 中呼叫此方法
     {
-        // 使用 OverlapSphere 检测攻击范围内的所有敌人
-        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, attackRange);
-
+        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange);
         foreach (Collider enemy in hitEnemies)
         {
-            // 检查是否是敌人并对敌人造成伤害
             EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
             if (enemyHealth != null)
             {
-                enemyHealth.TakeDamage(damage);
-                Debug.Log("Enemy hit: " + enemy.name + " Damage dealt: " + damage);
+                enemyHealth.TakeDamage(attackDamage);
+                Debug.Log("Hit " + enemy.name);
             }
+        }
+
+        // 攻擊時觸發相機震動
+        cameraShake.TriggerShake();
+    }
+
+    IEnumerator DualAttackCooldown()
+    {
+        canDualAttack = false;
+        yield return new WaitForSeconds(dualAttackCooldown);
+        canDualAttack = true;
+    }
+
+    // 起跳旋轉攻擊技能
+    void HandleSpinAttack()
+    {
+        if (Input.GetKeyDown(KeyCode.JoystickButton2) && canSpinAttack)
+        {
+            animator.SetTrigger("SpinAttack");
+            StartCoroutine(SpinAttackCooldown());
         }
     }
 
-    // 可视化攻击范围
-    void OnDrawGizmosSelected()
+    public void PerformSpinAttack()  // 在 Animation Event 中或手動呼叫
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Collider[] hitEnemies = Physics.OverlapSphere(spinAttackPoint.position, attackRange);
+        foreach (Collider enemy in hitEnemies)
+        {
+            EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(spinAttackDamage);
+                Debug.Log("Hit " + enemy.name);
+            }
+        }
+
+        // 攻擊時觸發相機震動
+        cameraShake.TriggerShake();
+    }
+
+    IEnumerator SpinAttackCooldown()
+    {
+        canSpinAttack = false;
+        yield return new WaitForSeconds(spinAttackCooldown);
+        canSpinAttack = true;
+    }
+
+    // 視覺化攻擊範圍
+    private void OnDrawGizmosSelected()
+    {
+        if (attackPoint != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        }
+
+        if (spinAttackPoint != null)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(spinAttackPoint.position, attackRange);
+        }
     }
 }
