@@ -10,18 +10,17 @@ public class SkillTree : MonoBehaviour
     public Transform spinAttackPoint; // 起跳旋轉攻擊的起點
 
     // 技能冷卻時間
-    public float dashCooldown = 1f;
-    public float dualAttackCooldown = 2f;
-    public float spinAttackCooldown = 3f;
+    public float dashCooldown = 1f;             // 衝刺冷卻時間
+    public float dualAttackCooldown = 2f;       // 來回攻擊冷卻時間
+    public float spinAttackCooldown = 3f;       // 起跳旋轉攻擊冷卻時間
 
     private bool canDash = true;
     private bool canDualAttack = true;
     private bool canSpinAttack = true;
 
-    // 攻擊範圍及傷害
-    public float attackRange = 2f;
-    public int attackDamage = 10;
-    public int spinAttackDamage = 15;
+    public float attackRange = 2f;          // 來回攻擊範圍
+    public int attackDamage = 10;           // 來回攻擊傷害值
+    public int spinAttackDamage = 15;       // 起跳旋轉攻擊傷害值
 
     void Start()
     {
@@ -68,6 +67,7 @@ public class SkillTree : MonoBehaviour
         cameraShake.TriggerShake();
     }
 
+    // 設定衝刺冷卻時間
     IEnumerator DashCooldown()
     {
         canDash = false;
@@ -87,13 +87,14 @@ public class SkillTree : MonoBehaviour
 
     public void PerformDualAttack()  // 在 Animation Event 中呼叫此方法
     {
+        // 檢查攻擊範圍內的敵人
         Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange);
         foreach (Collider enemy in hitEnemies)
         {
             EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
             if (enemyHealth != null)
             {
-                enemyHealth.TakeDamage(attackDamage);
+                enemyHealth.TakeDamage(attackDamage);  // 使敵人扣血
                 Debug.Log("Hit " + enemy.name);
             }
         }
@@ -102,6 +103,7 @@ public class SkillTree : MonoBehaviour
         cameraShake.TriggerShake();
     }
 
+    // 設定來回攻擊冷卻時間
     IEnumerator DualAttackCooldown()
     {
         canDualAttack = false;
@@ -119,15 +121,16 @@ public class SkillTree : MonoBehaviour
         }
     }
 
-    public void PerformSpinAttack()  // 在 Animation Event 中或手動呼叫
+    public void PerformSpinAttack()  // 在 Animation Event 中呼叫
     {
+        // 檢查攻擊範圍內的敵人
         Collider[] hitEnemies = Physics.OverlapSphere(spinAttackPoint.position, attackRange);
         foreach (Collider enemy in hitEnemies)
         {
             EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
             if (enemyHealth != null)
             {
-                enemyHealth.TakeDamage(spinAttackDamage);
+                enemyHealth.TakeDamage(spinAttackDamage);  // 使敵人扣血
                 Debug.Log("Hit " + enemy.name);
             }
         }
@@ -136,6 +139,7 @@ public class SkillTree : MonoBehaviour
         cameraShake.TriggerShake();
     }
 
+    // 設定起跳旋轉攻擊冷卻時間
     IEnumerator SpinAttackCooldown()
     {
         canSpinAttack = false;

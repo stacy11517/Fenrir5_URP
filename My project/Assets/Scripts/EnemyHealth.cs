@@ -6,7 +6,6 @@ public class EnemyHealth : MonoBehaviour
     public int currentHealth;
     public PortalManager portalManager;  // PortalManager 的引用
     public Animator animator;  // Animator 用於控制動畫
-    public float deathDelay = 2f;  // 死亡後延遲多少時間銷毀物件
 
     private bool isDead = false;
 
@@ -25,6 +24,9 @@ public class EnemyHealth : MonoBehaviour
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        // 輸出當前血量
+        Debug.Log("敵人當前血量: " + currentHealth);
 
         if (currentHealth <= 0)
         {
@@ -50,8 +52,11 @@ public class EnemyHealth : MonoBehaviour
         {
             portalManager.AddKill();
         }
+    }
 
-        // 在死亡動畫播放完畢後銷毀物件
-        Destroy(gameObject, deathDelay);
+    // 動畫事件用於銷毀敵人物件
+    public void OnAnimationEnd()
+    {
+        Destroy(gameObject); // 在死亡動畫結束後銷毀物件
     }
 }
