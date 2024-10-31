@@ -5,7 +5,6 @@ using UnityEngine;
 public class SkillTree : MonoBehaviour
 {
     public Animator animator;         // Animator 元件引用
-    public CameraShake cameraShake;   // CameraShake 引用
     public Transform attackPoint;     // 攻擊範圍起點
     public Transform spinAttackPoint; // 起跳旋轉攻擊的起點
 
@@ -25,12 +24,6 @@ public class SkillTree : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        cameraShake = Camera.main.GetComponent<CameraShake>();
-
-        if (cameraShake == null)
-        {
-            Debug.LogError("CameraShake component not found on the main camera.");
-        }
     }
 
     void Update()
@@ -62,9 +55,6 @@ public class SkillTree : MonoBehaviour
             transform.Translate(Vector3.forward * dashSpeed * Time.deltaTime);
             yield return null;
         }
-
-        // 可選擇在衝刺結束後觸發相機震動
-        cameraShake.TriggerShake();
     }
 
     // 設定衝刺冷卻時間
@@ -98,9 +88,6 @@ public class SkillTree : MonoBehaviour
                 Debug.Log("Hit " + enemy.name);
             }
         }
-
-        // 攻擊時觸發相機震動
-        cameraShake.TriggerShake();
     }
 
     // 設定來回攻擊冷卻時間
@@ -134,9 +121,6 @@ public class SkillTree : MonoBehaviour
                 Debug.Log("Hit " + enemy.name);
             }
         }
-
-        // 攻擊時觸發相機震動
-        cameraShake.TriggerShake();
     }
 
     // 設定起跳旋轉攻擊冷卻時間

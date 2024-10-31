@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -7,9 +6,10 @@ public class EnemyHealth : MonoBehaviour
     public int currentHealth;
     public PortalManager portalManager;  // PortalManager 的引用
     public Animator animator;  // Animator 用於控制動畫
-    public bool isDead = false;  // 用於判斷敵人是否已死亡
-    public string deathAnimationName = "Die";  // 死亡動畫名稱
-    public float deathDelay = 0.5f;  // 在動畫結束後等待的時間 (防止動畫播放不完整)
+    public CameraShake cameraShake;  // CameraShake 引用
+    public float deathDelay = 2f;  // 死亡後延遲多少時間銷毀物件
+
+    private bool isDead = false;
 
     void Start()
     {
@@ -17,6 +17,15 @@ public class EnemyHealth : MonoBehaviour
         if (animator == null)
         {
             animator = GetComponent<Animator>();  // 獲取 Animator 元件
+        }
+
+        if (cameraShake == null)
+        {
+            cameraShake = Camera.main.GetComponent<CameraShake>();  // 獲取 CameraShake 元件
+            if (cameraShake == null)
+            {
+                Debug.LogError("CameraShake component not found on the main camera.");
+            }
         }
     }
 
@@ -27,7 +36,12 @@ public class EnemyHealth : MonoBehaviour
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-        // 顯示當前血量
+        // 啟動 CameraShake
+        if (cameraShake != null)
+        {
+            cameraShake.TriggerShake();
+        }
+
         Debug.Log("敵人當前血量: " + currentHealth);
 
         if (currentHealth <= 0)
@@ -36,7 +50,6 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    // 處理敵人死亡
     void Die()
     {
         if (isDead) return;  // 防止重複執行死亡邏輯
@@ -47,7 +60,7 @@ public class EnemyHealth : MonoBehaviour
         // 觸發死亡動畫
         if (animator != null)
         {
-            animator.SetTrigger(deathAnimationName);
+            animator.SetTrigger("Die");
         }
 
         // 告訴 PortalManager 擊殺數增加
@@ -56,18 +69,7 @@ public class EnemyHealth : MonoBehaviour
             portalManager.AddKill();
         }
 
-        // 開始等待動畫播放完畢後銷毀物件
-        StartCoroutine(DestroyAfterDeathAnimation());
-    }
-
-    // 等待死亡動畫播放完畢後銷毀物件
-    IEnumerator DestroyAfterDeathAnimation()
-    {
-        // 等待動畫時間 + 一點延遲
-        float animationLength = animator.GetCurrentAnimatorStateInfo(0).length;
-        yield return new WaitForSeconds(animationLength + deathDelay);
-
-        // 銷毀物件
-        Destroy(gameObject);
+        // 在死亡動畫播放完畢後銷毀物件
+        Destroy(gameObject, deathDelay);
     }
 }
