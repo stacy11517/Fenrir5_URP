@@ -3,7 +3,22 @@ guid: 3a888ce251212b94eabcac778d54d5f8
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BoxInside_M
+    second: {fileID: 2100000, guid: fc2006e912dc612408fe175cd28cab66, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cover_M
+    second: {fileID: 2100000, guid: 917cee2ac25a48143a475561310cbdd4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Ditch_M
+    second: {fileID: 2100000, guid: 917cee2ac25a48143a475561310cbdd4, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
