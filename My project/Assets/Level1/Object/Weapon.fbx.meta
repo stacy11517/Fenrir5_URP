@@ -3,7 +3,32 @@ guid: 91e391d1af6b7444788e3a7ef924d88a
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Blade_M
+    second: {fileID: 2100000, guid: 917cee2ac25a48143a475561310cbdd4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BoxWood01_M
+    second: {fileID: 2100000, guid: 96bd53b162a735447bd6b652344f5a96, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CrossGuard_M
+    second: {fileID: 2100000, guid: 3b22baada67178f48bbadf5510553a03, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Hilt_M
+    second: {fileID: 2100000, guid: d30913699361ca64e8d47e95ccaf85b2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TorchIron_M
+    second: {fileID: 2100000, guid: fc2006e912dc612408fe175cd28cab66, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

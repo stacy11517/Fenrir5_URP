@@ -3,7 +3,22 @@ guid: 100fd5c875a5b7244b8e45a984f10281
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BoxInside_M
+    second: {fileID: 2100000, guid: fc2006e912dc612408fe175cd28cab66, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BoxWood01_M
+    second: {fileID: 2100000, guid: 96bd53b162a735447bd6b652344f5a96, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BoxWood02_M
+    second: {fileID: 2100000, guid: c98d114f0c8623248864f7440602b268, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

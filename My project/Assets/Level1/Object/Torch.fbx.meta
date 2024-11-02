@@ -3,7 +3,22 @@ guid: a2033c602b0f3f84e91eeaf7d986c41b
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TorchFire_M
+    second: {fileID: 2100000, guid: c1f92895a9adbdd4f964227f88e98806, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TorchIron_M
+    second: {fileID: 2100000, guid: 917cee2ac25a48143a475561310cbdd4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TorchWood_M
+    second: {fileID: 2100000, guid: c98d114f0c8623248864f7440602b268, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
