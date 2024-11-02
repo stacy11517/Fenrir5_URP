@@ -46,8 +46,8 @@ public class PlayerHealth : MonoBehaviour
     // 使用補血包
     void Update()
     {
-        // 按下 X 鍵來使用補血包
-        if (Input.GetKeyDown(KeyCode.JoystickButton3) && healthPackCount > 0)
+        // 按下 RB 鍵來使用補血包
+        if ((Input.GetKeyDown(KeyCode.JoystickButton5) || Input.GetKeyDown(KeyCode.F)) && healthPackCount > 0)
         {
             UseHealthPack();
         }
