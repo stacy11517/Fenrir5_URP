@@ -3116,10 +3116,9 @@ MonoBehaviour:
   dashCooldown: 1
   dualAttackCooldown: 2
   spinAttackCooldown: 3
-  attackRange: 2
-  attackDamage: 10
-  spinAttackDamage: 15
-  normalAttackDamage: 5
+  dashCooldownImage: {fileID: 1869539593}
+  dualAttackCooldownImage: {fileID: 1292593420}
+  spinAttackCooldownImage: {fileID: 446900753}
 --- !u!114 &954802190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7419,7 +7418,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 50, y: -2.0999756}
+  m_AnchoredPosition: {x: 50, y: -2.0999565}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1869539593
