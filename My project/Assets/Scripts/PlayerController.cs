@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    public float jumpSpeed = 8f;
     public float gravity = 20f;
     public float turnSpeed = 10f;  // 新增轉向速度
 
@@ -23,9 +22,6 @@ public class PlayerController : MonoBehaviour
     {
         if (controller.isGrounded)
         {
-            // 移動方向設定
-            float moveDirectionY = moveDirection.y;
-
             // 根據上下左右鍵來決定移動方向
             float horizontal = Input.GetAxis("Horizontal");  // 對應 X 軸 (左/右)
             float vertical = Input.GetAxis("Vertical");      // 對應 Z 軸 (前/後)
@@ -53,17 +49,6 @@ public class PlayerController : MonoBehaviour
             {
                 // 當角色沒有移動時，播放 "閒置" 動畫
                 animator.SetBool("isWalking", false);
-            }
-
-            // 跳躍
-            if (Input.GetButton("Jump"))
-            {
-                moveDirection.y = jumpSpeed;
-                animator.SetTrigger("Jump"); // 播放跳躍動畫
-            }
-            else
-            {
-                moveDirection.y = moveDirectionY;
             }
         }
 
