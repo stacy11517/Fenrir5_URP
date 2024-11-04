@@ -4,27 +4,32 @@ using UnityEngine.UI;
 
 public class SkillTree : MonoBehaviour
 {
-    public Animator animator;                  // Animator 元件引用
-    public Transform attackPoint;              // 攻擊範圍起點
-    public Transform spinAttackPoint;          // 起跳旋轉攻擊的起點
+    public Animator animator;
+    public Transform attackPoint;
+    public Transform spinAttackPoint;
 
-    // 技能冷卻時間
-    public float dashCooldown = 1f;            // 衝刺冷卻時間
-    public float dualAttackCooldown = 2f;      // 來回攻擊冷卻時間
-    public float spinAttackCooldown = 3f;      // 起跳旋轉攻擊冷卻時間
+    // 冷卻時間
+    public float dashCooldown = 1f;
+    public float dualAttackCooldown = 2f;
+    public float spinAttackCooldown = 3f;
 
-    // 冷卻 UI 圖片
+    // 冷卻圖片
     public Image dashCooldownImage;
     public Image dualAttackCooldownImage;
     public Image spinAttackCooldownImage;
 
     // 攻擊範圍和傷害
-    public float attackRange = 2f;             // 來回攻擊範圍
-    public int attackDamage = 10;              // 來回攻擊傷害值
-    public int spinAttackDamage = 15;          // 起跳旋轉攻擊傷害值
-    public int normalAttackDamage = 5;         // 普通攻擊傷害值
+    public float attackRange = 2f;
+    public int attackDamage = 10;
+    public int spinAttackDamage = 15;
+    public int normalAttackDamage = 5;
 
-    private bool isPerformingSkill = false;    // 當執行技能時防止其他技能觸發
+    // 特效
+    public ParticleSystem dashEffect;
+    public ParticleSystem dualAttackEffect;
+    public ParticleSystem spinAttackEffect;
+
+    private bool isPerformingSkill = false;
 
     void Start()
     {
@@ -34,7 +39,7 @@ public class SkillTree : MonoBehaviour
 
     void Update()
     {
-        if (!isPerformingSkill) // 確保無其他技能執行中
+        if (!isPerformingSkill)
         {
             HandleDash();
             HandleDualAttack();
@@ -56,7 +61,7 @@ public class SkillTree : MonoBehaviour
 
     IEnumerator NormalAttackRoutine()
     {
-        yield return new WaitForSeconds(0.5f);  // 假設攻擊動畫播放時間為0.5秒
+        yield return new WaitForSeconds(0.5f);
 
         Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange);
         foreach (Collider enemy in hitEnemies)
@@ -64,7 +69,7 @@ public class SkillTree : MonoBehaviour
             EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
             if (enemyHealth != null)
             {
-                enemyHealth.TakeDamage(normalAttackDamage);  // 使敵人扣血
+                enemyHealth.TakeDamage(normalAttackDamage);
                 Debug.Log("Hit " + enemy.name);
             }
         }
@@ -79,6 +84,13 @@ public class SkillTree : MonoBehaviour
         {
             animator.SetTrigger("Dash");
             isPerformingSkill = true;
+
+            // 播放衝刺特效
+            if (dashEffect != null)
+            {
+                dashEffect.Play();
+            }
+
             StartCoroutine(PerformDash());
             StartCoroutine(CooldownRoutine(dashCooldown, dashCooldownImage));
         }
@@ -95,6 +107,7 @@ public class SkillTree : MonoBehaviour
             transform.Translate(Vector3.forward * dashSpeed * Time.deltaTime);
             yield return null;
         }
+
         isPerformingSkill = false;
     }
 
@@ -105,11 +118,18 @@ public class SkillTree : MonoBehaviour
         {
             animator.SetTrigger("DualAttack");
             isPerformingSkill = true;
+
+            // 播放來回攻擊特效
+            if (dualAttackEffect != null)
+            {
+                dualAttackEffect.Play();
+            }
+
             StartCoroutine(CooldownRoutine(dualAttackCooldown, dualAttackCooldownImage));
         }
     }
 
-    public void PerformDualAttack() // Animation Event 呼叫
+    public void PerformDualAttack()
     {
         Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange);
         foreach (Collider enemy in hitEnemies)
@@ -131,11 +151,18 @@ public class SkillTree : MonoBehaviour
         {
             animator.SetTrigger("SpinAttack");
             isPerformingSkill = true;
+
+            // 播放起跳旋轉攻擊特效
+            if (spinAttackEffect != null)
+            {
+                spinAttackEffect.Play();
+            }
+
             StartCoroutine(CooldownRoutine(spinAttackCooldown, spinAttackCooldownImage));
         }
     }
 
-    public void PerformSpinAttack() // Animation Event 呼叫
+    public void PerformSpinAttack()
     {
         Collider[] hitEnemies = Physics.OverlapSphere(spinAttackPoint.position, attackRange);
         foreach (Collider enemy in hitEnemies)
