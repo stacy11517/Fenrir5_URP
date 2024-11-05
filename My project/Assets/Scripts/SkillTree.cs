@@ -8,6 +8,8 @@ public class SkillTree : MonoBehaviour
     public Transform attackPoint;
     public Transform spinAttackPoint;
 
+    public Transform HeadAttackPoint;
+
     // 冷卻時間
     public float dashCooldown = 1f;
     public float dualAttackCooldown = 2f;
@@ -152,6 +154,7 @@ public class SkillTree : MonoBehaviour
             animator.SetTrigger("SpinAttack");
             isPerformingSkill = true;
 
+            Instantiate (spinAttackEffect, HeadAttackPoint.transform.position, Quaternion.identity);
             // 播放起跳旋轉攻擊特效
             if (spinAttackEffect != null)
             {

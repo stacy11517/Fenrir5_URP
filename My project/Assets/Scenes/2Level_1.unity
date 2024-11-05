@@ -2325,6 +2325,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 745956449}
   m_CullTransparentMesh: 1
+--- !u!1 &759351749
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 759351750}
+  m_Layer: 0
+  m_Name: Wolf_headAttack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &759351750
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 759351749}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.393, z: 0.789}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 954802188}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &803066261
 GameObject:
   m_ObjectHideFlags: 0
@@ -3228,7 +3259,11 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 05cd4bc28c3dfcb43b022b41b96f536d, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 400082, guid: f33ab028c7c56c546a7b170591b4a4e7,
+        type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 759351750}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 100082, guid: f33ab028c7c56c546a7b170591b4a4e7,
         type: 3}
@@ -3337,6 +3372,8 @@ MonoBehaviour:
   healthPackCount: 0
   healthBar: {fileID: 955932838}
   healthPackText: {fileID: 1986138377}
+  deathScreen: {fileID: 1766009669}
+  animator: {fileID: 954802187}
 --- !u!114 &954802191
 MonoBehaviour:
   m_ObjectHideFlags: 0

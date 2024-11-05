@@ -11,6 +11,8 @@ public class PlayerHealth : MonoBehaviour
     public Image healthBar;              // 血條 UI
     public TMP_Text healthPackText;      // 血量包數量的 TextMeshPro 元件
     public GameObject deathScreen;       // 死亡畫面 UI
+    public Animator animator;            // 用於播放死亡動畫的 Animator
+
     private bool isDead = false;         // 用於檢查玩家是否已死亡
 
     void Start()
@@ -20,14 +22,19 @@ public class PlayerHealth : MonoBehaviour
         UpdateHealthBar();              // 初始化血條
         UpdateHealthPackText();         // 初始化補血包數量文本
         deathScreen.SetActive(false);   // 隱藏死亡畫面 UI
+
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();  // 獲取 Animator 元件
+        }
     }
 
     void Update()
     {
         if (isDead)
         {
-            // 如果玩家死亡，任何按鍵都可以重新開始遊戲
-            if (Input.anyKeyDown)
+            // 如果玩家死亡，並且死亡 UI 是顯示狀態，任何按鍵都可以重新開始遊戲
+            if (deathScreen.activeSelf && Input.anyKeyDown)
             {
                 SceneManager.LoadScene(0); // 回到場景編號為 0 的場景
             }
@@ -119,6 +126,12 @@ public class PlayerHealth : MonoBehaviour
     {
         isDead = true; // 標記玩家為已死亡
         Debug.Log("Player died!");
+
+        // 播放死亡動畫
+        if (animator != null)
+        {
+            animator.SetTrigger("Die");
+        }
 
         // 禁用玩家控制
         GetComponent<PlayerController>().enabled = false;
