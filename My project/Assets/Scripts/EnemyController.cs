@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,16 +8,19 @@ public class EnemyController : MonoBehaviour
     public Transform player;           // 玩家位置
     private NavMeshAgent agent;        // NavMeshAgent 組件
     public float chaseDistance = 10f;  // 追蹤的最大距離
-    public float attackDistance = 2f;  // 近戰攻擊距離
-    public float attackCooldown = 1.5f; // 攻擊冷卻時間
+    public float attackDistance = 5f;  // 近戰攻擊距離
+    public float attackCooldown = 0.5f; // 攻擊冷卻時間
     private bool canAttack = true;     // 是否可以攻擊
+
+    // 動畫控制
+    private Animator animator;         // Animator 組件
 
     // 血量和死亡部分
     public int maxHealth = 50;         // 敵人的最大血量
     public int currentHealth;          // 敵人當前血量
     public PortalManager portalManager; // PortalManager 的引用
-    public float deathDelay = 2f;      // 死亡後延遲多少時間銷毀物件
-    private bool isDead = false;       // 是否已經死亡的標記
+    public float deathDelay = 10f;      // 死亡後延遲 10 秒銷毀物件
+    public bool isDead = false;       // 是否已經死亡的標記
 
     // 玩家引用（需要實現玩家受傷邏輯）
     public PlayerHealth playerHealth;  // 玩家血量系統引用
@@ -27,6 +29,7 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
 
         // 初始化生命值
         currentHealth = maxHealth;
@@ -47,11 +50,19 @@ public class EnemyController : MonoBehaviour
             else if (distanceToPlayer <= chaseDistance)
             {
                 agent.destination = player.position;
+                animator.SetBool("isWalking", agent.velocity.magnitude > 0.1f);
             }
             else
             {
                 agent.ResetPath();
+                animator.SetBool("isWalking", false);
             }
+        }
+        else
+        {
+            agent.isStopped = true; // 死亡後停止移動
+            agent.ResetPath();
+            animator.SetBool("isWalking", false);
         }
     }
 
@@ -60,8 +71,9 @@ public class EnemyController : MonoBehaviour
     {
         canAttack = false;
         agent.isStopped = true; // 停止追蹤玩家以便攻擊
+        animator.SetTrigger("Attack");  // 觸發攻擊動畫
 
-        // 模擬攻擊延遲 (等待攻擊動畫前置部分，例如手臂抬起的時間)
+        // 模擬攻擊延遲 (等待動畫前置部分結束，例如手臂抬起的時間)
         yield return new WaitForSeconds(0.5f);
 
         // 檢查玩家是否在攻擊範圍內，並扣血
@@ -89,6 +101,12 @@ public class EnemyController : MonoBehaviour
         // 顯示當前血量
         Debug.Log("敵人當前血量: " + currentHealth);
 
+        // 播放受傷動畫
+        if (animator != null)
+        {
+            animator.SetTrigger("Hurt");
+        }
+
         if (currentHealth <= 0)
         {
             Die();
@@ -103,12 +121,19 @@ public class EnemyController : MonoBehaviour
         isDead = true;
         Debug.Log("敵人死亡！");
 
+        // 觸發死亡動畫
+        if (animator != null)
+        {
+            animator.SetTrigger("Die");
+        }
+
         // 告訴 PortalManager 擊殺數增加
         if (portalManager != null)
         {
             portalManager.AddKill();
         }
 
-        //死亡動畫交由EnemyHealth處裡
+        // 在死亡動畫播放完畢後銷毀物件
+        Destroy(gameObject, deathDelay);
     }
 }

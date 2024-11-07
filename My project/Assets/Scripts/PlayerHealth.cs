@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;          // 用於 UI 操作
 using TMPro;                 // 用於 TextMeshPro
-using UnityEngine.SceneManagement;  // 用於場景管理
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -31,15 +30,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
-        if (isDead)
-        {
-            // 如果玩家死亡，並且死亡 UI 是顯示狀態，任何按鍵都可以重新開始遊戲
-            if (deathScreen.activeSelf && Input.anyKeyDown)
-            {
-                SceneManager.LoadScene(0); // 回到場景編號為 0 的場景
-            }
-        }
-        else
+        if (!isDead)
         {
             // 按下 RB 鍵（手把）或 F 鍵（鍵盤）來使用補血包
             if ((Input.GetKeyDown(KeyCode.JoystickButton5) || Input.GetKeyDown(KeyCode.F)) && healthPackCount > 0)
@@ -138,5 +129,9 @@ public class PlayerHealth : MonoBehaviour
 
         // 顯示死亡畫面
         deathScreen.SetActive(true);
+
+        // 暫停遊戲時間
+        Time.timeScale = 0f;
     }
 }
+

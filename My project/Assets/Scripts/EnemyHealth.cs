@@ -6,7 +6,6 @@ public class EnemyHealth : MonoBehaviour
     public int currentHealth;
     public PortalManager portalManager;  // PortalManager 的引用
     public Animator animator;  // Animator 用於控制動畫
-    public CameraShake cameraShake;  // CameraShake 引用
     public float deathDelay = 10f;  // 死亡後延遲 10 秒銷毀物件
 
     public bool isDead = false;
@@ -18,15 +17,6 @@ public class EnemyHealth : MonoBehaviour
         if (animator == null)
         {
             animator = GetComponent<Animator>();  // 獲取 Animator 元件
-        }
-
-        if (cameraShake == null)
-        {
-            cameraShake = Camera.main.GetComponent<CameraShake>();  // 獲取 CameraShake 元件
-            if (cameraShake == null)
-            {
-                Debug.LogError("CameraShake component not found on the main camera.");
-            }
         }
     }
 
@@ -41,12 +31,6 @@ public class EnemyHealth : MonoBehaviour
         if (animator != null)
         {
             animator.SetTrigger("Hurt");
-        }
-
-        // 啟動 CameraShake
-        if (cameraShake != null)
-        {
-            cameraShake.TriggerShake();
         }
 
         Debug.Log("敵人當前血量: " + currentHealth);
