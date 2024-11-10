@@ -241,6 +241,12 @@ PrefabInstance:
       objectReference: {fileID: 954802188}
     - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
+      propertyPath: hurtEffect
+      value: 
+      objectReference: {fileID: 3823007768700803612, guid: 371b4d52f0c8a864ab84567b2c3f5057,
+        type: 3}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
       propertyPath: playerHealth
       value: 
       objectReference: {fileID: 954802190}
@@ -402,6 +408,12 @@ PrefabInstance:
       objectReference: {fileID: 954802188}
     - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
+      propertyPath: hurtEffect
+      value: 
+      objectReference: {fileID: 3823007768700803612, guid: 371b4d52f0c8a864ab84567b2c3f5057,
+        type: 3}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
       propertyPath: playerHealth
       value: 
       objectReference: {fileID: 954802190}
@@ -537,6 +549,12 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 954802188}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: hurtEffect
+      value: 
+      objectReference: {fileID: 3823007768700803612, guid: 371b4d52f0c8a864ab84567b2c3f5057,
+        type: 3}
     - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: playerHealth
@@ -723,6 +741,12 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 954802188}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: hurtEffect
+      value: 
+      objectReference: {fileID: 3823007768700803612, guid: 371b4d52f0c8a864ab84567b2c3f5057,
+        type: 3}
     - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: playerHealth
@@ -1545,6 +1569,12 @@ PrefabInstance:
       objectReference: {fileID: 954802188}
     - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
+      propertyPath: hurtEffect
+      value: 
+      objectReference: {fileID: 3823007768700803612, guid: 371b4d52f0c8a864ab84567b2c3f5057,
+        type: 3}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
       propertyPath: playerHealth
       value: 
       objectReference: {fileID: 954802190}
@@ -1729,6 +1759,12 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 954802188}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: hurtEffect
+      value: 
+      objectReference: {fileID: 3823007768700803612, guid: 371b4d52f0c8a864ab84567b2c3f5057,
+        type: 3}
     - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: playerHealth
@@ -3732,6 +3768,12 @@ PrefabInstance:
       objectReference: {fileID: 954802188}
     - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
+      propertyPath: hurtEffect
+      value: 
+      objectReference: {fileID: 3823007768700803612, guid: 371b4d52f0c8a864ab84567b2c3f5057,
+        type: 3}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
       propertyPath: playerHealth
       value: 
       objectReference: {fileID: 954802190}
@@ -3973,6 +4015,12 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 954802188}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: hurtEffect
+      value: 
+      objectReference: {fileID: 3823007768700803612, guid: 371b4d52f0c8a864ab84567b2c3f5057,
+        type: 3}
     - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: playerHealth
@@ -5692,6 +5740,12 @@ PrefabInstance:
       objectReference: {fileID: 954802188}
     - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
+      propertyPath: hurtEffect
+      value: 
+      objectReference: {fileID: 3823007768700803612, guid: 371b4d52f0c8a864ab84567b2c3f5057,
+        type: 3}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
       propertyPath: playerHealth
       value: 
       objectReference: {fileID: 954802190}
@@ -6088,6 +6142,12 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 954802188}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: hurtEffect
+      value: 
+      objectReference: {fileID: 3823007768700803612, guid: 371b4d52f0c8a864ab84567b2c3f5057,
+        type: 3}
     - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: playerHealth
@@ -7809,6 +7869,12 @@ PrefabInstance:
       objectReference: {fileID: 954802188}
     - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
+      propertyPath: hurtEffect
+      value: 
+      objectReference: {fileID: 3823007768700803612, guid: 371b4d52f0c8a864ab84567b2c3f5057,
+        type: 3}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
       propertyPath: playerHealth
       value: 
       objectReference: {fileID: 954802190}
@@ -8113,6 +8179,12 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 954802188}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: hurtEffect
+      value: 
+      objectReference: {fileID: 3823007768700803612, guid: 371b4d52f0c8a864ab84567b2c3f5057,
+        type: 3}
     - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: playerHealth
@@ -8575,6 +8647,12 @@ PrefabInstance:
       objectReference: {fileID: 954802188}
     - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
+      propertyPath: hurtEffect
+      value: 
+      objectReference: {fileID: 3823007768700803612, guid: 371b4d52f0c8a864ab84567b2c3f5057,
+        type: 3}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
       propertyPath: playerHealth
       value: 
       objectReference: {fileID: 954802190}
@@ -8682,6 +8760,12 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 954802188}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: hurtEffect
+      value: 
+      objectReference: {fileID: 3823007768700803612, guid: 371b4d52f0c8a864ab84567b2c3f5057,
+        type: 3}
     - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: playerHealth
@@ -9450,6 +9534,12 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 954802188}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: hurtEffect
+      value: 
+      objectReference: {fileID: 3823007768700803612, guid: 371b4d52f0c8a864ab84567b2c3f5057,
+        type: 3}
     - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: playerHealth

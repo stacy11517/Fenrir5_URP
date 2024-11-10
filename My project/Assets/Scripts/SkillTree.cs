@@ -7,8 +7,7 @@ public class SkillTree : MonoBehaviour
     public Animator animator;
     public Transform attackPoint;
     public Transform spinAttackPoint;
-
-    public Transform HeadAttackPoint;
+    public Transform headAttackPoint;
 
     // 冷卻時間
     public float dashCooldown = 1f;
@@ -68,10 +67,10 @@ public class SkillTree : MonoBehaviour
         Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange);
         foreach (Collider enemy in hitEnemies)
         {
-            EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
-            if (enemyHealth != null)
+            EnemyController enemyController = enemy.GetComponent<EnemyController>();
+            if (enemyController != null)
             {
-                enemyHealth.TakeDamage(normalAttackDamage);
+                enemyController.TakeDamage(normalAttackDamage);
                 Debug.Log("Hit " + enemy.name);
             }
         }
@@ -136,10 +135,10 @@ public class SkillTree : MonoBehaviour
         Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange);
         foreach (Collider enemy in hitEnemies)
         {
-            EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
-            if (enemyHealth != null)
+            EnemyController enemyController = enemy.GetComponent<EnemyController>();
+            if (enemyController != null)
             {
-                enemyHealth.TakeDamage(attackDamage);
+                enemyController.TakeDamage(attackDamage);
                 Debug.Log("Hit " + enemy.name);
             }
         }
@@ -154,11 +153,10 @@ public class SkillTree : MonoBehaviour
             animator.SetTrigger("SpinAttack");
             isPerformingSkill = true;
 
-            Instantiate (spinAttackEffect, HeadAttackPoint.transform.position, Quaternion.identity);
             // 播放起跳旋轉攻擊特效
             if (spinAttackEffect != null)
             {
-                spinAttackEffect.Play();
+                Instantiate(spinAttackEffect, headAttackPoint.position, Quaternion.identity).Play();
             }
 
             StartCoroutine(CooldownRoutine(spinAttackCooldown, spinAttackCooldownImage));
@@ -170,10 +168,10 @@ public class SkillTree : MonoBehaviour
         Collider[] hitEnemies = Physics.OverlapSphere(spinAttackPoint.position, attackRange);
         foreach (Collider enemy in hitEnemies)
         {
-            EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
-            if (enemyHealth != null)
+            EnemyController enemyController = enemy.GetComponent<EnemyController>();
+            if (enemyController != null)
             {
-                enemyHealth.TakeDamage(spinAttackDamage);
+                enemyController.TakeDamage(spinAttackDamage);
                 Debug.Log("Hit " + enemy.name);
             }
         }

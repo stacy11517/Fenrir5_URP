@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿// EnemyController.cs
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -25,6 +26,9 @@ public class EnemyController : MonoBehaviour
     // 玩家引用（需要實現玩家受傷邏輯）
     public PlayerHealth playerHealth;  // 玩家血量系統引用
     public int attackDamage = 10;      // 攻擊傷害
+
+    // 特效
+    public ParticleSystem hurtEffect;  // 受傷特效
 
     void Start()
     {
@@ -105,6 +109,12 @@ public class EnemyController : MonoBehaviour
         if (animator != null)
         {
             animator.SetTrigger("Hurt");
+        }
+
+        // 播放受傷特效
+        if (hurtEffect != null)
+        {
+            Instantiate(hurtEffect, transform.position, Quaternion.identity).Play();
         }
 
         if (currentHealth <= 0)
