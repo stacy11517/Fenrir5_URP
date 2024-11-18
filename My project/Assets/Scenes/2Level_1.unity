@@ -255,6 +255,16 @@ PrefabInstance:
       propertyPath: portalManager
       value: 
       objectReference: {fileID: 1412025060}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackCooldown
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackDistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5892758249876183440, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: m_Name
@@ -422,6 +432,16 @@ PrefabInstance:
       propertyPath: portalManager
       value: 
       objectReference: {fileID: 1412025060}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackCooldown
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackDistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5892758249876183440, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: m_Name
@@ -565,6 +585,16 @@ PrefabInstance:
       propertyPath: portalManager
       value: 
       objectReference: {fileID: 1412025060}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackCooldown
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackDistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5892758249876183440, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: m_Name
@@ -680,6 +710,16 @@ PrefabInstance:
       propertyPath: portalManager
       value: 
       objectReference: {fileID: 1412025060}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackCooldown
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackDistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5892758249876183440, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: m_Name
@@ -1501,6 +1541,16 @@ PrefabInstance:
       propertyPath: portalManager
       value: 
       objectReference: {fileID: 1412025060}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackCooldown
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackDistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5892758249876183440, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: m_Name
@@ -1693,6 +1743,16 @@ PrefabInstance:
       propertyPath: portalManager
       value: 
       objectReference: {fileID: 1412025060}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackCooldown
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackDistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5892758249876183440, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: m_Name
@@ -3699,6 +3759,16 @@ PrefabInstance:
       propertyPath: portalManager
       value: 
       objectReference: {fileID: 1412025060}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackCooldown
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackDistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5892758249876183440, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: m_Name
@@ -3814,6 +3884,16 @@ PrefabInstance:
       propertyPath: portalManager
       value: 
       objectReference: {fileID: 1412025060}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackCooldown
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackDistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5892758249876183440, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: m_Name
@@ -5537,6 +5617,16 @@ PrefabInstance:
       propertyPath: portalManager
       value: 
       objectReference: {fileID: 1412025060}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackCooldown
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackDistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5892758249876183440, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: m_Name
@@ -5941,6 +6031,16 @@ PrefabInstance:
       propertyPath: portalManager
       value: 
       objectReference: {fileID: 1412025060}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackCooldown
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackDistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5892758249876183440, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: m_Name
@@ -7556,6 +7656,16 @@ PrefabInstance:
       propertyPath: portalManager
       value: 
       objectReference: {fileID: 1412025060}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackCooldown
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackDistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5892758249876183440, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: m_Name
@@ -7868,6 +7978,16 @@ PrefabInstance:
       propertyPath: portalManager
       value: 
       objectReference: {fileID: 1412025060}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackCooldown
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackDistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5892758249876183440, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: m_Name
@@ -8522,6 +8642,16 @@ PrefabInstance:
       propertyPath: portalManager
       value: 
       objectReference: {fileID: 1412025060}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackCooldown
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackDistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5892758249876183440, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: m_Name
@@ -8637,6 +8767,16 @@ PrefabInstance:
       propertyPath: portalManager
       value: 
       objectReference: {fileID: 1412025060}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackCooldown
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackDistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5892758249876183440, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: m_Name
@@ -9416,6 +9556,16 @@ PrefabInstance:
       propertyPath: portalManager
       value: 
       objectReference: {fileID: 1412025060}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackCooldown
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5536707887407555999, guid: 7625914edb5b0a34c8c0269ad2c220f8,
+        type: 3}
+      propertyPath: attackDistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5892758249876183440, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: m_Name
