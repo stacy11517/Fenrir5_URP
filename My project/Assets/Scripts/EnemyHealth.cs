@@ -1,14 +1,18 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public int maxHealth = 50;
-    public int currentHealth;
-    public PortalManager portalManager;  // PortalManager 的引用
-    public Animator animator;  // Animator 用於控制動畫
-    public float deathDelay = 10f;  // 死亡後延遲 10 秒銷毀物件
+    public int maxHealth = 50;                   // 敵人的最大生命值
+    public int currentHealth;                    // 敵人當前生命值
+    public PortalManager portalManager;          // PortalManager 的引用，用於增加擊殺數
+    public Animator animator;                    // Animator 用於控制動畫
+    public ParticleSystem hurtEffect;            // 受傷特效
+    public float deathDelay = 10f;               // 死亡後延遲 10 秒銷毀物件
 
-    public bool isDead = false;
+    public bool isDead = false;                  // 是否已經死亡的標記
+
+    private ParticleSystem instantiatedHurtEffect; // 預生成的受傷特效
 
     void Start()
     {
@@ -17,6 +21,13 @@ public class EnemyHealth : MonoBehaviour
         if (animator == null)
         {
             animator = GetComponent<Animator>();  // 獲取 Animator 元件
+        }
+
+        // 預生成受傷特效
+        if (hurtEffect != null)
+        {
+            instantiatedHurtEffect = Instantiate(hurtEffect, transform.position, Quaternion.identity);
+            instantiatedHurtEffect.Stop(); // 初始時先停止特效
         }
     }
 
@@ -27,13 +38,21 @@ public class EnemyHealth : MonoBehaviour
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
+        // 顯示當前血量
+        Debug.Log("敵人當前血量: " + currentHealth);
+
         // 播放受傷動畫
         if (animator != null)
         {
             animator.SetTrigger("Hurt");
         }
 
-        Debug.Log("敵人當前血量: " + currentHealth);
+        // 播放受傷特效
+        if (instantiatedHurtEffect != null)
+        {
+            instantiatedHurtEffect.transform.position = transform.position; // 更新特效的位置
+            instantiatedHurtEffect.Play();
+        }
 
         if (currentHealth <= 0)
         {
@@ -61,6 +80,12 @@ public class EnemyHealth : MonoBehaviour
         }
 
         // 在死亡動畫播放完畢後銷毀物件
-        Destroy(gameObject, deathDelay);
+        StartCoroutine(DestroyAfterDeath());
+    }
+
+    IEnumerator DestroyAfterDeath()
+    {
+        yield return new WaitForSeconds(deathDelay); // 等待死亡延遲時間
+        Destroy(gameObject); // 銷毀敵人遊戲物件
     }
 }

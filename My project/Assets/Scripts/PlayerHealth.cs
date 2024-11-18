@@ -11,6 +11,7 @@ public class PlayerHealth : MonoBehaviour
     public TMP_Text healthPackText;      // 血量包數量的 TextMeshPro 元件
     public GameObject deathScreen;       // 死亡畫面 UI
     public Animator animator;            // 用於播放死亡動畫的 Animator
+    public ParticleSystem healEffect;    // 補血時的特效
 
     private bool isDead = false;         // 用於檢查玩家是否已死亡
 
@@ -74,6 +75,12 @@ public class PlayerHealth : MonoBehaviour
             healthPackCount--;           // 補血包數量減少
             Debug.Log("Health pack used! Remaining packs: " + healthPackCount);
             UpdateHealthPackText();      // 更新補血包數量文本
+
+            // 播放補血特效
+            if (healEffect != null)
+            {
+                Instantiate(healEffect, transform.position, Quaternion.identity).Play();
+            }
         }
         else
         {
@@ -134,4 +141,3 @@ public class PlayerHealth : MonoBehaviour
         Time.timeScale = 0f;
     }
 }
-

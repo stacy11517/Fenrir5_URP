@@ -29,6 +29,7 @@ public class SkillTree : MonoBehaviour
     public ParticleSystem dashEffect;
     public ParticleSystem dualAttackEffect;
     public ParticleSystem spinAttackEffect;
+    public ParticleSystem normalAttackEffect;
 
     private bool isPerformingSkill = false;
 
@@ -56,6 +57,13 @@ public class SkillTree : MonoBehaviour
         {
             animator.SetTrigger("NormalAttack");
             isPerformingSkill = true;
+
+            // 播放普通攻擊特效
+            if (normalAttackEffect != null)
+            {
+                Instantiate(normalAttackEffect, attackPoint.position, Quaternion.identity);
+            }
+
             StartCoroutine(NormalAttackRoutine());
         }
     }
@@ -89,7 +97,7 @@ public class SkillTree : MonoBehaviour
             // 播放衝刺特效
             if (dashEffect != null)
             {
-                dashEffect.Play();
+                Instantiate(dashEffect, transform.position, Quaternion.identity);
             }
 
             StartCoroutine(PerformDash());
@@ -123,7 +131,7 @@ public class SkillTree : MonoBehaviour
             // 播放來回攻擊特效
             if (dualAttackEffect != null)
             {
-                dualAttackEffect.Play();
+                Instantiate(dualAttackEffect, attackPoint.position, Quaternion.identity);
             }
 
             StartCoroutine(CooldownRoutine(dualAttackCooldown, dualAttackCooldownImage));
@@ -156,7 +164,7 @@ public class SkillTree : MonoBehaviour
             // 播放起跳旋轉攻擊特效
             if (spinAttackEffect != null)
             {
-                Instantiate(spinAttackEffect, headAttackPoint.position, Quaternion.identity).Play();
+                Instantiate(spinAttackEffect, headAttackPoint.position, Quaternion.identity);
             }
 
             StartCoroutine(CooldownRoutine(spinAttackCooldown, spinAttackCooldownImage));

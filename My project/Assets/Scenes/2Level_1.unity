@@ -13316,7 +13316,7 @@ MonoBehaviour:
   animator: {fileID: 954802187}
   attackPoint: {fileID: 954802188}
   spinAttackPoint: {fileID: 954802188}
-  headAttackPoint: {fileID: 0}
+  headAttackPoint: {fileID: 954802188}
   dashCooldown: 1
   dualAttackCooldown: 2
   spinAttackCooldown: 3
@@ -13327,10 +13327,13 @@ MonoBehaviour:
   attackDamage: 10
   spinAttackDamage: 15
   normalAttackDamage: 5
-  dashEffect: {fileID: 0}
-  dualAttackEffect: {fileID: 0}
+  dashEffect: {fileID: 6514595810799248963, guid: 4cabe81dbfec0524a80e752dbea0f486,
+    type: 3}
+  dualAttackEffect: {fileID: 5100656019296293109, guid: 118cf1cb08f5d1549ac095d6de0bf0ff,
+    type: 3}
   spinAttackEffect: {fileID: 8086097973669869838, guid: 550eaa5901a34b7448af5c3bb61d8738,
     type: 3}
+  normalAttackEffect: {fileID: 0}
 --- !u!114 &954802190
 MonoBehaviour:
   m_ObjectHideFlags: 0
