@@ -13353,6 +13353,8 @@ MonoBehaviour:
   healthPackText: {fileID: 1986138377}
   deathScreen: {fileID: 745956449}
   animator: {fileID: 954802187}
+  healEffect: {fileID: 261971583009404640, guid: 744a3b18d501774429b2ad1a9ae250e5,
+    type: 3}
 --- !u!114 &954802191
 MonoBehaviour:
   m_ObjectHideFlags: 0
