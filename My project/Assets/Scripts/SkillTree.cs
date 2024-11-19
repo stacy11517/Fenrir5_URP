@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class SkillTree : MonoBehaviour
 {
     public Animator animator;
-    public Transform attackPoint;
+    public Transform attackPoint; // 攻擊起始點位置
     public Transform spinAttackPoint;
     public Transform headAttackPoint;
 
@@ -120,7 +120,7 @@ public class SkillTree : MonoBehaviour
         isPerformingSkill = false;
     }
 
-    // 來回攻擊技能
+    // 來回攻擊技能 (Dual Attack)
     void HandleDualAttack()
     {
         if ((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton3)) && dualAttackCooldownImage.fillAmount == 1f)
@@ -138,18 +138,24 @@ public class SkillTree : MonoBehaviour
         }
     }
 
+    // 這個方法會在 Dual Attack 的動畫播放過程中被調用
     public void PerformDualAttack()
     {
-        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange);
-        foreach (Collider enemy in hitEnemies)
+        // 使用 Raycast 進行直線攻擊判定
+        RaycastHit hit;
+        Vector3 direction = transform.forward; // 攻擊方向為角色面朝的方向
+
+        if (Physics.Raycast(attackPoint.position, direction, out hit, attackRange))
         {
-            EnemyController enemyController = enemy.GetComponent<EnemyController>();
+            // 如果射線擊中目標，檢查是否是敵人
+            EnemyController enemyController = hit.collider.GetComponent<EnemyController>();
             if (enemyController != null)
             {
                 enemyController.TakeDamage(attackDamage);
-                Debug.Log("Hit " + enemy.name);
+                Debug.Log("Hit " + hit.collider.name);
             }
         }
+
         isPerformingSkill = false;
     }
 

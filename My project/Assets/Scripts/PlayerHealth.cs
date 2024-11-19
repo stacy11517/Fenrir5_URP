@@ -71,7 +71,7 @@ public class PlayerHealth : MonoBehaviour
     {
         if (currentHealth < maxHealth)
         {
-            Heal(10);                    // 恢復10點生命值
+            Heal(75);                    // 恢復75點生命值
             healthPackCount--;           // 補血包數量減少
             Debug.Log("Health pack used! Remaining packs: " + healthPackCount);
             UpdateHealthPackText();      // 更新補血包數量文本

@@ -9,10 +9,12 @@ public class EnemyHealth : MonoBehaviour
     public Animator animator;                    // Animator 用於控制動畫
     public ParticleSystem hurtEffect;            // 受傷特效
     public float deathDelay = 10f;               // 死亡後延遲 10 秒銷毀物件
+    public float hurtEffectCooldown = 1f;        // 受傷特效的冷卻時間
 
     public bool isDead = false;                  // 是否已經死亡的標記
 
     private ParticleSystem instantiatedHurtEffect; // 預生成的受傷特效
+    private bool canPlayHurtEffect = true;       // 控制是否可以播放受傷特效
 
     void Start()
     {
@@ -47,17 +49,26 @@ public class EnemyHealth : MonoBehaviour
             animator.SetTrigger("Hurt");
         }
 
-        // 播放受傷特效
-        if (instantiatedHurtEffect != null)
+        // 播放受傷特效（如果冷卻時間已經過去）
+        if (instantiatedHurtEffect != null && canPlayHurtEffect)
         {
             instantiatedHurtEffect.transform.position = transform.position; // 更新特效的位置
             instantiatedHurtEffect.Play();
+            StartCoroutine(HurtEffectCooldownRoutine());
         }
 
         if (currentHealth <= 0)
         {
             Die();
         }
+    }
+
+    // 冷卻協程，用於控制受傷特效的播放頻率
+    IEnumerator HurtEffectCooldownRoutine()
+    {
+        canPlayHurtEffect = false;
+        yield return new WaitForSeconds(hurtEffectCooldown);
+        canPlayHurtEffect = true;
     }
 
     void Die()
