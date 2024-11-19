@@ -61,7 +61,8 @@ public class SkillTree : MonoBehaviour
             // 播放普通攻擊特效
             if (normalAttackEffect != null)
             {
-                Instantiate(normalAttackEffect, attackPoint.position, Quaternion.identity);
+                var effect = Instantiate(normalAttackEffect, attackPoint.position, Quaternion.identity);
+                effect.transform.forward = transform.forward; // 设置特效的方向与玩家的面向一致
             }
 
             StartCoroutine(NormalAttackRoutine());
@@ -97,7 +98,8 @@ public class SkillTree : MonoBehaviour
             // 播放衝刺特效
             if (dashEffect != null)
             {
-                Instantiate(dashEffect, transform.position, Quaternion.identity);
+                var effect = Instantiate(dashEffect, transform.position, Quaternion.identity);
+                effect.transform.forward = transform.forward; // 设置特效的方向与玩家的面向一致
             }
 
             StartCoroutine(PerformDash());
@@ -131,7 +133,8 @@ public class SkillTree : MonoBehaviour
             // 播放來回攻擊特效
             if (dualAttackEffect != null)
             {
-                Instantiate(dualAttackEffect, attackPoint.position, Quaternion.identity);
+                var effect = Instantiate(dualAttackEffect, attackPoint.position, Quaternion.identity);
+                effect.transform.forward = transform.forward; // 设置特效的方向与玩家的面向一致
             }
 
             StartCoroutine(CooldownRoutine(dualAttackCooldown, dualAttackCooldownImage));
@@ -170,7 +173,8 @@ public class SkillTree : MonoBehaviour
             // 播放起跳旋轉攻擊特效
             if (spinAttackEffect != null)
             {
-                Instantiate(spinAttackEffect, headAttackPoint.position, Quaternion.identity);
+                var effect = Instantiate(spinAttackEffect, headAttackPoint.position, Quaternion.identity);
+                effect.transform.forward = transform.forward; // 设置特效的方向与玩家的面向一致
             }
 
             StartCoroutine(CooldownRoutine(spinAttackCooldown, spinAttackCooldownImage));
