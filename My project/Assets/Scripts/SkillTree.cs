@@ -61,8 +61,8 @@ public class SkillTree : MonoBehaviour
             // 播放普通攻擊特效
             if (normalAttackEffect != null)
             {
-                var effect = Instantiate(normalAttackEffect, attackPoint.position, Quaternion.identity);
-                effect.transform.forward = transform.forward; // 设置特效的方向与玩家的面向一致
+                var effect = Instantiate(normalAttackEffect, attackPoint.position, Quaternion.LookRotation(transform.forward));
+                effect.transform.Rotate(Vector3.up, 0f); // 根据需要进一步调整特效自身的旋转角度
             }
 
             StartCoroutine(NormalAttackRoutine());
@@ -98,8 +98,8 @@ public class SkillTree : MonoBehaviour
             // 播放衝刺特效
             if (dashEffect != null)
             {
-                var effect = Instantiate(dashEffect, transform.position, Quaternion.identity);
-                effect.transform.forward = transform.forward; // 设置特效的方向与玩家的面向一致
+                var effect = Instantiate(dashEffect, transform.position, Quaternion.LookRotation(transform.forward));
+                effect.transform.Rotate(Vector3.up, 0f); // 根据需要进一步调整特效自身的旋转角度
             }
 
             StartCoroutine(PerformDash());
@@ -133,8 +133,8 @@ public class SkillTree : MonoBehaviour
             // 播放來回攻擊特效
             if (dualAttackEffect != null)
             {
-                var effect = Instantiate(dualAttackEffect, attackPoint.position, Quaternion.identity);
-                effect.transform.forward = transform.forward; // 设置特效的方向与玩家的面向一致
+                var effect = Instantiate(dualAttackEffect, attackPoint.position, Quaternion.LookRotation(transform.forward));
+                effect.transform.Rotate(Vector3.up, 0f); // 根据需要进一步调整特效自身的旋转角度
             }
 
             StartCoroutine(CooldownRoutine(dualAttackCooldown, dualAttackCooldownImage));
@@ -173,8 +173,8 @@ public class SkillTree : MonoBehaviour
             // 播放起跳旋轉攻擊特效
             if (spinAttackEffect != null)
             {
-                var effect = Instantiate(spinAttackEffect, headAttackPoint.position, Quaternion.identity);
-                effect.transform.forward = transform.forward; // 设置特效的方向与玩家的面向一致
+                var effect = Instantiate(spinAttackEffect, headAttackPoint.position, Quaternion.LookRotation(transform.forward));
+                effect.transform.Rotate(Vector3.up, 0f); // 根据需要进一步调整特效自身的旋转角度
             }
 
             StartCoroutine(CooldownRoutine(spinAttackCooldown, spinAttackCooldownImage));
