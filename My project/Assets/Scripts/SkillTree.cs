@@ -4,10 +4,11 @@ using UnityEngine.UI;
 
 public class SkillTree : MonoBehaviour
 {
-    public Animator animator;
-    public Transform attackPoint; // 攻擊起始點位置
-    public Transform spinAttackPoint;
-    public Transform headAttackPoint;
+    public Animator animator;           // 動畫控制器
+    public Transform attackPoint;       // 攻擊起始點位置
+    public Transform spinAttackPoint;   // 起跳旋轉攻擊起始點
+    public CameraController cameraController; // 攝影機控制器
+    public TriggerEvent triggerEvent;   // 連接 TriggerEvent 腳本
 
     // 冷卻時間
     public float dashCooldown = 1f;
@@ -21,17 +22,14 @@ public class SkillTree : MonoBehaviour
 
     // 攻擊範圍和傷害
     public float attackRange = 2f;
-    public int attackDamage = 10;
-    public int spinAttackDamage = 15;
     public int normalAttackDamage = 5;
+    public int spinAttackDamage = 15;
 
     // 特效
-    public ParticleSystem dashEffect;
-    public ParticleSystem dualAttackEffect;
-    public ParticleSystem spinAttackEffect;
     public ParticleSystem normalAttackEffect;
+    public ParticleSystem spinAttackEffect;
 
-    private bool isPerformingSkill = false;
+    private bool isPerformingSkill = false; // 是否正在執行技能
 
     void Start()
     {
@@ -43,14 +41,12 @@ public class SkillTree : MonoBehaviour
     {
         if (!isPerformingSkill)
         {
-            HandleDash();
-            HandleDualAttack();
-            HandleSpinAttack();
             HandleNormalAttack();
+            HandleSpinAttack();
         }
     }
 
-    // 普通攻擊
+    // **普通攻擊**
     void HandleNormalAttack()
     {
         if ((Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.V)) && !isPerformingSkill)
@@ -61,8 +57,7 @@ public class SkillTree : MonoBehaviour
             // 播放普通攻擊特效
             if (normalAttackEffect != null)
             {
-                var effect = Instantiate(normalAttackEffect, attackPoint.position, Quaternion.LookRotation(transform.forward));
-                effect.transform.Rotate(Vector3.up, 0f); // 根据需要进一步调整特效自身的旋转角度
+                Instantiate(normalAttackEffect, attackPoint.position, Quaternion.LookRotation(transform.forward));
             }
 
             StartCoroutine(NormalAttackRoutine());
@@ -87,82 +82,7 @@ public class SkillTree : MonoBehaviour
         isPerformingSkill = false;
     }
 
-    // 衝刺技能
-    void HandleDash()
-    {
-        if ((Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.JoystickButton0)) && dashCooldownImage.fillAmount == 1f)
-        {
-            animator.SetTrigger("Dash");
-            isPerformingSkill = true;
-
-            // 播放衝刺特效
-            if (dashEffect != null)
-            {
-                var effect = Instantiate(dashEffect, transform.position, Quaternion.LookRotation(transform.forward));
-                effect.transform.Rotate(Vector3.up, 0f); // 根据需要进一步调整特效自身的旋转角度
-            }
-
-            StartCoroutine(PerformDash());
-            StartCoroutine(CooldownRoutine(dashCooldown, dashCooldownImage));
-        }
-    }
-
-    IEnumerator PerformDash()
-    {
-        float dashTime = 0.5f;
-        float dashSpeed = 20f;
-        float startTime = Time.time;
-
-        while (Time.time < startTime + dashTime)
-        {
-            transform.Translate(Vector3.forward * dashSpeed * Time.deltaTime);
-            yield return null;
-        }
-
-        isPerformingSkill = false;
-    }
-
-    // 來回攻擊技能 (Dual Attack)
-    void HandleDualAttack()
-    {
-        if ((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton3)) && dualAttackCooldownImage.fillAmount == 1f)
-        {
-            animator.SetTrigger("DualAttack");
-            isPerformingSkill = true;
-
-            // 播放來回攻擊特效
-            if (dualAttackEffect != null)
-            {
-                var effect = Instantiate(dualAttackEffect, attackPoint.position, Quaternion.LookRotation(transform.forward));
-                effect.transform.Rotate(Vector3.up, 0f); // 根据需要进一步调整特效自身的旋转角度
-            }
-
-            StartCoroutine(CooldownRoutine(dualAttackCooldown, dualAttackCooldownImage));
-        }
-    }
-
-    // 這個方法會在 Dual Attack 的動畫播放過程中被調用
-    public void PerformDualAttack()
-    {
-        // 使用 Raycast 進行直線攻擊判定
-        RaycastHit hit;
-        Vector3 direction = transform.forward; // 攻擊方向為角色面朝的方向
-
-        if (Physics.Raycast(attackPoint.position, direction, out hit, attackRange))
-        {
-            // 如果射線擊中目標，檢查是否是敵人
-            EnemyController enemyController = hit.collider.GetComponent<EnemyController>();
-            if (enemyController != null)
-            {
-                enemyController.TakeDamage(attackDamage);
-                Debug.Log("Hit " + hit.collider.name);
-            }
-        }
-
-        isPerformingSkill = false;
-    }
-
-    // 起跳旋轉攻擊技能
+    // **起跳旋轉攻擊**
     void HandleSpinAttack()
     {
         if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.JoystickButton1)) && spinAttackCooldownImage.fillAmount == 1f)
@@ -173,8 +93,7 @@ public class SkillTree : MonoBehaviour
             // 播放起跳旋轉攻擊特效
             if (spinAttackEffect != null)
             {
-                var effect = Instantiate(spinAttackEffect, headAttackPoint.position, Quaternion.LookRotation(transform.forward));
-                effect.transform.Rotate(Vector3.up, 0f); // 根据需要进一步调整特效自身的旋转角度
+                Instantiate(spinAttackEffect, spinAttackPoint.position, Quaternion.LookRotation(transform.forward));
             }
 
             StartCoroutine(CooldownRoutine(spinAttackCooldown, spinAttackCooldownImage));
@@ -191,12 +110,22 @@ public class SkillTree : MonoBehaviour
             {
                 enemyController.TakeDamage(spinAttackDamage);
                 Debug.Log("Hit " + enemy.name);
+
+                // 觸發攝影機震動
+                cameraController.TriggerShake(0.4f, 0.2f);
             }
         }
+
+        // 通知 TriggerEvent 記錄技能使用
+        if (triggerEvent != null)
+        {
+            triggerEvent.RegisterSkillUse();
+        }
+
         isPerformingSkill = false;
     }
 
-    // 冷卻顯示協程
+    // **冷卻顯示協程**
     IEnumerator CooldownRoutine(float cooldownTime, Image cooldownImage)
     {
         cooldownImage.fillAmount = 0f;

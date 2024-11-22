@@ -268,7 +268,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraShake
       value: 
-      objectReference: {fileID: 1170814016}
+      objectReference: {fileID: 0}
     - target: {fileID: 3036515805113059146, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: portalManager
@@ -590,7 +590,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraShake
       value: 
-      objectReference: {fileID: 1170814016}
+      objectReference: {fileID: 0}
     - target: {fileID: 3036515805113059146, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: portalManager
@@ -888,7 +888,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraShake
       value: 
-      objectReference: {fileID: 1170814016}
+      objectReference: {fileID: 0}
     - target: {fileID: 3036515805113059146, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: portalManager
@@ -1158,7 +1158,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraShake
       value: 
-      objectReference: {fileID: 1170814016}
+      objectReference: {fileID: 0}
     - target: {fileID: 3036515805113059146, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: portalManager
@@ -7080,7 +7080,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraShake
       value: 
-      objectReference: {fileID: 1170814016}
+      objectReference: {fileID: 0}
     - target: {fileID: 3036515805113059146, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: portalManager
@@ -7427,7 +7427,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraShake
       value: 
-      objectReference: {fileID: 1170814016}
+      objectReference: {fileID: 0}
     - target: {fileID: 3036515805113059146, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: portalManager
@@ -16309,12 +16309,7 @@ MonoBehaviour:
   spinAttackEffect: {fileID: 8086097973669869838, guid: 550eaa5901a34b7448af5c3bb61d8738,
     type: 3}
   normalAttackEffect: {fileID: 0}
-  enemyLayerMask:
-    serializedVersion: 2
-    m_Bits: 8
-  obstacleLayerMask:
-    serializedVersion: 2
-    m_Bits: 64
+  cameraController: {fileID: 0}
 --- !u!114 &954802190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16493,7 +16488,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraShake
       value: 
-      objectReference: {fileID: 1170814016}
+      objectReference: {fileID: 0}
     - target: {fileID: 3036515805113059146, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: portalManager
@@ -16763,7 +16758,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraShake
       value: 
-      objectReference: {fileID: 1170814016}
+      objectReference: {fileID: 0}
     - target: {fileID: 3036515805113059146, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: portalManager
@@ -17373,8 +17368,7 @@ GameObject:
   - component: {fileID: 1170814020}
   - component: {fileID: 1170814019}
   - component: {fileID: 1170814018}
-  - component: {fileID: 1170814017}
-  - component: {fileID: 1170814016}
+  - component: {fileID: 1170814022}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -17382,35 +17376,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1170814016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1170814015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0373b180c8254de4aa823846287f8c6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shakeDuration: 0.1
-  shakeMagnitude: 0.1
---- !u!114 &1170814017
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1170814015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dbf0f7dd67f266429066a7cd54b7ebd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 954802188}
-  offset: {x: -5, y: 7, z: -5}
-  isShaking: 0
 --- !u!114 &1170814018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17529,6 +17494,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 35.741, y: 0, z: 0}
+--- !u!114 &1170814022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170814015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e71af7702c84d64880b26a5b5232a98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentMode: 0
+  target: {fileID: 954802188}
+  offset: {x: -4.5, y: 8, z: -3}
+  fixedPosition: {fileID: 0}
+  shakeDuration: 0.5
+  shakeMagnitude: 0.1
 --- !u!1001 &1198153183
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23474,7 +23457,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraShake
       value: 
-      objectReference: {fileID: 1170814016}
+      objectReference: {fileID: 0}
     - target: {fileID: 3036515805113059146, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: portalManager
@@ -24033,7 +24016,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraShake
       value: 
-      objectReference: {fileID: 1170814016}
+      objectReference: {fileID: 0}
     - target: {fileID: 3036515805113059146, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: portalManager
@@ -25259,13 +25242,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661588876}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.10583796, y: 0.87412155, z: -0.22045639, w: 0.41965327}
-  m_LocalPosition: {x: 4.28, y: 2.36, z: -31.1}
+  m_LocalRotation: {x: 0.086824074, y: 0.8528686, z: -0.15038373, w: 0.49240384}
+  m_LocalPosition: {x: 3.3, y: 2, z: -30.678}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 28.31, y: 128.71, z: 0}
+  m_LocalEulerAnglesHint: {x: 20, y: 120, z: 0}
 --- !u!1 &1733050400
 GameObject:
   m_ObjectHideFlags: 0
@@ -30749,7 +30732,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraShake
       value: 
-      objectReference: {fileID: 1170814016}
+      objectReference: {fileID: 0}
     - target: {fileID: 3036515805113059146, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: portalManager
@@ -31216,7 +31199,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraShake
       value: 
-      objectReference: {fileID: 1170814016}
+      objectReference: {fileID: 0}
     - target: {fileID: 3036515805113059146, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: portalManager
@@ -32025,7 +32008,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraShake
       value: 
-      objectReference: {fileID: 1170814016}
+      objectReference: {fileID: 0}
     - target: {fileID: 3036515805113059146, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: portalManager
@@ -32295,7 +32278,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraShake
       value: 
-      objectReference: {fileID: 1170814016}
+      objectReference: {fileID: 0}
     - target: {fileID: 3036515805113059146, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: portalManager
@@ -33196,7 +33179,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cameraShake
       value: 
-      objectReference: {fileID: 1170814016}
+      objectReference: {fileID: 0}
     - target: {fileID: 3036515805113059146, guid: 7625914edb5b0a34c8c0269ad2c220f8,
         type: 3}
       propertyPath: portalManager
