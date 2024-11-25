@@ -13,6 +13,7 @@ public class PlayerHealth : MonoBehaviour
     public Animator animator;            // 用於播放死亡動畫的 Animator
     public ParticleSystem healEffect;    // 補血時的特效
 
+    private PlayerController playerController;
     private bool isDead = false;         // 用於檢查玩家是否已死亡
 
     void Start()
@@ -27,6 +28,8 @@ public class PlayerHealth : MonoBehaviour
         {
             animator = GetComponent<Animator>();  // 獲取 Animator 元件
         }
+
+        playerController = GetComponent<PlayerController>(); // 獲取 PlayerController 元件
     }
 
     void Update()
@@ -71,6 +74,12 @@ public class PlayerHealth : MonoBehaviour
     {
         if (currentHealth < maxHealth)
         {
+            // 禁止玩家移動
+            if (playerController != null)
+            {
+                playerController.canMove = false;
+            }
+
             Heal(75);                    // 恢復75點生命值
             healthPackCount--;           // 補血包數量減少
             Debug.Log("Health pack used! Remaining packs: " + healthPackCount);
@@ -81,10 +90,21 @@ public class PlayerHealth : MonoBehaviour
             {
                 Instantiate(healEffect, transform.position, Quaternion.identity).Play();
             }
+
+            // 恢復玩家移動
+            Invoke("EnableMovement", 1f); // 1秒後允許移動
         }
         else
         {
             Debug.Log("Health is full, cannot use health pack.");
+        }
+    }
+
+    void EnableMovement()
+    {
+        if (playerController != null)
+        {
+            playerController.canMove = true;
         }
     }
 
@@ -132,7 +152,10 @@ public class PlayerHealth : MonoBehaviour
         }
 
         // 禁用玩家控制
-        GetComponent<PlayerController>().enabled = false;
+        if (playerController != null)
+        {
+            playerController.canMove = false;
+        }
 
         // 顯示死亡畫面
         deathScreen.SetActive(true);

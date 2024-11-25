@@ -4,11 +4,10 @@ using UnityEngine.UI;
 
 public class SkillTree : MonoBehaviour
 {
-    public Animator animator;           // 動畫控制器
-    public Transform attackPoint;       // 攻擊起始點位置
-    public Transform spinAttackPoint;   // 起跳旋轉攻擊起始點
-    public CameraController cameraController; // 攝影機控制器
-    public TriggerEvent triggerEvent;   // 連接 TriggerEvent 腳本
+    public Animator animator;
+    public Transform attackPoint;
+    public Transform spinAttackPoint;
+    public Transform headAttackPoint;
 
     // 冷卻時間
     public float dashCooldown = 1f;
@@ -22,18 +21,23 @@ public class SkillTree : MonoBehaviour
 
     // 攻擊範圍和傷害
     public float attackRange = 2f;
-    public int normalAttackDamage = 5;
+    public int attackDamage = 10;
     public int spinAttackDamage = 15;
+    public int normalAttackDamage = 5;
 
     // 特效
-    public ParticleSystem normalAttackEffect;
+    public ParticleSystem dashEffect;
+    public ParticleSystem dualAttackEffect;
     public ParticleSystem spinAttackEffect;
+    public ParticleSystem normalAttackEffect;
 
-    private bool isPerformingSkill = false; // 是否正在執行技能
+    private bool isPerformingSkill = false;
+    private PlayerController playerController;
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        playerController = GetComponent<PlayerController>();
         ResetCooldownImages();
     }
 
@@ -41,23 +45,27 @@ public class SkillTree : MonoBehaviour
     {
         if (!isPerformingSkill)
         {
-            HandleNormalAttack();
+            HandleDash();
+            HandleDualAttack();
             HandleSpinAttack();
+            HandleNormalAttack();
         }
     }
 
-    // **普通攻擊**
+    // 普通攻擊
     void HandleNormalAttack()
     {
         if ((Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.V)) && !isPerformingSkill)
         {
-            animator.SetTrigger("NormalAttack");
             isPerformingSkill = true;
+            DisableMovement(); // 禁用移動
+
+            animator.SetTrigger("NormalAttack");
 
             // 播放普通攻擊特效
             if (normalAttackEffect != null)
             {
-                Instantiate(normalAttackEffect, attackPoint.position, Quaternion.LookRotation(transform.forward));
+                Instantiate(normalAttackEffect, attackPoint.position, Quaternion.identity);
             }
 
             StartCoroutine(NormalAttackRoutine());
@@ -79,21 +87,102 @@ public class SkillTree : MonoBehaviour
             }
         }
 
+        EnableMovement(); // 恢復移動
         isPerformingSkill = false;
     }
 
-    // **起跳旋轉攻擊**
+    // 衝刺技能
+    void HandleDash()
+    {
+        if ((Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.JoystickButton0)) && dashCooldownImage.fillAmount == 1f)
+        {
+            isPerformingSkill = true;
+            DisableMovement(); // 禁用移動
+
+            animator.SetTrigger("Dash");
+
+            // 播放衝刺特效
+            if (dashEffect != null)
+            {
+                Instantiate(dashEffect, transform.position, Quaternion.identity);
+            }
+
+            StartCoroutine(PerformDash());
+            StartCoroutine(CooldownRoutine(dashCooldown, dashCooldownImage));
+        }
+    }
+
+    IEnumerator PerformDash()
+    {
+        float dashTime = 0.5f;
+        float dashSpeed = 20f;
+        float startTime = Time.time;
+
+        while (Time.time < startTime + dashTime)
+        {
+            transform.Translate(Vector3.forward * dashSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        EnableMovement(); // 恢復移動
+        isPerformingSkill = false;
+    }
+
+    // 來回攻擊技能 (Dual Attack)
+    void HandleDualAttack()
+    {
+        if ((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton3)) && dualAttackCooldownImage.fillAmount == 1f)
+        {
+            isPerformingSkill = true;
+            DisableMovement(); // 禁用移動
+
+            animator.SetTrigger("DualAttack");
+
+            // 播放來回攻擊特效
+            if (dualAttackEffect != null)
+            {
+                Instantiate(dualAttackEffect, attackPoint.position, Quaternion.identity);
+            }
+
+            StartCoroutine(CooldownRoutine(dualAttackCooldown, dualAttackCooldownImage));
+        }
+    }
+
+    // 在動畫中調用的方法，用來執行 Dual Attack 的實際效果
+    public void PerformDualAttack()
+    {
+        RaycastHit hit;
+        Vector3 direction = transform.forward; // 攻擊方向為角色面朝的方向
+
+        if (Physics.Raycast(attackPoint.position, direction, out hit, attackRange))
+        {
+            // 如果射線擊中目標，檢查是否是敵人
+            EnemyController enemyController = hit.collider.GetComponent<EnemyController>();
+            if (enemyController != null)
+            {
+                enemyController.TakeDamage(attackDamage);
+                Debug.Log("Hit " + hit.collider.name);
+            }
+        }
+
+        EnableMovement(); // 恢復移動
+        isPerformingSkill = false;
+    }
+
+    // 起跳旋轉攻擊技能
     void HandleSpinAttack()
     {
         if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.JoystickButton1)) && spinAttackCooldownImage.fillAmount == 1f)
         {
-            animator.SetTrigger("SpinAttack");
             isPerformingSkill = true;
+            DisableMovement(); // 禁用移動
+
+            animator.SetTrigger("SpinAttack");
 
             // 播放起跳旋轉攻擊特效
             if (spinAttackEffect != null)
             {
-                Instantiate(spinAttackEffect, spinAttackPoint.position, Quaternion.LookRotation(transform.forward));
+                Instantiate(spinAttackEffect, headAttackPoint.position, Quaternion.identity);
             }
 
             StartCoroutine(CooldownRoutine(spinAttackCooldown, spinAttackCooldownImage));
@@ -102,7 +191,7 @@ public class SkillTree : MonoBehaviour
 
     public void PerformSpinAttack()
     {
-        Collider[] hitEnemies = Physics.OverlapSphere(spinAttackPoint.position, attackRange);
+        Collider[] hitEnemies = Physics.OverlapSphere(spinAttackPoint.position, attackRange * 1.5f); // 擴大範圍
         foreach (Collider enemy in hitEnemies)
         {
             EnemyController enemyController = enemy.GetComponent<EnemyController>();
@@ -110,22 +199,14 @@ public class SkillTree : MonoBehaviour
             {
                 enemyController.TakeDamage(spinAttackDamage);
                 Debug.Log("Hit " + enemy.name);
-
-                // 觸發攝影機震動
-                cameraController.TriggerShake(0.4f, 0.2f);
             }
         }
 
-        // 通知 TriggerEvent 記錄技能使用
-        if (triggerEvent != null)
-        {
-            triggerEvent.RegisterSkillUse();
-        }
-
+        EnableMovement(); // 恢復移動
         isPerformingSkill = false;
     }
 
-    // **冷卻顯示協程**
+    // 冷卻顯示協程
     IEnumerator CooldownRoutine(float cooldownTime, Image cooldownImage)
     {
         cooldownImage.fillAmount = 0f;
@@ -146,5 +227,23 @@ public class SkillTree : MonoBehaviour
         dashCooldownImage.fillAmount = 1f;
         dualAttackCooldownImage.fillAmount = 1f;
         spinAttackCooldownImage.fillAmount = 1f;
+    }
+
+    // 禁用移動
+    void DisableMovement()
+    {
+        if (playerController != null)
+        {
+            playerController.canMove = false;
+        }
+    }
+
+    // 恢復移動
+    void EnableMovement()
+    {
+        if (playerController != null)
+        {
+            playerController.canMove = true;
+        }
     }
 }

@@ -13887,6 +13887,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5492405324770449056, guid: 0581dea6987909f42aa93ce215fc8af7,
         type: 3}
+      propertyPath: dashEffect
+      value: 
+      objectReference: {fileID: 6514595810799248963, guid: 4cabe81dbfec0524a80e752dbea0f486,
+        type: 3}
+    - target: {fileID: 5492405324770449056, guid: 0581dea6987909f42aa93ce215fc8af7,
+        type: 3}
+      propertyPath: dualAttackEffect
+      value: 
+      objectReference: {fileID: 5100656019296293109, guid: 118cf1cb08f5d1549ac095d6de0bf0ff,
+        type: 3}
+    - target: {fileID: 5492405324770449056, guid: 0581dea6987909f42aa93ce215fc8af7,
+        type: 3}
       propertyPath: dashCooldownImage
       value: 
       objectReference: {fileID: 1869539593}
