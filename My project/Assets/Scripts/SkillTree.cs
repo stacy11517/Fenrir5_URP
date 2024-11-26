@@ -33,11 +33,13 @@ public class SkillTree : MonoBehaviour
 
     private bool isPerformingSkill = false;
     private PlayerController playerController;
+    private CharacterController characterController;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         playerController = GetComponent<PlayerController>();
+        characterController = GetComponent<CharacterController>();
         ResetCooldownImages();
     }
 
@@ -120,7 +122,8 @@ public class SkillTree : MonoBehaviour
 
         while (Time.time < startTime + dashTime)
         {
-            transform.Translate(Vector3.forward * dashSpeed * Time.deltaTime);
+            Vector3 dashDirection = transform.forward * dashSpeed;
+            characterController.Move(dashDirection * Time.deltaTime);
             yield return null;
         }
 
