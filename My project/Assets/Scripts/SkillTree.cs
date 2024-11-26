@@ -194,7 +194,7 @@ public class SkillTree : MonoBehaviour
 
     public void PerformSpinAttack()
     {
-        Collider[] hitEnemies = Physics.OverlapSphere(spinAttackPoint.position, attackRange * 1.5f); // 擴大範圍
+        Collider[] hitEnemies = Physics.OverlapSphere(spinAttackPoint.position, attackRange * 4f); // 擴大範圍
         foreach (Collider enemy in hitEnemies)
         {
             EnemyController enemyController = enemy.GetComponent<EnemyController>();

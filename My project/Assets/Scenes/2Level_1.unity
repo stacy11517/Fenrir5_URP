@@ -13406,6 +13406,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5492405324770449056, guid: 0581dea6987909f42aa93ce215fc8af7,
         type: 3}
+      propertyPath: attackRange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5492405324770449056, guid: 0581dea6987909f42aa93ce215fc8af7,
+        type: 3}
       propertyPath: headAttackPoint
       value: 
       objectReference: {fileID: 390668014}
@@ -13415,6 +13420,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5100656019296293109, guid: 118cf1cb08f5d1549ac095d6de0bf0ff,
         type: 3}
+    - target: {fileID: 5492405324770449056, guid: 0581dea6987909f42aa93ce215fc8af7,
+        type: 3}
+      propertyPath: spinAttackDamage
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5492405324770449056, guid: 0581dea6987909f42aa93ce215fc8af7,
         type: 3}
       propertyPath: dashCooldownImage
