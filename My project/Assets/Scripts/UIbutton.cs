@@ -2,170 +2,143 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
-using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 public class UIbutton : MonoBehaviour
 {
-    public GameObject MainPanel;        // 主畫面 UI 的物件
-    public GameObject PausePanel;       // 暫停 UI 的物件
-    public GameObject SettingPanel;     // 設置 UI 的物件
-    public GameObject DeathScreen;      // 死亡畫面 UI 的物件
+    // 主面板和其他 UI 元素
+    public GameObject MainPanel;        // 主畫面 UI（可能不存在）
+    public GameObject PausePanel;       // 暫停 UI（可能不存在）
+    public GameObject SettingPanel;     // 設置 UI（可能不存在）
+    public GameObject DeathScreen;      // 死亡畫面 UI（可能不存在）
 
-    private int currentButtonIndex = 0; // 追踪當前選中的按鈕索引
-    private bool isPause = false;       // 控制遊戲是否暫停
-    private bool isDeathScreenActive = false;  // 死亡畫面是否顯示
+    // 操作圖片和玩法圖片
+    public GameObject OperationImage;  // 操作圖片
+    public GameObject GameplayImage;   // 玩法圖片
+
+    // 按鈕
+    public Button pauseFirstButton;    // 暫停面板的第一個按鈕（可能為空）
+    public Button mainMenuFirstButton; // 主畫面的第一個按鈕（可能為空）
+    public Button settingsFirstButton; // 設置面板的第一個按鈕（可能為空）
+
+    private bool isPause = false;       // 是否處於暫停狀態
+    private bool isDeathScreenActive = false; // 死亡畫面是否顯示
     private EventSystem eventSystem;    // 控制按鈕選擇的 EventSystem
+
+    private PlayerInput playerInput;    // Input System 的 PlayerInput
+
+    private void Awake()
+    {
+        // 初始化 PlayerInput 與 EventSystem
+        playerInput = GetComponent<PlayerInput>();
+        eventSystem = EventSystem.current;
+
+        // 訂閱 Input Actions 的事件
+        playerInput.actions["Pause"].performed += OnPausePerformed;
+    }
 
     private void Start()
     {
-        // 初始化面板顯示狀態
-        MainPanel.SetActive(true);        // 開始時顯示主畫面
-        PausePanel.SetActive(false);      // 開始時隱藏暫停畫面
-        SettingPanel.SetActive(false);    // 開始時隱藏設置畫面
-        DeathScreen.SetActive(false);     // 開始時隱藏死亡畫面
+        // 初始化面板狀態，檢查面板是否存在再處理
+        if (MainPanel != null) MainPanel.SetActive(true);
+        if (PausePanel != null) PausePanel.SetActive(false);
+        if (SettingPanel != null) SettingPanel.SetActive(false);
+        if (DeathScreen != null) DeathScreen.SetActive(false);
 
-        eventSystem = EventSystem.current; // 取得 EventSystem
+        // 初始化圖片顯示狀態
+        if (OperationImage != null) OperationImage.SetActive(false);
+        if (GameplayImage != null) GameplayImage.SetActive(false);
 
-        // 初始時選中主畫面的第一個按鈕
-        SelectButton(currentButtonIndex, GetActiveButtons());
+        // 設置主畫面的第一個按鈕（如果存在）
+        if (mainMenuFirstButton != null) SetFirstSelectedButton(mainMenuFirstButton);
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        if (isDeathScreenActive)
-        {
-            HandleMenuInput(); // 處理死亡畫面按鈕選擇
-        }
-        else if (isPause)
-        {
-            HandleMenuInput(); // 處理暫停畫面按鈕選擇
-        }
-        else
-        {
-            // 檢查是否按下 joystick button 7（通常是 Start 按鈕）或 ESC 鍵來顯示或隱藏暫停 UI
-            if (Input.GetKeyDown(KeyCode.JoystickButton7) || Input.GetKeyDown(KeyCode.Escape))
-            {
-                TogglePause();
-            }
+        // 確保取消事件訂閱
+        playerInput.actions["Pause"].performed -= OnPausePerformed;
+    }
 
-            // 檢查是否按下 `T` 鍵進入當前場景的下一關
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                EnterNextLevel();
-            }
-        }
+    // 暫停鍵觸發時的回調
+    private void OnPausePerformed(InputAction.CallbackContext context)
+    {
+        // 如果死亡畫面激活，不執行暫停邏輯
+        if (isDeathScreenActive || PausePanel == null) return;
+        TogglePause();
     }
 
     // 切換遊戲暫停狀態
     public void TogglePause()
     {
+        if (PausePanel == null) return; // 如果暫停面板不存在，直接返回
+
         isPause = !isPause;
 
         if (isPause)
         {
             PausePanel.SetActive(true);
+            if (MainPanel != null) MainPanel.SetActive(false); // 關閉主畫面
             Time.timeScale = 0f;
-            currentButtonIndex = 0; // 重置索引以選中第一個按鈕
-            SelectButton(currentButtonIndex, GetActiveButtons()); // 顯示暫停 UI 時自動選擇當前顯示的按鈕
+
+            // 設置暫停面板的第一個按鈕
+            if (pauseFirstButton != null) SetFirstSelectedButton(pauseFirstButton);
         }
         else
         {
             PausePanel.SetActive(false);
-            SettingPanel.SetActive(false);
-            MainPanel.SetActive(false);
+            if (SettingPanel != null) SettingPanel.SetActive(false);
+            if (MainPanel != null) MainPanel.SetActive(false);
             Time.timeScale = 1f;
         }
     }
 
-    // 顯示死亡畫面
-    public void ShowDeathScreen()
+    // 打開設置面板
+    public void EnterSettings()
     {
-        isDeathScreenActive = true;
-        DeathScreen.SetActive(true);
-        Time.timeScale = 0f; // 暫停遊戲時間
-        currentButtonIndex = 0; // 重置索引以選中第一個按鈕
-        SelectButton(currentButtonIndex, GetActiveButtons()); // 顯示死亡 UI 時自動選擇按鈕
+        if (SettingPanel == null) return; // 如果設置面板不存在，直接返回
+
+        if (MainPanel != null) MainPanel.SetActive(false);   // 關閉主畫面
+        if (PausePanel != null) PausePanel.SetActive(false); // 關閉暫停面板
+        SettingPanel.SetActive(true); // 打開設置面板
+
+        // 設置設置面板的第一個按鈕
+        if (settingsFirstButton != null) SetFirstSelectedButton(settingsFirstButton);
     }
 
-    // 處理當前顯示面板中的按鈕選擇
-    void HandleMenuInput()
+    // 返回主畫面
+    public void ReturnToMainPanel()
     {
-        // 獲取當前最上層 active = true 的按鈕
-        Button[] activeButtons = GetActiveButtons();
+        if (MainPanel == null) return; // 如果主畫面不存在，直接返回
 
-        // 使用上下鍵來切換選中的按鈕
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
-        {
-            currentButtonIndex--;
-            if (currentButtonIndex < 0)
-            {
-                currentButtonIndex = activeButtons.Length - 1;
-            }
-            SelectButton(currentButtonIndex, activeButtons);
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-        {
-            currentButtonIndex++;
-            if (currentButtonIndex >= activeButtons.Length)
-            {
-                currentButtonIndex = 0;
-            }
-            SelectButton(currentButtonIndex, activeButtons);
-        }
+        if (SettingPanel != null) SettingPanel.SetActive(false);
+        if (PausePanel != null) PausePanel.SetActive(false);
+        MainPanel.SetActive(true);
 
-        // 使用回車鍵或 joystick button 0 來按下選中的按鈕
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.JoystickButton0))
-        {
-            activeButtons[currentButtonIndex].onClick.Invoke();
-        }
+        // 設置主畫面的第一個按鈕
+        if (mainMenuFirstButton != null) SetFirstSelectedButton(mainMenuFirstButton);
     }
 
-    // 選擇指定索引的按鈕
-    void SelectButton(int index, Button[] activeButtons)
+    // 顯示操作圖片，關閉玩法圖片
+    public void ShowOperationImage()
     {
-        if (activeButtons.Length == 0) return;
-
-        // 確保 EventSystem 正確選中按鈕
-        eventSystem.SetSelectedGameObject(null); // 清除之前的選擇狀態
-        eventSystem.SetSelectedGameObject(activeButtons[index].gameObject); // 選擇新的按鈕
+        if (OperationImage != null) OperationImage.SetActive(true);
+        if (GameplayImage != null) GameplayImage.SetActive(false);
     }
 
-    // 取得當前最上層 active = true 的面板中的按鈕
-    Button[] GetActiveButtons()
+    // 顯示玩法圖片，關閉操作圖片
+    public void ShowGameplayImage()
     {
-        List<Button> activeButtons = new List<Button>();
-
-        // 遍歷每個面板，只選擇最上層且 active = true 的按鈕
-        if (DeathScreen.activeSelf)
-        {
-            AddActiveButtonsFromPanel(DeathScreen, activeButtons);
-        }
-        else if (SettingPanel.activeSelf)
-        {
-            AddActiveButtonsFromPanel(SettingPanel, activeButtons);
-        }
-        else if (PausePanel.activeSelf)
-        {
-            AddActiveButtonsFromPanel(PausePanel, activeButtons);
-        }
-        else if (MainPanel.activeSelf)
-        {
-            AddActiveButtonsFromPanel(MainPanel, activeButtons);
-        }
-
-        return activeButtons.ToArray();
+        if (OperationImage != null) OperationImage.SetActive(false);
+        if (GameplayImage != null) GameplayImage.SetActive(true);
     }
 
-    // 將特定面板中的 active = true 的按鈕添加到 activeButtons 中
-    void AddActiveButtonsFromPanel(GameObject panel, List<Button> activeButtons)
+    // 設置第一個選中的按鈕
+    private void SetFirstSelectedButton(Button button)
     {
-        Button[] panelButtons = panel.GetComponentsInChildren<Button>(true);
-        foreach (Button button in panelButtons)
+        if (button != null)
         {
-            if (button.gameObject.activeSelf)
-            {
-                activeButtons.Add(button);
-            }
+            eventSystem.SetSelectedGameObject(null); // 清除當前選擇
+            eventSystem.SetSelectedGameObject(button.gameObject); // 設置新的選中按鈕
         }
     }
 
@@ -187,36 +160,8 @@ public class UIbutton : MonoBehaviour
     public void ContinueGame()
     {
         isPause = false;
-        PausePanel.SetActive(false);
-        Time.timeScale = 1f; // 恢復遊戲時間
-    }
-
-    // 進入設置面板
-    public void EnterSettings()
-    {
-        PausePanel.SetActive(false);    // 關閉暫停畫面
-        SettingPanel.SetActive(true);   // 開啟設置畫面
-        currentButtonIndex = 0;
-        SelectButton(currentButtonIndex, GetActiveButtons()); // 設置面板開啟後，立即選中按鈕
-    }
-
-    // 回到主面板
-    public void ReturnToMainPanel()
-    {
-        SettingPanel.SetActive(false);   // 關閉設置畫面
-        MainPanel.SetActive(true);       // 開啟主畫面
-        currentButtonIndex = 0;
-        SelectButton(currentButtonIndex, GetActiveButtons()); // 主面板開啟後，立即選中按鈕
-    }
-
-    // 返回主畫面 (新增功能)
-    public void BackToMainPanelFromPauseOrSetting()
-    {
-        PausePanel.SetActive(false);
-        SettingPanel.SetActive(false);
-        MainPanel.SetActive(true);
-        currentButtonIndex = 0;
-        SelectButton(currentButtonIndex, GetActiveButtons());
+        if (PausePanel != null) PausePanel.SetActive(false);
+        Time.timeScale = 1f;
     }
 
     // 進入下一關
