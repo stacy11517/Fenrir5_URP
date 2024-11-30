@@ -67,7 +67,7 @@ public class SkillTree : MonoBehaviour
             // 播放普通攻擊特效
             if (normalAttackEffect != null)
             {
-                Instantiate(normalAttackEffect, attackPoint.position, Quaternion.identity);
+                Instantiate(normalAttackEffect, attackPoint.position, transform.rotation);
             }
 
             StartCoroutine(NormalAttackRoutine());
@@ -106,7 +106,7 @@ public class SkillTree : MonoBehaviour
             // 播放衝刺特效
             if (dashEffect != null)
             {
-                Instantiate(dashEffect, transform.position, Quaternion.identity);
+                Instantiate(dashEffect, transform.position, transform.rotation);
             }
 
             StartCoroutine(PerformDash());
@@ -144,7 +144,7 @@ public class SkillTree : MonoBehaviour
             // 播放來回攻擊特效
             if (dualAttackEffect != null)
             {
-                Instantiate(dualAttackEffect, attackPoint.position, Quaternion.identity);
+                Instantiate(dualAttackEffect, attackPoint.position, transform.rotation);
             }
 
             StartCoroutine(CooldownRoutine(dualAttackCooldown, dualAttackCooldownImage));
@@ -185,7 +185,7 @@ public class SkillTree : MonoBehaviour
             // 播放起跳旋轉攻擊特效
             if (spinAttackEffect != null)
             {
-                Instantiate(spinAttackEffect, headAttackPoint.position, Quaternion.identity);
+                Instantiate(spinAttackEffect, headAttackPoint.position, transform.rotation);
             }
 
             StartCoroutine(CooldownRoutine(spinAttackCooldown, spinAttackCooldownImage));
