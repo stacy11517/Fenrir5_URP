@@ -13611,7 +13611,7 @@ PrefabInstance:
     - target: {fileID: 5199370834154232508, guid: 0581dea6987909f42aa93ce215fc8af7,
         type: 3}
       propertyPath: m_Name
-      value: Wolf02
+      value: Player_Wolf02
       objectReference: {fileID: 0}
     - target: {fileID: 5199370834154456732, guid: 0581dea6987909f42aa93ce215fc8af7,
         type: 3}
