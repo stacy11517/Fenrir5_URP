@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Arena
+  m_Name: M_Lv3_BG
   m_Shader: {fileID: -6465566751694194690, guid: 4450fd1a327b5104997f1955bbccff1f,
     type: 3}
   m_Parent: {fileID: 0}
@@ -25,7 +25,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - MainTex:
-        m_Texture: {fileID: 2800000, guid: 66c9cc4ea35dbdb49a8ea9b04dd6d887, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Mask_R_Emission:
@@ -93,7 +93,7 @@ Material:
     - Brightness_Rim: 2
     - Rim_Power: 5
     - Toon_Ramp_Offset: 0.5
-    - Toon_Ramp_Smoothness: 0.225
+    - Toon_Ramp_Smoothness: 0.5
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Ambient: 0
@@ -128,14 +128,14 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Toon_Ramp_Tint: {r: 0.49056596, g: 0.49056596, b: 0.49056596, a: 1}
+    - Toon_Ramp_Tint: {r: 0.15859737, g: 0.35704276, b: 0.41509432, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.6784888, g: 0.7317974, b: 0.745283, a: 1}
+    - _Color: {r: 0.23131008, g: 0.3696283, b: 0.4339623, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Rim_Light_Color: {r: 0.42519584, g: 0.6132076, b: 0.5352515, a: 0}
+    - _Rim_Light_Color: {r: 0.37630025, g: 0.3962264, b: 0.20745817, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &4123455443708135894
+--- !u!114 &8349859083831210549
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
