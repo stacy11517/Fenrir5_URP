@@ -10,8 +10,10 @@ public class CameraController : MonoBehaviour
     public Vector3 offset;           // 相機與玩家的偏移量
     public Transform fixedPosition;  // 固定攝影機位置（第三關）
 
+    public Vector3 sideViewOffset = new Vector3(10f, 3f, 0f); // 側拍模式的位置偏移量
+
     public float shakeDuration = 0.5f;   // 震動持續時間
-    public float shakeMagnitude = 0.1f; // 震動幅度
+    public float shakeMagnitude = 0.1f;  // 震動幅度
 
     private bool isShaking = false;  // 是否正在震動
 
@@ -69,10 +71,12 @@ public class CameraController : MonoBehaviour
     {
         if (target == null) return;
 
-        Vector3 sideOffset = offset;
-        sideOffset.z = 0; // 鎖定 Z 軸，實現側視效果
-        transform.position = target.position + sideOffset;
-        transform.LookAt(target);
+        // 使用公開的側拍偏移量
+        Vector3 sideViewPosition = target.position + sideViewOffset;
+
+        // 設置攝影機的位置和方向
+        transform.position = sideViewPosition;
+        transform.LookAt(target.position + Vector3.up * 1.5f); // 稍微上移，讓攝影機看向玩家的上半身
     }
 
     /// <summary>
@@ -125,7 +129,7 @@ public class CameraController : MonoBehaviour
             float y = Random.Range(-1f, 1f) * shakeMagnitude;
 
             Vector3 shakePosition = new Vector3(x, y, 0); // 震動位置偏移
-            transform.position = target.position + offset + shakePosition; // 更新攝影機位置
+            transform.position = originalPosition + shakePosition; // 更新攝影機位置
 
             elapsed += Time.deltaTime;
 
@@ -133,7 +137,7 @@ public class CameraController : MonoBehaviour
         }
 
         // 恢復到正常位置
-        transform.position = target.position + offset;
+        transform.position = originalPosition;
         isShaking = false;
     }
 }
