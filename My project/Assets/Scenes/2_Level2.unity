@@ -975,6 +975,11 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 0.7
       objectReference: {fileID: 0}
+    - target: {fileID: 3680510399293395909, guid: 0581dea6987909f42aa93ce215fc8af7,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.73
+      objectReference: {fileID: 0}
     - target: {fileID: 5199370834154232508, guid: 0581dea6987909f42aa93ce215fc8af7,
         type: 3}
       propertyPath: m_Name
@@ -1036,6 +1041,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6514595810799248963, guid: 4cabe81dbfec0524a80e752dbea0f486,
         type: 3}
+    - target: {fileID: 5492405324770449056, guid: 0581dea6987909f42aa93ce215fc8af7,
+        type: 3}
+      propertyPath: triggerEvent
+      value: 
+      objectReference: {fileID: 1666032342}
     - target: {fileID: 5492405324770449056, guid: 0581dea6987909f42aa93ce215fc8af7,
         type: 3}
       propertyPath: headAttackPoint
