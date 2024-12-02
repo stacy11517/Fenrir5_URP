@@ -138,6 +138,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIControllerFromLevelOne
       objectReference: {fileID: 0}
+    - target: {fileID: 2113507506721978857, guid: 0550864c8482cb74e9b5b9f09201e189,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2529226143312037289, guid: 0550864c8482cb74e9b5b9f09201e189,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -719,8 +724,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: caf91fbffb3e3bd4cb882d464ea9ac24, type: 3}
-  m_Type: 3
+  m_Sprite: {fileID: 21300000, guid: 692017225968d304fbc55186b21aabea, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
@@ -1114,11 +1119,11 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 56983716}
   - {fileID: 1158167399}
   - {fileID: 1784653806}
   - {fileID: 351021193}
   - {fileID: 1689806455}
-  - {fileID: 56983716}
   - {fileID: 1388472386}
   - {fileID: 1694362204}
   - {fileID: 645862473}
