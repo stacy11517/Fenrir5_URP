@@ -888,6 +888,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8795672243920284197, guid: 9b953261f3128fa4f9023a0999471da8,
         type: 3}
+    - target: {fileID: 2606388312028739516, guid: f1c06883293c89d40809323a6147c717,
+        type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000,
+        type: 0}
+    - target: {fileID: 2606388312028739516, guid: f1c06883293c89d40809323a6147c717,
+        type: 3}
+      propertyPath: m_Name
+      value: Interactive_Ice
+      objectReference: {fileID: 0}
     - target: {fileID: 2745440812536797549, guid: f1c06883293c89d40809323a6147c717,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1083,8 +1094,40 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2606388312028739516, guid: f1c06883293c89d40809323a6147c717,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 486299452913258567}
   m_SourcePrefab: {fileID: 100100000, guid: f1c06883293c89d40809323a6147c717, type: 3}
+--- !u!1 &486299452913258566 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2606388312028739516, guid: f1c06883293c89d40809323a6147c717,
+    type: 3}
+  m_PrefabInstance: {fileID: 486299452913258565}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &486299452913258567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 486299452913258566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d7d6878fdcc514d99b4d57c80b2cf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraController: {fileID: 1315579675}
+  sideViewMode: 1
+  followMode: 0
+  platform: {fileID: 0}
+  nextPlatform: {fileID: 0}
+  skillOffsets:
+  - -3
+  - -6
+  - -9
+  moveDuration: 0.5
 --- !u!1001 &4379750678980228933
 PrefabInstance:
   m_ObjectHideFlags: 0
