@@ -62,8 +62,8 @@ public class UIbutton : MonoBehaviour
     // 暫停鍵觸發時的回調
     private void OnPausePerformed(InputAction.CallbackContext context)
     {
-        // 如果死亡畫面激活，不執行暫停邏輯
-        if (isDeathScreenActive || PausePanel == null) return;
+        // 如果死亡畫面或通關畫面激活，不執行暫停邏輯
+        if (isDeathScreenActive || PausePanel == null || DeathScreen.activeSelf) return;
         TogglePause();
     }
 
