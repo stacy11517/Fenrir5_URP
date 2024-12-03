@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BGMManager : MonoBehaviour
 {
@@ -25,7 +26,16 @@ public class BGMManager : MonoBehaviour
 
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.loop = true;
-        audioSource.playOnAwake = false;
+        audioSource.playOnAwake = true;
+
+        // 訂閱場景變更事件
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDestroy()
+    {
+        // 確保取消事件訂閱
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     public static BGMManager Instance
@@ -38,6 +48,12 @@ public class BGMManager : MonoBehaviour
             }
             return instance;
         }
+    }
+
+    // 在場景加載時播放對應的 BGM
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        PlayBGM(scene.buildIndex);
     }
 
     // 播放對應關卡的 BGM
