@@ -1138,6 +1138,21 @@ PrefabInstance:
       propertyPath: spinAttackCooldownImage
       value: 
       objectReference: {fileID: 189760911}
+    - target: {fileID: 8784028494965770786, guid: 0581dea6987909f42aa93ce215fc8af7,
+        type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 1614052775}
+    - target: {fileID: 8784028494965770786, guid: 0581dea6987909f42aa93ce215fc8af7,
+        type: 3}
+      propertyPath: deathScreen
+      value: 
+      objectReference: {fileID: 1689806456}
+    - target: {fileID: 8784028494965770786, guid: 0581dea6987909f42aa93ce215fc8af7,
+        type: 3}
+      propertyPath: healthPackText
+      value: 
+      objectReference: {fileID: 1614052774}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1149,6 +1164,30 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1388472386}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1614052774 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3200482511035069674, guid: 64144fd056a0b3747babfc7db9171d9b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1689806455}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1614052775 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4250091161358661178, guid: 64144fd056a0b3747babfc7db9171d9b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1689806455}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1689806455
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1157,6 +1196,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2494945981366859054, guid: 64144fd056a0b3747babfc7db9171d9b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6176973294441509820, guid: 64144fd056a0b3747babfc7db9171d9b,
         type: 3}
       propertyPath: m_Pivot.x
