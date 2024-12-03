@@ -5468,6 +5468,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7346163091135333876, guid: ccf31892490fcf4449adc080befc60d1,
+        type: 3}
+      propertyPath: bgmClips.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 8850647138934576137, guid: ccf31892490fcf4449adc080befc60d1,
         type: 3}
       propertyPath: m_LocalPosition.x
