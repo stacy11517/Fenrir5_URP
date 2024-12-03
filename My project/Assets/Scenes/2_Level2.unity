@@ -1194,6 +1194,11 @@ PrefabInstance:
       objectReference: {fileID: 1666032342}
     - target: {fileID: 5492405324770449056, guid: 0581dea6987909f42aa93ce215fc8af7,
         type: 3}
+      propertyPath: dualAttackPoint
+      value: 
+      objectReference: {fileID: 1533453731}
+    - target: {fileID: 5492405324770449056, guid: 0581dea6987909f42aa93ce215fc8af7,
+        type: 3}
       propertyPath: headAttackPoint
       value: 
       objectReference: {fileID: 1533453731}
