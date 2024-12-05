@@ -12,12 +12,13 @@ public class HealthBarManager : MonoBehaviour
     public Image healthFillImage;           // 血量條的填充圖片
 
     private EnemyController currentTarget;  // 當前最近的敵人
-    private Camera mainCamera;              // 主攝影機
 
     void Start()
     {
-        mainCamera = Camera.main;
-        healthBarUI.SetActive(false); // 初始時隱藏血量條
+        if (healthBarUI != null)
+        {
+            healthBarUI.SetActive(false); // 初始時隱藏血量條
+        }
     }
 
     void Update()
@@ -77,11 +78,8 @@ public class HealthBarManager : MonoBehaviour
     // 更新血量條
     void UpdateHealthBar(EnemyController enemy)
     {
-        // 更新血量比例
-        healthFillImage.fillAmount = (float)enemy.currentHealth / enemy.maxHealth;
+        if (enemy == null || healthFillImage == null) return;
 
-        // 獲取敵人在屏幕上的位置，將其顯示在畫面頂部
-        Vector3 screenPosition = mainCamera.WorldToScreenPoint(enemy.transform.position);
-        healthBarUI.transform.position = new Vector3(Screen.width / 2, Screen.height - 50, 0); // 固定在畫面正上方
+        healthFillImage.fillAmount = (float)enemy.currentHealth / enemy.maxHealth;
     }
 }

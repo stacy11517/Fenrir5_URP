@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -14,14 +13,8 @@ public class EnemyHealth : MonoBehaviour
 
     public bool isDead = false;                  // 是否已經死亡的標記
 
-    public Transform headTransform;              // 敵人的頭部位置，用於顯示血量條
-    public Canvas healthBarCanvas;               // 血量條的 Canvas
-    public Image healthFillImage;                // 血量條的填充圖片
-    public Vector3 healthBarOffset = new Vector3(0, 2, 0); // 血量條偏移
-
     private ParticleSystem instantiatedHurtEffect; // 預生成的受傷特效
     private bool canPlayHurtEffect = true;         // 控制是否可以播放受傷特效
-    private Camera mainCamera;                     // 主攝影機
 
     void Start()
     {
@@ -38,23 +31,6 @@ public class EnemyHealth : MonoBehaviour
             instantiatedHurtEffect = Instantiate(hurtEffect, transform.position, Quaternion.identity);
             instantiatedHurtEffect.Stop(); // 初始時先停止特效
         }
-
-        // 初始化血量條
-        if (healthBarCanvas != null)
-        {
-            mainCamera = Camera.main;
-        }
-    }
-
-    void Update()
-    {
-        // 更新血量條的位置和朝向
-        if (healthBarCanvas != null && headTransform != null)
-        {
-            healthBarCanvas.transform.position = headTransform.position + healthBarOffset; // 跟隨頭部
-            healthBarCanvas.transform.LookAt(mainCamera.transform); // 朝向攝影機
-            healthBarCanvas.transform.Rotate(0, 180, 0); // 修正方向
-        }
     }
 
     public void TakeDamage(int damage)
@@ -63,9 +39,6 @@ public class EnemyHealth : MonoBehaviour
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-
-        // 更新血量條
-        UpdateHealthBar();
 
         // 顯示當前血量
         Debug.Log("敵人當前血量: " + currentHealth);
@@ -90,15 +63,6 @@ public class EnemyHealth : MonoBehaviour
         }
     }
 
-    // 更新血量條
-    void UpdateHealthBar()
-    {
-        if (healthFillImage != null)
-        {
-            healthFillImage.fillAmount = (float)currentHealth / maxHealth; // 根據血量更新填充比例
-        }
-    }
-
     // 冷卻協程，用於控制受傷特效的播放頻率
     IEnumerator HurtEffectCooldownRoutine()
     {
@@ -113,12 +77,6 @@ public class EnemyHealth : MonoBehaviour
 
         isDead = true;
         Debug.Log("敵人死亡！");
-
-        // 隱藏血量條
-        if (healthBarCanvas != null)
-        {
-            healthBarCanvas.enabled = false;
-        }
 
         // 觸發死亡動畫
         if (animator != null)

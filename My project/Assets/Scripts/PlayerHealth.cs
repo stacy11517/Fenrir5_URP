@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;          // 用於 UI 操作
-using TMPro;                 // 用於 TextMeshPro
+using UnityEngine.UI;
+using TMPro;
+using System.Collections; // 引入命名空間以支持 IEnumerator
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -14,15 +15,15 @@ public class PlayerHealth : MonoBehaviour
     public ParticleSystem healEffect;    // 補血時的特效
 
     private PlayerController playerController;
-    private bool isDead = false;         // 用於檢查玩家是否已死亡
+    public bool IsDead { get; private set; } = false;  // 玩家死亡狀態，只讀屬性
 
     void Start()
     {
-        // 初始化玩家生命值
-        currentHealth = maxHealth;
+        currentHealth = maxHealth;      // 初始化玩家生命值
         UpdateHealthBar();              // 初始化血條
         UpdateHealthPackText();         // 初始化補血包數量文本
-        deathScreen.SetActive(false);   // 隱藏死亡畫面 UI
+        if (deathScreen != null)
+            deathScreen.SetActive(false);   // 隱藏死亡畫面 UI
 
         if (animator == null)
         {
@@ -34,10 +35,10 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
-        if (!isDead)
+        if (!IsDead)
         {
-            // 按下 RB 鍵（手把）或 F 鍵（鍵盤）來使用補血包
-            if ((Input.GetKeyDown(KeyCode.JoystickButton5) || Input.GetKeyDown(KeyCode.F)) && healthPackCount > 0)
+            // 按下鍵盤 F 鍵或手把 Y 鍵（JoystickButton3）來使用補血包
+            if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton3)) && healthPackCount > 0)
             {
                 UseHealthPack();
             }
@@ -47,11 +48,9 @@ public class PlayerHealth : MonoBehaviour
     // 恢復生命值的方法
     public void Heal(int amount)
     {
-        // 恢復生命值，但不超過最大生命值
-        currentHealth += amount;
+        currentHealth += amount; // 恢復生命值
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        Debug.Log("Player healed! Current health: " + currentHealth);
-        UpdateHealthBar();              // 更新血條
+        UpdateHealthBar();       // 更新血條
     }
 
     // 當碰到補血包時觸發
@@ -59,13 +58,9 @@ public class PlayerHealth : MonoBehaviour
     {
         if (other.CompareTag("HealthPack"))
         {
-            // 撿起補血包，數量增加
-            healthPackCount++;
-            Debug.Log("Health pack picked up! Total packs: " + healthPackCount);
-            UpdateHealthPackText();       // 更新補血包數量文本
-
-            // 銷毀補血包物件
-            Destroy(other.gameObject);
+            healthPackCount++;               // 補血包數量增加
+            UpdateHealthPackText();          // 更新補血包文本
+            Destroy(other.gameObject);       // 銷毀補血包物件
         }
     }
 
@@ -74,29 +69,22 @@ public class PlayerHealth : MonoBehaviour
     {
         if (currentHealth < maxHealth)
         {
-            // 禁止玩家移動
             if (playerController != null)
             {
-                playerController.canMove = false;
+                playerController.canMove = false; // 禁止玩家移動
             }
 
-            Heal(75);                    // 恢復75點生命值
-            healthPackCount--;           // 補血包數量減少
-            Debug.Log("Health pack used! Remaining packs: " + healthPackCount);
-            UpdateHealthPackText();      // 更新補血包數量文本
+            Heal(75);                            // 恢復75點生命值
+            healthPackCount--;                   // 補血包數量減少
+            UpdateHealthPackText();              // 更新補血包文本
 
             // 播放補血特效
             if (healEffect != null)
             {
-                Instantiate(healEffect, transform.position, Quaternion.identity).Play();
+                Instantiate(healEffect, transform.position, transform.rotation).Play();
             }
 
-            // 恢復玩家移動
-            Invoke("EnableMovement", 1f); // 1秒後允許移動
-        }
-        else
-        {
-            Debug.Log("Health is full, cannot use health pack.");
+            Invoke("EnableMovement", 1f);        // 延遲恢復移動
         }
     }
 
@@ -111,28 +99,30 @@ public class PlayerHealth : MonoBehaviour
     // 更新血條顯示
     void UpdateHealthBar()
     {
-        float healthPercent = (float)currentHealth / maxHealth;
-        healthBar.fillAmount = healthPercent;  // 調整血條的長度
+        if (healthBar != null)
+        {
+            healthBar.fillAmount = (float)currentHealth / maxHealth; // 調整血條
+        }
     }
 
     // 更新補血包數量文本顯示
     void UpdateHealthPackText()
     {
-        healthPackText.text = healthPackCount.ToString();  // 顯示補血包的數量，即使是 0
+        if (healthPackText != null)
+        {
+            healthPackText.text = healthPackCount.ToString();  // 顯示補血包數量
+        }
     }
 
     // 當玩家受到傷害時調用
     public void TakeDamage(int damage)
     {
-        if (isDead) return;  // 如果已經死亡，不再扣血
+        if (IsDead) return;  // 如果玩家已死亡，跳過傷害處理
 
-        // 扣除生命值
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        Debug.Log("Player took damage! Current health: " + currentHealth);
-        UpdateHealthBar();              // 更新血條
+        UpdateHealthBar();
 
-        // 檢查是否死亡
         if (currentHealth <= 0)
         {
             Die();
@@ -142,25 +132,36 @@ public class PlayerHealth : MonoBehaviour
     // 玩家死亡邏輯
     void Die()
     {
-        isDead = true; // 標記玩家為已死亡
-        Debug.Log("Player died!");
+        if (IsDead) return;
 
-        // 播放死亡動畫
-        if (animator != null)
-        {
-            animator.SetTrigger("Die");
-        }
-
-        // 禁用玩家控制
+        IsDead = true; // 標記玩家為已死亡
         if (playerController != null)
         {
-            playerController.canMove = false;
+            playerController.canMove = false; // 禁止玩家移動
         }
 
-        // 顯示死亡畫面
-        deathScreen.SetActive(true);
+        if (animator != null)
+        {
+            animator.SetTrigger("Die"); // 播放死亡動畫
+        }
 
-        // 暫停遊戲時間
-        Time.timeScale = 0f;
+        // 延遲顯示死亡畫面
+        StartCoroutine(ShowDeathScreenAfterAnimation());
+    }
+
+    IEnumerator ShowDeathScreenAfterAnimation()
+    {
+        // 獲取動畫播放時間
+        float animationTime = animator.GetCurrentAnimatorStateInfo(0).length;
+
+        // 等待動畫播放完成
+        yield return new WaitForSeconds(animationTime);
+
+        if (deathScreen != null)
+        {
+            deathScreen.SetActive(true); // 顯示死亡畫面
+        }
+
+        Time.timeScale = 0f; // 暫停遊戲
     }
 }
