@@ -20,9 +20,16 @@ public class UIbutton : MonoBehaviour
     public Button mainMenuFirstButton;
     public Button settingsFirstButton;
     public Button deathFirstButton;
+    public Button volumeSettingsButton; // 音量設定按鈕
+    public Button confirmVolumeButton;  // 確認音量按鈕
+
+    // 背景音樂音量調整
+    public Slider bgmVolumeSlider;      // 音量滑塊
+    public BGMManager bgmManager;       // BGM 管理器
 
     private bool isPause = false;
     private bool isDeathScreenActive = false;
+    private bool isAdjustingVolume = false; // 是否正在調整音量
     private EventSystem eventSystem;
 
     private void Start()
@@ -40,6 +47,12 @@ public class UIbutton : MonoBehaviour
         // 設置主畫面按鈕
         eventSystem = EventSystem.current;
         if (mainMenuFirstButton != null) SetFirstSelectedButton(mainMenuFirstButton);
+
+        // 初始化音量滑塊
+        if (bgmVolumeSlider != null && bgmManager != null)
+        {
+            bgmVolumeSlider.value = bgmManager.audioSource.volume;
+        }
     }
 
     private void Update()
@@ -48,6 +61,22 @@ public class UIbutton : MonoBehaviour
         if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton7)) && !isDeathScreenActive)
         {
             TogglePause();
+        }
+
+        // 如果在調整音量，允許手柄或鍵盤操作滑塊
+        if (isAdjustingVolume && bgmVolumeSlider != null)
+        {
+            float input = Input.GetAxis("Horizontal"); // 手柄左右軸或鍵盤左右鍵
+            if (Mathf.Abs(input) > 0.1f)
+            {
+                bgmVolumeSlider.value += input * Time.deltaTime; // 平滑調整音量
+            }
+
+            // 按下確認鍵（Enter 或手柄 A 按鈕）時確認音量
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.JoystickButton0))
+            {
+                ConfirmVolumeAdjustment();
+            }
         }
     }
 
@@ -88,6 +117,29 @@ public class UIbutton : MonoBehaviour
         if (settingsFirstButton != null) SetFirstSelectedButton(settingsFirstButton);
     }
 
+    // 進入音量調整功能
+    public void EnterVolumeSettings()
+    {
+        if (bgmVolumeSlider == null || confirmVolumeButton == null) return;
+
+        isAdjustingVolume = true;
+
+        // 激活音量滑塊並設置滑塊為選中目標
+        bgmVolumeSlider.gameObject.SetActive(true);
+        SetFirstSelectedButton(confirmVolumeButton);
+    }
+
+    // 確認音量調整，返回音量設定按鈕
+    public void ConfirmVolumeAdjustment()
+    {
+        isAdjustingVolume = false;
+
+        if (volumeSettingsButton != null)
+        {
+            SetFirstSelectedButton(volumeSettingsButton);
+        }
+    }
+
     // 返回主畫面
     public void ReturnToMainPanel()
     {
@@ -100,6 +152,14 @@ public class UIbutton : MonoBehaviour
         if (mainMenuFirstButton != null) SetFirstSelectedButton(mainMenuFirstButton);
     }
 
+    // 調整背景音樂音量
+    public void AdjustBGMVolume(float volume)
+    {
+        if (bgmManager != null)
+        {
+            bgmManager.audioSource.volume = Mathf.Clamp01(volume);
+        }
+    }
     // 顯示操作圖片
     public void ShowOperationImage()
     {
@@ -114,52 +174,13 @@ public class UIbutton : MonoBehaviour
         if (GameplayImage != null) GameplayImage.SetActive(true);
     }
 
-    // 顯示死亡畫面
-    public void ShowDeathScreen()
+    // 設置第一個選中的按鈕
+    private void SetFirstSelectedButton(Button button)
     {
-        if (DeathScreen == null) return;
-
-        isDeathScreenActive = true;
-        DeathScreen.SetActive(true);
-
-        Time.timeScale = 0f;
-
-        if (deathFirstButton != null) SetFirstSelectedButton(deathFirstButton);
-    }
-
-    // 重新開始遊戲
-    public void RestartGame()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    // 返回主選單
-    public void ReturnToMainMenu()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(0);
-    }
-
-    // 繼續遊戲
-    public void ContinueGame()
-    {
-        isPause = false;
-        if (PausePanel != null) PausePanel.SetActive(false);
-        Time.timeScale = 1f;
-    }
-
-    // 進入下一關
-    public void EnterNextLevel()
-    {
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        if (SceneManager.sceneCountInBuildSettings > currentSceneIndex + 1)
+        if (button != null)
         {
-            SceneManager.LoadScene(currentSceneIndex + 1);
-        }
-        else
-        {
-            Debug.Log("已經是最後一關，無法進入下一關。");
+            eventSystem.SetSelectedGameObject(null);
+            eventSystem.SetSelectedGameObject(button.gameObject);
         }
     }
 
@@ -172,15 +193,5 @@ public class UIbutton : MonoBehaviour
 #else
         Application.Quit();
 #endif
-    }
-
-    // 設置第一個選中的按鈕
-    private void SetFirstSelectedButton(Button button)
-    {
-        if (button != null)
-        {
-            eventSystem.SetSelectedGameObject(null);
-            eventSystem.SetSelectedGameObject(button.gameObject);
-        }
     }
 }

@@ -10,19 +10,40 @@ public class CutsceneManager : MonoBehaviour
     public Image displayImage;        // 顯示圖片的 UI Image
     public Sprite[] cutsceneSprites;  // 切換的圖片陣列
     public float imageDuration = 3f;  // 每張圖片顯示時間
-    public Button skipButton;         // 跳過按鈕
 
     private int currentImageIndex = 0; // 當前播放的圖片索引
     private bool isSkipping = false;   // 是否正在跳過
+    private float holdTime = 0f;       // 按鍵按住時間
+    private bool isHoldingKey = false; // 是否正在按住鍵
 
     void Start()
     {
         // 初始化：確保主選單顯示，切換面板隱藏
         mainMenuPanel.SetActive(true);
         cutscenePanel.SetActive(false);
+    }
 
-        // 設置跳過按鈕的點擊事件
-        skipButton.onClick.AddListener(SkipCutscene);
+    void Update()
+    {
+        // 檢測是否長按任意鍵
+        if (Input.anyKey)
+        {
+            if (!isHoldingKey)
+            {
+                isHoldingKey = true;
+                holdTime = 0f; // 初始化按住時間
+            }
+
+            holdTime += Time.deltaTime;
+            if (holdTime >= 3f) // 如果按住時間達到 3 秒
+            {
+                SkipCutscene();
+            }
+        }
+        else
+        {
+            isHoldingKey = false;
+        }
     }
 
     public void StartGame()
