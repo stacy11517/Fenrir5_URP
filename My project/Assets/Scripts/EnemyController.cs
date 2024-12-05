@@ -1,33 +1,26 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    public Transform player;           // 玩家位置
-    private NavMeshAgent agent;        // NavMeshAgent 組件
-    public float chaseDistance = 10f;  // 追蹤的最大距離
-    public float attackDistance = 5f;  // 近戰攻擊距離
-    public float attackCooldown = 0.5f; // 攻擊冷卻時間
-    private bool canAttack = true;     // 是否可以攻擊
+    public Transform player;               // 玩家位置
+    private NavMeshAgent agent;            // NavMeshAgent 組件
+    public float chaseDistance = 15f;      // 追蹤的最大距離
+    public float attackDistance = 2f;      // 近戰攻擊距離
+    public float attackCooldown = 1f;      // 攻擊冷卻時間
+    private bool canAttack = true;         // 是否可以攻擊
 
-    private Animator animator;         // Animator 組件
-    public int maxHealth = 50;         // 最大血量
-    public int currentHealth;          // 當前血量
-    public PortalManager portalManager; // PortalManager 的引用
-    public float deathDelay = 10f;      // 死亡延遲時間
-    public bool isDead = false;       // 是否死亡標記
+    private Animator animator;             // Animator 組件
+    public int attackDamage = 10;          // 攻擊傷害
+    public LayerMask playerLayer;          // 玩家層，用於檢測範圍內是否有玩家
 
-    public PlayerHealth playerHealth;  // 玩家血量系統
-    public int attackDamage = 10;      // 攻擊傷害
-
-    public ParticleSystem hurtEffect;  // 受傷特效
+    private EnemyHealth enemyHealth;       // 引用 EnemyHealth
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        currentHealth = maxHealth;
+        enemyHealth = GetComponent<EnemyHealth>();
 
         if (player == null)
         {
@@ -35,21 +28,15 @@ public class EnemyController : MonoBehaviour
             if (playerObj != null)
             {
                 player = playerObj.transform;
-                playerHealth = playerObj.GetComponent<PlayerHealth>();
             }
-        }
-
-        if (player == null || playerHealth == null)
-        {
-            Debug.LogWarning("未找到玩家或 PlayerHealth 組件，請檢查場景設置！");
         }
     }
 
     void Update()
     {
-        if (isDead)
+        if (enemyHealth != null && enemyHealth.IsDead())
         {
-            agent.enabled = false; // 禁用 NavMeshAgent
+            agent.isStopped = true;
             animator.SetBool("isWalking", false);
             return;
         }
@@ -58,64 +45,67 @@ public class EnemyController : MonoBehaviour
 
         if (distanceToPlayer <= attackDistance && canAttack)
         {
-            StartCoroutine(PerformAttack());
+            PerformAttack();
         }
         else if (distanceToPlayer <= chaseDistance)
         {
-            agent.isStopped = false;
-            agent.destination = player.position;
-            animator.SetBool("isWalking", agent.velocity.magnitude > 0.1f);
+            ChasePlayer();
         }
         else
         {
-            agent.isStopped = true;
-            agent.ResetPath();
-            animator.SetBool("isWalking", false);
+            Idle();
         }
     }
 
-    IEnumerator PerformAttack()
+    void ChasePlayer()
+    {
+        agent.isStopped = false;
+        agent.destination = player.position;
+        animator.SetBool("isWalking", true);
+    }
+
+    void Idle()
+    {
+        agent.isStopped = true;
+        animator.SetBool("isWalking", false);
+    }
+
+    void PerformAttack()
     {
         canAttack = false;
         agent.isStopped = true;
         animator.SetTrigger("Attack");
 
-        yield return new WaitForSeconds(attackCooldown);
+        // 開始冷卻計時
+        Invoke(nameof(ResetAttackCooldown), attackCooldown);
+    }
+
+    void ResetAttackCooldown()
+    {
         canAttack = true;
         agent.isStopped = false;
     }
 
-    public void ApplyDamage()
+    // 動畫事件觸發的傷害邏輯
+    public void DealDamage()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        if (distanceToPlayer <= attackDistance)
+        if (player != null && Vector3.Distance(transform.position, player.position) <= attackDistance)
         {
-            playerHealth.TakeDamage(attackDamage);
-            Debug.Log("敵人攻擊玩家，造成 " + attackDamage + " 點傷害");
+            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(attackDamage);
+            }
         }
     }
 
-    public void TakeDamage(int damage)
+
+    void OnDrawGizmosSelected()
     {
-        if (isDead) return;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackDistance);
 
-        currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-
-        if (animator != null) animator.SetTrigger("Hurt");
-        if (hurtEffect != null) Instantiate(hurtEffect, transform.position, Quaternion.identity).Play();
-
-        if (currentHealth <= 0) Die();
-    }
-
-    void Die()
-    {
-        if (isDead) return;
-
-        isDead = true;
-        animator.SetTrigger("Die");
-
-        if (portalManager != null) portalManager.AddKill();
-        Destroy(gameObject, deathDelay);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, chaseDistance);
     }
 }

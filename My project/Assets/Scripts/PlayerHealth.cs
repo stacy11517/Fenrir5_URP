@@ -114,20 +114,25 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    // 當玩家受到傷害時調用
     public void TakeDamage(int damage)
     {
-        if (IsDead) return;  // 如果玩家已死亡，跳過傷害處理
+        if (currentHealth <= 0) return; // 已经死亡，无法再受伤
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        Debug.Log($"Player took damage: {damage}. Current health: {currentHealth}");
+
+        // 更新血量条（如果有）
         UpdateHealthBar();
 
+        // 检查是否死亡
         if (currentHealth <= 0)
         {
             Die();
         }
     }
+
 
     // 玩家死亡邏輯
     void Die()

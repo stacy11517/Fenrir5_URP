@@ -4,37 +4,37 @@ using UnityEngine.UI;
 
 public class SkillTree : MonoBehaviour
 {
-    // 動畫
+    // 动画
     public Animator animator;
 
-    // 攻擊屬性
+    // 普通攻击属性
     public Transform attackPoint;
-    public float attackRange = 1f;            // 普通攻擊範圍
-    public float attackAngle = 45f;          // 普通攻擊角度
-    public int normalAttackDamage = 10;      // 普通攻擊傷害
-    public ParticleSystem normalAttackEffect; // 普通攻擊特效
+    public float attackRange = 1f;
+    public float attackAngle = 45f;
+    public int normalAttackDamage = 10;
+    public ParticleSystem normalAttackEffect;
 
-    // 衝刺技能屬性
-    public float dashSpeed = 15f;            // 純粹衝刺速度
-    public float dashDuration = 0.3f;        // 衝刺持續時間
-    public float dashCooldown = 2f;          // 衝刺冷卻時間
+    // 冲刺技能属性
+    public float dashSpeed = 15f;
+    public float dashDuration = 0.3f;
+    public float dashCooldown = 2f;
     public Image dashCooldownImage;
-    public ParticleSystem dashEffect;         // 衝刺特效
+    public ParticleSystem dashEffect;
 
-    // 來回衝刺技能屬性
-    public float doubleDashSpeed = 20f;      // 來回衝刺速度
-    public float doubleDashDuration = 0.5f; // 每次衝刺持續時間
-    public float doubleDashCooldown = 5f;   // 來回衝刺冷卻時間
-    public int doubleDashDamage = 25;       // 來回衝刺傷害
+    // 来回冲刺技能属性
+    public float doubleDashSpeed = 20f;
+    public float doubleDashDuration = 0.5f;
+    public float doubleDashCooldown = 5f;
+    public int doubleDashDamage = 25;
     public Image doubleDashCooldownImage;
-    public ParticleSystem doubleDashEffect; // 來回衝刺特效
+    public ParticleSystem doubleDashEffect;
 
-    // 起跳旋轉攻擊技能屬性
-    public float spinAttackCooldown = 7f;    // 起跳旋轉攻擊冷卻時間
-    public int spinAttackDamage = 20;        // 起跳旋轉攻擊傷害
-    public float spinAttackRange = 2.5f;     // 起跳旋轉攻擊範圍
+    // 起跳旋转攻击技能属性
+    public float spinAttackCooldown = 7f;
+    public int spinAttackDamage = 20;
+    public float spinAttackRange = 2.5f;
     public Image spinAttackCooldownImage;
-    public ParticleSystem spinAttackEffect; // 起跳旋轉攻擊特效
+    public ParticleSystem spinAttackEffect;
 
     private CharacterController characterController;
     private bool isPerformingSkill = false;
@@ -43,6 +43,12 @@ public class SkillTree : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
+
+        if (characterController == null)
+        {
+            Debug.LogError("CharacterController is missing on the player!");
+        }
+
         ResetCooldownImages();
     }
 
@@ -57,20 +63,18 @@ public class SkillTree : MonoBehaviour
         }
     }
 
-    // 普通攻擊
+    // 普通攻击
     void HandleNormalAttack()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.JoystickButton2))
         {
             animator.SetTrigger("NormalAttack");
-            StartCoroutine(PerformNormalAttack());
         }
     }
 
-    IEnumerator PerformNormalAttack()
+    // Animator Event: 普通攻击造成伤害
+    public void PerformNormalAttack()
     {
-        yield return new WaitForSeconds(0.3f); // 動畫前置時間
-
         Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange);
         foreach (Collider hit in hitEnemies)
         {
@@ -78,25 +82,22 @@ public class SkillTree : MonoBehaviour
             {
                 Vector3 directionToEnemy = (hit.transform.position - transform.position).normalized;
                 float angleToEnemy = Vector3.Angle(transform.forward, directionToEnemy);
+
                 if (angleToEnemy <= attackAngle / 2)
                 {
-                    EnemyController enemyController = hit.GetComponent<EnemyController>();
-                    if (enemyController != null)
+                    EnemyHealth enemyHealth = hit.GetComponent<EnemyHealth>();
+                    if (enemyHealth != null)
                     {
-                        enemyController.TakeDamage(normalAttackDamage);
+                        enemyHealth.TakeDamage(normalAttackDamage);
                     }
                 }
             }
         }
 
-        // 播放普通攻擊特效
-        if (normalAttackEffect != null)
-        {
-            Instantiate(normalAttackEffect, attackPoint.position, transform.rotation).Play();
-        }
+        PlayEffect(normalAttackEffect, attackPoint.position);
     }
 
-    // 純粹衝刺技能
+    // 冲刺技能
     void HandleDash()
     {
         if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.JoystickButton0)) && dashCooldownImage.fillAmount == 1f)
@@ -104,6 +105,7 @@ public class SkillTree : MonoBehaviour
             animator.SetTrigger("Dash");
             isPerformingSkill = true;
 
+            PlayEffect(dashEffect, transform.position);
             StartCoroutine(PerformDash());
             StartCoroutine(CooldownRoutine(dashCooldown, dashCooldownImage));
         }
@@ -111,11 +113,6 @@ public class SkillTree : MonoBehaviour
 
     IEnumerator PerformDash()
     {
-        if (dashEffect != null)
-        {
-            Instantiate(dashEffect, transform.position, transform.rotation).Play();
-        }
-
         float elapsedTime = 0f;
 
         while (elapsedTime < dashDuration)
@@ -129,7 +126,7 @@ public class SkillTree : MonoBehaviour
         isPerformingSkill = false;
     }
 
-    // 來回衝刺技能
+    // 来回冲刺技能
     void HandleDoubleDash()
     {
         if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.JoystickButton3)) && doubleDashCooldownImage.fillAmount == 1f)
@@ -137,11 +134,7 @@ public class SkillTree : MonoBehaviour
             animator.SetTrigger("DoubleDash");
             isPerformingSkill = true;
 
-            if (doubleDashEffect != null)
-            {
-                Instantiate(doubleDashEffect, transform.position, transform.rotation).Play();
-            }
-
+            PlayEffect(doubleDashEffect, transform.position);
             StartCoroutine(PerformDoubleDash());
             StartCoroutine(CooldownRoutine(doubleDashCooldown, doubleDashCooldownImage));
         }
@@ -149,13 +142,8 @@ public class SkillTree : MonoBehaviour
 
     IEnumerator PerformDoubleDash()
     {
-        // 第一次衝刺
         yield return PerformDashAndAttack(doubleDashSpeed, doubleDashDuration);
-
-        // 短暫停頓
         yield return new WaitForSeconds(0.2f);
-
-        // 第二次衝刺返回
         yield return PerformDashAndAttack(-doubleDashSpeed, doubleDashDuration);
 
         isPerformingSkill = false;
@@ -170,16 +158,15 @@ public class SkillTree : MonoBehaviour
             Vector3 dashDirection = transform.forward * speed;
             characterController.Move(dashDirection * Time.deltaTime);
 
-            // 檢測攻擊範圍內的敵人
             Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange);
             foreach (Collider enemy in hitEnemies)
             {
                 if (enemy.CompareTag("Enemy"))
                 {
-                    EnemyController enemyController = enemy.GetComponent<EnemyController>();
-                    if (enemyController != null)
+                    EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+                    if (enemyHealth != null)
                     {
-                        enemyController.TakeDamage(doubleDashDamage);
+                        enemyHealth.TakeDamage(doubleDashDamage);
                     }
                 }
             }
@@ -189,7 +176,7 @@ public class SkillTree : MonoBehaviour
         }
     }
 
-    // 起跳旋轉攻擊
+    // 起跳旋转攻击
     void HandleSpinAttack()
     {
         if ((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton1)) && spinAttackCooldownImage.fillAmount == 1f)
@@ -197,11 +184,7 @@ public class SkillTree : MonoBehaviour
             animator.SetTrigger("SpinAttack");
             isPerformingSkill = true;
 
-            if (spinAttackEffect != null)
-            {
-                Instantiate(spinAttackEffect, transform.position, transform.rotation).Play();
-            }
-
+            PlayEffect(spinAttackEffect, transform.position);
             StartCoroutine(PerformSpinAttack());
             StartCoroutine(CooldownRoutine(spinAttackCooldown, spinAttackCooldownImage));
         }
@@ -216,10 +199,10 @@ public class SkillTree : MonoBehaviour
         {
             if (hit.CompareTag("Enemy"))
             {
-                EnemyController enemyController = hit.GetComponent<EnemyController>();
-                if (enemyController != null)
+                EnemyHealth enemyHealth = hit.GetComponent<EnemyHealth>();
+                if (enemyHealth != null)
                 {
-                    enemyController.TakeDamage(spinAttackDamage);
+                    enemyHealth.TakeDamage(spinAttackDamage);
                 }
             }
         }
@@ -227,7 +210,16 @@ public class SkillTree : MonoBehaviour
         isPerformingSkill = false;
     }
 
-    // 冷卻邏輯
+    // 公共方法：播放特效
+    void PlayEffect(ParticleSystem effect, Vector3 position)
+    {
+        if (effect != null)
+        {
+            Instantiate(effect, position, transform.rotation).Play();
+        }
+    }
+
+    // 公共方法：冷却计时
     IEnumerator CooldownRoutine(float cooldownTime, Image cooldownImage)
     {
         cooldownImage.fillAmount = 0f;
@@ -243,7 +235,7 @@ public class SkillTree : MonoBehaviour
         cooldownImage.fillAmount = 1f;
     }
 
-    // 初始化冷卻圖片
+    // 初始化冷却图片
     void ResetCooldownImages()
     {
         if (dashCooldownImage != null) dashCooldownImage.fillAmount = 1f;
@@ -251,7 +243,7 @@ public class SkillTree : MonoBehaviour
         if (spinAttackCooldownImage != null) spinAttackCooldownImage.fillAmount = 1f;
     }
 
-    // 繪製攻擊範圍（僅用於調試）
+    // 调试用：绘制攻击范围
     private void OnDrawGizmosSelected()
     {
         if (attackPoint != null)

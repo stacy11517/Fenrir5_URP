@@ -3,37 +3,52 @@ using UnityEngine.SceneManagement;
 
 public class PortalManager : MonoBehaviour
 {
-    public GameObject portal;  // 傳送門對象
-    public int requiredKills = 15;  // 開啟傳送門所需的擊殺數
-    private int killCount = 0;  // 當前擊殺數
-    private bool canEnterPortal = false;  // 是否能夠進入傳送門
+    public GameObject portal;                // 傳送門對象
+    public int requiredKills = 15;          // 開啟傳送門所需的擊殺數
+    private int killCount = 0;              // 當前擊殺數
+    private bool canEnterPortal = false;    // 是否能夠進入傳送門
+    public string nextSceneName;            // 下一關卡的名稱（可選）
 
     void Start()
     {
-        // 傳送門一開始可以顯示，但不允許進入
-        portal.SetActive(true);  // 確保傳送門從一開始就顯示
+        // 初始化傳送門狀態
+        if (portal != null)
+        {
+            portal.SetActive(false);        // 傳送門在一開始是隱藏的
+        }
     }
 
-    // 增加擊殺數
+    /// <summary>
+    /// 增加擊殺數
+    /// </summary>
     public void AddKill()
     {
         killCount++;
         Debug.Log("擊殺數: " + killCount);
 
-        if (killCount >= requiredKills)
+        if (killCount >= requiredKills && !canEnterPortal)
         {
             EnablePortalEntry();
         }
     }
 
-    // 允許進入傳送門
+    /// <summary>
+    /// 允許進入傳送門
+    /// </summary>
     void EnablePortalEntry()
     {
         Debug.Log("傳送門現在可以進入！");
-        canEnterPortal = true;  // 當擊殺數達到要求，允許進入傳送門
+        canEnterPortal = true;
+
+        if (portal != null)
+        {
+            portal.SetActive(true); // 顯示傳送門
+        }
     }
 
-    // 玩家進入傳送門後觸發下一關
+    /// <summary>
+    /// 當玩家進入傳送門的範圍時觸發
+    /// </summary>
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && canEnterPortal)
@@ -43,9 +58,18 @@ public class PortalManager : MonoBehaviour
         }
     }
 
-    // 加載下一個場景
+    /// <summary>
+    /// 加載下一個場景
+    /// </summary>
     void LoadNextLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        if (!string.IsNullOrEmpty(nextSceneName))
+        {
+            SceneManager.LoadScene(nextSceneName); // 使用場景名稱加載
+        }
+        else
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); // 加載下一個場景
+        }
     }
 }

@@ -11,7 +11,7 @@ public class HealthBarManager : MonoBehaviour
     public GameObject healthBarUI;          // 血量條 UI（在畫布中）
     public Image healthFillImage;           // 血量條的填充圖片
 
-    private EnemyController currentTarget;  // 當前最近的敵人
+    private EnemyHealth currentTarget;      // 當前最近的敵人
 
     void Start()
     {
@@ -24,7 +24,7 @@ public class HealthBarManager : MonoBehaviour
     void Update()
     {
         // 檢測最近的敵人
-        EnemyController nearestEnemy = GetNearestEnemy();
+        EnemyHealth nearestEnemy = GetNearestEnemy();
         if (nearestEnemy != currentTarget)
         {
             // 切換目標
@@ -49,18 +49,18 @@ public class HealthBarManager : MonoBehaviour
     }
 
     // 檢測最近的敵人
-    EnemyController GetNearestEnemy()
+    EnemyHealth GetNearestEnemy()
     {
         Collider[] colliders = Physics.OverlapSphere(player.position, detectionRadius);
         float closestDistance = Mathf.Infinity;
-        EnemyController nearestEnemy = null;
+        EnemyHealth nearestEnemy = null;
 
         foreach (var collider in colliders)
         {
             if (collider.CompareTag(enemyTag))
             {
-                EnemyController enemy = collider.GetComponent<EnemyController>();
-                if (enemy != null && !enemy.isDead)
+                EnemyHealth enemy = collider.GetComponent<EnemyHealth>();
+                if (enemy != null && !enemy.IsDead())
                 {
                     float distance = Vector3.Distance(player.position, enemy.transform.position);
                     if (distance < closestDistance)
@@ -76,7 +76,7 @@ public class HealthBarManager : MonoBehaviour
     }
 
     // 更新血量條
-    void UpdateHealthBar(EnemyController enemy)
+    void UpdateHealthBar(EnemyHealth enemy)
     {
         if (enemy == null || healthFillImage == null) return;
 
