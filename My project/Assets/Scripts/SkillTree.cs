@@ -132,7 +132,7 @@ public class SkillTree : MonoBehaviour
     // 來回衝刺技能
     void HandleDoubleDash()
     {
-        if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.JoystickButton1)) && doubleDashCooldownImage.fillAmount == 1f)
+        if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.JoystickButton3)) && doubleDashCooldownImage.fillAmount == 1f)
         {
             animator.SetTrigger("DoubleDash");
             isPerformingSkill = true;
@@ -192,7 +192,7 @@ public class SkillTree : MonoBehaviour
     // 起跳旋轉攻擊
     void HandleSpinAttack()
     {
-        if ((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton3)) && spinAttackCooldownImage.fillAmount == 1f)
+        if ((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton1)) && spinAttackCooldownImage.fillAmount == 1f)
         {
             animator.SetTrigger("SpinAttack");
             isPerformingSkill = true;
