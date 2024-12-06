@@ -13,7 +13,7 @@ public class PlayerHealth : MonoBehaviour
     public GameObject deathScreen;       // 死亡畫面 UI
     public Animator animator;            // 用於播放死亡動畫的 Animator
     public ParticleSystem healEffect;    // 補血時的特效
-
+    
     private PlayerController playerController;
     public bool IsDead { get; private set; } = false;  // 玩家死亡狀態，只讀屬性
 
@@ -23,7 +23,10 @@ public class PlayerHealth : MonoBehaviour
         UpdateHealthBar();              // 初始化血條
         UpdateHealthPackText();         // 初始化補血包數量文本
         if (deathScreen != null)
+        {
             deathScreen.SetActive(false);   // 隱藏死亡畫面 UI
+        }
+
 
         if (animator == null)
         {
