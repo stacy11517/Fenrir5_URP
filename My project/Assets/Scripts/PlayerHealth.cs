@@ -41,7 +41,7 @@ public class PlayerHealth : MonoBehaviour
         if (!IsDead)
         {
             // 按下鍵盤 F 鍵或手把 Y 鍵（JoystickButton3）來使用補血包
-            if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton3)) && healthPackCount > 0)
+            if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton5)) && healthPackCount > 0)
             {
                 UseHealthPack();
             }
