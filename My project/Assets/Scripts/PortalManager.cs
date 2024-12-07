@@ -9,6 +9,8 @@ public class PortalManager : MonoBehaviour
     private bool canEnterPortal = false;    // 是否能夠進入傳送門
     public string nextSceneName;            // 下一關卡的名稱（可選）
 
+    public LevelLoader levelLoader;
+
     void Start()
     {
         // 初始化傳送門狀態
@@ -54,22 +56,22 @@ public class PortalManager : MonoBehaviour
         if (other.CompareTag("Player") && canEnterPortal)
         {
             Debug.Log("進入傳送門，進入下一關！");
-            LoadNextLevel();
+            levelLoader.LoadNextLevel();
         }
     }
 
-    /// <summary>
-    /// 加載下一個場景
-    /// </summary>
-    void LoadNextLevel()
-    {
-        if (!string.IsNullOrEmpty(nextSceneName))
-        {
-            SceneManager.LoadScene(nextSceneName); // 使用場景名稱加載
-        }
-        else
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); // 加載下一個場景
-        }
-    }
+    ///// <summary>
+    ///// 加載下一個場景
+    ///// </summary>
+    //void LoadNextLevel()
+    //{
+    //    if (!string.IsNullOrEmpty(nextSceneName))
+    //    {
+    //        SceneManager.LoadScene(nextSceneName); // 使用場景名稱加載
+    //    }
+    //    else
+    //    {
+    //        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); // 加載下一個場景
+    //    }
+    //}
 }

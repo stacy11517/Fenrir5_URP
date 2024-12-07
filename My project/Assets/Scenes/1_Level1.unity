@@ -8954,6 +8954,7 @@ MonoBehaviour:
   portal: {fileID: 4290653558209483648}
   requiredKills: 2
   nextSceneName: 2_Level2
+  levelLoader: {fileID: 0}
 --- !u!4 &1412025061
 Transform:
   m_ObjectHideFlags: 0
@@ -10442,7 +10443,7 @@ PrefabInstance:
     - target: {fileID: 2198596326913196715, guid: ff671f535716d984fb5ad747beab51b1,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6242326453367031918, guid: ff671f535716d984fb5ad747beab51b1,
         type: 3}
