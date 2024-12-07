@@ -88,11 +88,11 @@ public class OdinBoss : MonoBehaviour
     }
 
     // 當雷球碰撞到玩家時觸發傷害
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Player") && collision.gameObject.name.Contains("ThunderBall"))
+        if (other.gameObject.CompareTag("Player") && other.gameObject.name.Contains("ThunderBall"))
         {
-            PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+            PlayerHealth playerHealth = other.gameObject.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(thunderBallDamage);
@@ -100,7 +100,7 @@ public class OdinBoss : MonoBehaviour
             }
 
             // 銷毀雷球
-            Destroy(collision.gameObject);
+            Destroy(other.gameObject);
         }
     }
 }
