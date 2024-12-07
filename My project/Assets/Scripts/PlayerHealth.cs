@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Collections; // 引入命名空間以支持 IEnumerator
+using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -13,7 +13,9 @@ public class PlayerHealth : MonoBehaviour
     public GameObject deathScreen;       // 死亡畫面 UI
     public Animator animator;            // 用於播放死亡動畫的 Animator
     public ParticleSystem healEffect;    // 補血時的特效
-    
+
+    public Animator DeadScreenFadeIn;
+
     private PlayerController playerController;
     public bool IsDead { get; private set; } = false;  // 玩家死亡狀態，只讀屬性
 
@@ -22,11 +24,12 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = maxHealth;      // 初始化玩家生命值
         UpdateHealthBar();              // 初始化血條
         UpdateHealthPackText();         // 初始化補血包數量文本
+
         if (deathScreen != null)
         {
             deathScreen.SetActive(false);   // 隱藏死亡畫面 UI
-        }
 
+        }
 
         if (animator == null)
         {
@@ -34,6 +37,7 @@ public class PlayerHealth : MonoBehaviour
         }
 
         playerController = GetComponent<PlayerController>(); // 獲取 PlayerController 元件
+
     }
 
     void Update()
@@ -41,7 +45,7 @@ public class PlayerHealth : MonoBehaviour
         if (!IsDead)
         {
             // 按下鍵盤 F 鍵或手把 Y 鍵（JoystickButton3）來使用補血包
-            if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton5)) && healthPackCount > 0)
+            if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton3)) && healthPackCount > 0)
             {
                 UseHealthPack();
             }
@@ -136,7 +140,6 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-
     // 玩家死亡邏輯
     void Die()
     {
@@ -159,17 +162,23 @@ public class PlayerHealth : MonoBehaviour
 
     IEnumerator ShowDeathScreenAfterAnimation()
     {
-        // 獲取動畫播放時間
-        float animationTime = animator.GetCurrentAnimatorStateInfo(0).length;
-
-        // 等待動畫播放完成
-        yield return new WaitForSeconds(animationTime);
-
-        if (deathScreen != null)
+        // 等待死亡動畫完成
+        if (animator != null)
         {
-            deathScreen.SetActive(true); // 顯示死亡畫面
+            yield return new WaitUntil(() =>
+                animator.GetCurrentAnimatorStateInfo(0).IsName("Die") &&
+                animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
         }
 
+
+        //顯示死亡畫面
+        if (deathScreen != null)
+        {
+            deathScreen.SetActive(true);
+        }
         Time.timeScale = 0f; // 暫停遊戲
+        DeadScreenFadeIn.SetTrigger("Show");
+
+
     }
 }
