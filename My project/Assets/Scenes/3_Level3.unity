@@ -136,6 +136,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIControllerFromLevelOne
       objectReference: {fileID: 0}
+    - target: {fileID: 2113507506721978857, guid: 0550864c8482cb74e9b5b9f09201e189,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2529226143312037289, guid: 0550864c8482cb74e9b5b9f09201e189,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -195,7 +200,7 @@ PrefabInstance:
         type: 3}
       propertyPath: DeathScreen
       value: 
-      objectReference: {fileID: 1689806456}
+      objectReference: {fileID: 0}
     - target: {fileID: 6678087799352424629, guid: 0550864c8482cb74e9b5b9f09201e189,
         type: 3}
       propertyPath: SettingPanel
@@ -335,6 +340,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MS_Odin
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 88a4522f37ee21948be101f2e7876fca,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 88a4522f37ee21948be101f2e7876fca,
         type: 3}
@@ -1059,6 +1069,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelLoader
       objectReference: {fileID: 0}
+    - target: {fileID: 2198596326913196715, guid: ff671f535716d984fb5ad747beab51b1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6242326453367031918, guid: ff671f535716d984fb5ad747beab51b1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1232,6 +1247,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MS_Lv3_BG01
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 96532a2fe7811d944a617956745460c4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1249,6 +1269,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WolfFromLevelOne
+      objectReference: {fileID: 0}
+    - target: {fileID: 5199370834154232508, guid: 0581dea6987909f42aa93ce215fc8af7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5199370834154456732, guid: 0581dea6987909f42aa93ce215fc8af7,
         type: 3}
@@ -1341,7 +1366,7 @@ PrefabInstance:
         type: 3}
       propertyPath: deathScreen
       value: 
-      objectReference: {fileID: 1689806456}
+      objectReference: {fileID: 0}
     - target: {fileID: 8784028494965770786, guid: 0581dea6987909f42aa93ce215fc8af7,
         type: 3}
       propertyPath: healthPackText
@@ -1585,6 +1610,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanvasFromLevelOne
       objectReference: {fileID: 0}
+    - target: {fileID: 8713545193367069783, guid: 64144fd056a0b3747babfc7db9171d9b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -1598,12 +1628,6 @@ PrefabInstance:
       addedObject: {fileID: 853903802}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64144fd056a0b3747babfc7db9171d9b, type: 3}
---- !u!1 &1689806456 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8661272026680494269, guid: 64144fd056a0b3747babfc7db9171d9b,
-    type: 3}
-  m_PrefabInstance: {fileID: 1689806455}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1689806457 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5159443099807484384, guid: 64144fd056a0b3747babfc7db9171d9b,
@@ -2172,10 +2196,35 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 939883914289442770, guid: 84c72df2c54ab0a4db57260652c17b72,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1043301183124943913, guid: 84c72df2c54ab0a4db57260652c17b72,
         type: 3}
       propertyPath: m_Name
       value: VFX_Lv3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1043301183124943913, guid: 84c72df2c54ab0a4db57260652c17b72,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236096492556786271, guid: 84c72df2c54ab0a4db57260652c17b72,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424528400218673883, guid: 84c72df2c54ab0a4db57260652c17b72,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529263100613891037, guid: 84c72df2c54ab0a4db57260652c17b72,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6150373689442316697, guid: 84c72df2c54ab0a4db57260652c17b72,
         type: 3}
@@ -2226,6 +2275,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8613656013539725059, guid: 84c72df2c54ab0a4db57260652c17b72,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
