@@ -4,14 +4,11 @@ using UnityEngine;
 public class OdinBoss : MonoBehaviour
 {
     public Transform player; // 玩家位置
-    public GameObject lightningStrikePrefab; // 地圖雷擊特效預製件
     public GameObject thunderBallPrefab; // 雷球特效預製件
     public Transform throwPoint; // 雷球丟出的起點
-    public float lightningCooldown = 5f; // 地圖雷擊技能的冷卻時間
+    public LightningStrike lightningStrikeManager; // 雷擊範圍管理器
     public float thunderBallCooldown = 7f; // 雷球技能的冷卻時間
-    public float lightningRange = 10f; // 雷擊攻擊的範圍
     public float thunderBallSpeed = 15f; // 雷球的飛行速度
-    public int lightningDamage = 20; // 雷擊的傷害
     public int thunderBallDamage = 50; // 雷球的傷害
 
     private bool canUseLightning = true;
@@ -21,15 +18,23 @@ public class OdinBoss : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+
+        // 檢查 LightningStrike 是否已經連接
+        if (lightningStrikeManager == null)
+        {
+            Debug.LogError("LightningStrike 管理器未設置！");
+        }
     }
 
     void Update()
     {
-        if (canUseLightning)
+        // 觸發地圖雷擊技能
+        if (canUseLightning && lightningStrikeManager != null)
         {
             StartCoroutine(UseLightningStrike());
         }
 
+        // 觸發雷球技能
         if (canThrowThunderBall)
         {
             StartCoroutine(ThrowThunderBall());
@@ -44,25 +49,10 @@ public class OdinBoss : MonoBehaviour
 
         yield return new WaitForSeconds(1f); // 等待動畫前置部分
 
-        // 確定雷擊攻擊的隨機位置，範圍為奧丁周圍
-        Vector3 randomPosition = new Vector3(
-            transform.position.x + Random.Range(-lightningRange, lightningRange),
-            transform.position.y,
-            transform.position.z + Random.Range(-lightningRange, lightningRange)
-        );
+        // 調用 LightningStrike 管理器來觸發雷擊
+        lightningStrikeManager.TriggerLightning();
 
-        // 生成雷擊特效
-        Instantiate(lightningStrikePrefab, randomPosition, Quaternion.identity);
-
-        // 檢查玩家是否在雷擊範圍內，並扣血
-        float distanceToPlayer = Vector3.Distance(randomPosition, player.position);
-        if (distanceToPlayer <= 3f) // 假設雷擊範圍半徑為3單位
-        {
-            player.GetComponent<PlayerHealth>().TakeDamage(lightningDamage);
-            Debug.Log("Odin used Lightning Strike! Player took " + lightningDamage + " damage.");
-        }
-
-        yield return new WaitForSeconds(lightningCooldown);
+        yield return new WaitForSeconds(lightningStrikeManager.lightningCooldown);
         canUseLightning = true;
     }
 

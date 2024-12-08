@@ -9,7 +9,7 @@ public class OdinHealth : MonoBehaviour
     public Image healthBarFill;         // 血量條 UI 使用 Image 的 fillAmount
     public GameObject deathEffect;      // 死亡特效
     public Animator animator;           // 動畫控制器
-    public float deathDelay = 3f;       // 死亡後延遲刪除物件的時間
+    public float deathDelay = 5f;       // 死亡後延遲刪除物件的時間
 
     private bool isDead = false;        // 是否已經死亡
 
