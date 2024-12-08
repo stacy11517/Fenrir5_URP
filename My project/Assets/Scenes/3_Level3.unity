@@ -229,35 +229,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2113507506721978857, guid: 0550864c8482cb74e9b5b9f09201e189,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 56983718}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0550864c8482cb74e9b5b9f09201e189, type: 3}
---- !u!1 &56983717 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2113507506721978857, guid: 0550864c8482cb74e9b5b9f09201e189,
-    type: 3}
-  m_PrefabInstance: {fileID: 56983716}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &56983718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 56983717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7e8734aabd5c744aa314afce130fd67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 191245675}
-  enemyTag: Enemy
-  detectionRadius: 20
-  healthBarUI: {fileID: 1778031752}
-  healthFillImage: {fileID: 1622219036}
 --- !u!1001 &72915215
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -370,11 +343,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 88a4522f37ee21948be101f2e7876fca,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 72915221}
+      addedObject: {fileID: 72915217}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 88a4522f37ee21948be101f2e7876fca,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 72915217}
+      addedObject: {fileID: 72915223}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 88a4522f37ee21948be101f2e7876fca,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 72915221}
   m_SourcePrefab: {fileID: 100100000, guid: 88a4522f37ee21948be101f2e7876fca, type: 3}
 --- !u!1 &72915216 stripped
 GameObject:
@@ -574,6 +551,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &72915223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72915216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 293ec2ac9d0189045899a5b795cbb0f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 500
+  currentHealth: 0
+  healthBarFill: {fileID: 1622219036}
+  deathEffect: {fileID: 0}
+  animator: {fileID: 72915218}
+  deathDelay: 3
 --- !u!1 &151407920
 GameObject:
   m_ObjectHideFlags: 0
@@ -2538,8 +2533,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 30}
-  m_SizeDelta: {x: 1000, y: 60}
+  m_AnchoredPosition: {x: 0, y: 25}
+  m_SizeDelta: {x: 1000, y: 50}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1622219036
 MonoBehaviour:
@@ -2562,7 +2557,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 692017225968d304fbc55186b21aabea, type: 3}
-  m_Type: 1
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
@@ -2908,7 +2903,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: -500, y: -60}
-  m_SizeDelta: {x: 1000, y: 60}
+  m_SizeDelta: {x: 1000, y: 50}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1778031754
 MonoBehaviour:
@@ -2931,7 +2926,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: d05d3ba8c700d164fa187c89d953e8c6, type: 3}
-  m_Type: 1
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
