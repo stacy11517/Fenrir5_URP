@@ -322,7 +322,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 88a4522f37ee21948be101f2e7876fca,
         type: 3}
       propertyPath: m_TagString
-      value: Enemy
+      value: Odin
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5866666021909216657, guid: 88a4522f37ee21948be101f2e7876fca, type: 3}
@@ -528,7 +528,8 @@ MonoBehaviour:
   maxHealth: 500
   currentHealth: 0
   healthBarFill: {fileID: 1622219036}
-  deathEffect: {fileID: 0}
+  deathEffect: {fileID: 1229797571560286346, guid: 371b4d52f0c8a864ab84567b2c3f5057,
+    type: 3}
   animator: {fileID: 72915224}
   deathDelay: 7
 --- !u!95 &72915224

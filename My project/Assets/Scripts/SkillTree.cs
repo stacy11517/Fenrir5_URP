@@ -72,23 +72,33 @@ public class SkillTree : MonoBehaviour
         }
     }
 
-    // Animator Event: 普通攻击造成伤害
+    // Animator Event: 普通攻擊造成傷害
     public void PerformNormalAttack()
     {
-        Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange);
-        foreach (Collider hit in hitEnemies)
+        Collider[] hitTargets = Physics.OverlapSphere(attackPoint.position, attackRange);
+        foreach (Collider hit in hitTargets)
         {
-            if (hit.CompareTag("Enemy"))
+            // 判定是否為敵人或奧丁
+            if (hit.CompareTag("Enemy") || hit.CompareTag("Odin"))
             {
-                Vector3 directionToEnemy = (hit.transform.position - transform.position).normalized;
-                float angleToEnemy = Vector3.Angle(transform.forward, directionToEnemy);
+                Vector3 directionToTarget = (hit.transform.position - transform.position).normalized;
+                float angleToTarget = Vector3.Angle(transform.forward, directionToTarget);
 
-                if (angleToEnemy <= attackAngle / 2)
+                if (angleToTarget <= attackAngle / 2)
                 {
+                    // 如果是普通敵人
                     EnemyHealth enemyHealth = hit.GetComponent<EnemyHealth>();
                     if (enemyHealth != null)
                     {
                         enemyHealth.TakeDamage(normalAttackDamage);
+                    }
+
+                    // 如果是奧丁
+                    OdinHealth odinHealth = hit.GetComponent<OdinHealth>();
+                    if (odinHealth != null)
+                    {
+                        odinHealth.TakeDamage(normalAttackDamage);
+                        Debug.Log("Odin took " + normalAttackDamage + " damage from Normal Attack.");
                     }
                 }
             }
@@ -96,6 +106,7 @@ public class SkillTree : MonoBehaviour
 
         PlayEffect(normalAttackEffect, attackPoint.position);
     }
+
 
     // 冲刺技能
     void HandleDash()
@@ -161,12 +172,21 @@ public class SkillTree : MonoBehaviour
             Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange);
             foreach (Collider enemy in hitEnemies)
             {
-                if (enemy.CompareTag("Enemy"))
+                if (enemy.CompareTag("Enemy") || enemy.CompareTag("Odin"))
                 {
+                    // 如果是普通敵人
                     EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
                     if (enemyHealth != null)
                     {
                         enemyHealth.TakeDamage(doubleDashDamage);
+                    }
+
+                    // 如果是奧丁
+                    OdinHealth odinHealth = enemy.GetComponent<OdinHealth>();
+                    if (odinHealth != null)
+                    {
+                        odinHealth.TakeDamage(doubleDashDamage);
+                        Debug.Log("Odin took " + doubleDashDamage + " damage from Spin Attack.");
                     }
                 }
             }
@@ -197,12 +217,21 @@ public class SkillTree : MonoBehaviour
         Collider[] hitEnemies = Physics.OverlapSphere(transform.position, spinAttackRange);
         foreach (Collider hit in hitEnemies)
         {
-            if (hit.CompareTag("Enemy"))
+            if (hit.CompareTag("Enemy") || hit.CompareTag("Odin"))
             {
+                // 如果是普通敵人
                 EnemyHealth enemyHealth = hit.GetComponent<EnemyHealth>();
                 if (enemyHealth != null)
                 {
                     enemyHealth.TakeDamage(spinAttackDamage);
+                }
+
+                // 如果是奧丁
+                OdinHealth odinHealth = hit.GetComponent<OdinHealth>();
+                if (odinHealth != null)
+                {
+                    odinHealth.TakeDamage(spinAttackDamage);
+                    Debug.Log("Odin took " + spinAttackDamage + " damage from Spin Attack.");
                 }
             }
         }
