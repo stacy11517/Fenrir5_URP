@@ -15,6 +15,9 @@ public class OdinHealth : MonoBehaviour
     private bool isDead = false;        // 是否已經死亡
     public OdinBoss odinBossScript;     // Odin 的技能腳本引用
 
+    public Animator fadingPanelAni;
+    public LevelLoader levelLoader;
+
     void Start()
     {
         currentHealth = maxHealth;      // 初始化血量
@@ -111,17 +114,22 @@ public class OdinHealth : MonoBehaviour
     // 顯示過關圖片的協程
     private IEnumerator HandleVictoryScreen()
     {
-        yield return new WaitForSeconds(deathDelay); // 等待死亡延遲時間
+        //yield return new WaitForSeconds(deathDelay); // 等待死亡延遲時間
 
-        // 刪除奧丁物件
-        Destroy(gameObject);
+        //// 刪除奧丁物件
+        ////Destroy(gameObject);
+        ////隱藏奧丁物件
+        ////this.gameObject.SetActive(false);
+
 
         // 顯示過關圖片
-        yield return new WaitForSeconds(3f); // 額外等待 3 秒
+        yield return new WaitForSeconds(deathDelay); // 等待死亡延遲時間
         if (victoryScreen != null)
         {
             victoryScreen.SetActive(true);
+            fadingPanelAni.SetTrigger("StartFading");
             Debug.Log("Victory Screen is now displayed!");
+            Invoke("ToTextboxScene", 2.5f);
         }
     }
 
@@ -132,5 +140,10 @@ public class OdinHealth : MonoBehaviour
         {
             TakeDamage(50);
         }
+    }
+
+    void ToTextboxScene()
+    {
+        levelLoader.LoadNextLevel();
     }
 }
