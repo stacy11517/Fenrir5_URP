@@ -525,13 +525,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 293ec2ac9d0189045899a5b795cbb0f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 500
+  maxHealth: 1000
   currentHealth: 0
   healthBarFill: {fileID: 1622219036}
-  deathEffect: {fileID: 1229797571560286346, guid: 371b4d52f0c8a864ab84567b2c3f5057,
+  hurtEffect: {fileID: 3823007768700803612, guid: 371b4d52f0c8a864ab84567b2c3f5057,
     type: 3}
   animator: {fileID: 72915224}
   deathDelay: 7
+  victoryScreen: {fileID: 0}
+  odinBossScript: {fileID: 72915217}
 --- !u!95 &72915224
 Animator:
   serializedVersion: 5

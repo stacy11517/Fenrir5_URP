@@ -7,11 +7,13 @@ public class OdinHealth : MonoBehaviour
     public int maxHealth = 500;          // 奧丁的最大血量
     public int currentHealth;           // 奧丁的當前血量
     public Image healthBarFill;         // 血量條 UI 使用 Image 的 fillAmount
-    public GameObject deathEffect;      // 死亡特效
+    public ParticleSystem hurtEffect;   // 受傷特效
     public Animator animator;           // 動畫控制器
     public float deathDelay = 5f;       // 死亡後延遲刪除物件的時間
+    public GameObject victoryScreen;    // 過關圖片（UI 面板）
 
     private bool isDead = false;        // 是否已經死亡
+    public OdinBoss odinBossScript;     // Odin 的技能腳本引用
 
     void Start()
     {
@@ -21,6 +23,16 @@ public class OdinHealth : MonoBehaviour
         if (animator == null)
         {
             animator = GetComponent<Animator>();
+        }
+
+        if (odinBossScript == null)
+        {
+            odinBossScript = GetComponent<OdinBoss>();
+        }
+
+        if (victoryScreen != null)
+        {
+            victoryScreen.SetActive(false); // 開始時隱藏過關圖片
         }
     }
 
@@ -41,6 +53,9 @@ public class OdinHealth : MonoBehaviour
             animator.SetTrigger("Hurt");
         }
 
+        // 播放受傷特效
+        PlayHurtEffect();
+
         // 如果血量歸零，執行死亡邏輯
         if (currentHealth <= 0)
         {
@@ -57,6 +72,17 @@ public class OdinHealth : MonoBehaviour
         }
     }
 
+    // 播放受傷特效
+    private void PlayHurtEffect()
+    {
+        if (hurtEffect != null)
+        {
+            ParticleSystem effectInstance = Instantiate(hurtEffect, transform.position, Quaternion.identity);
+            effectInstance.Play();
+            Destroy(effectInstance.gameObject, effectInstance.main.duration); // 確保特效播放後銷毀
+        }
+    }
+
     // 死亡邏輯
     private void Die()
     {
@@ -65,27 +91,38 @@ public class OdinHealth : MonoBehaviour
         isDead = true;
         Debug.Log("Odin has died!");
 
+        // 停止所有技能
+        if (odinBossScript != null)
+        {
+            odinBossScript.StopAllCoroutines(); // 停止技能協程
+            odinBossScript.enabled = false;    // 禁用 OdinBoss 腳本
+        }
+
         // 播放死亡動畫
         if (animator != null)
         {
             animator.SetTrigger("Die");
         }
 
-        // 生成死亡特效
-        if (deathEffect != null)
-        {
-            Instantiate(deathEffect, transform.position, Quaternion.identity);
-        }
-
-        // 延遲刪除物件
-        StartCoroutine(DestroyAfterDelay());
+        // 延遲刪除物件並顯示過關圖片
+        StartCoroutine(HandleVictoryScreen());
     }
 
-    // 延遲刪除物件的協程
-    private IEnumerator DestroyAfterDelay()
+    // 顯示過關圖片的協程
+    private IEnumerator HandleVictoryScreen()
     {
-        yield return new WaitForSeconds(deathDelay);
+        yield return new WaitForSeconds(deathDelay); // 等待死亡延遲時間
+
+        // 刪除奧丁物件
         Destroy(gameObject);
+
+        // 顯示過關圖片
+        yield return new WaitForSeconds(3f); // 額外等待 3 秒
+        if (victoryScreen != null)
+        {
+            victoryScreen.SetActive(true);
+            Debug.Log("Victory Screen is now displayed!");
+        }
     }
 
     // 測試用的鍵盤輸入方法
