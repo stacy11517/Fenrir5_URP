@@ -19,6 +19,8 @@ public class TriggerEvent : MonoBehaviour
 
     public GameObject IceHint;
 
+    public Animator fontAni;
+
     private void Start()
     {
         IceHint.SetActive(false);
@@ -28,6 +30,7 @@ public class TriggerEvent : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             IceHint.SetActive(true);
+            fontAni.SetTrigger("Shine");
 
             if (cameraController == null)
             {
