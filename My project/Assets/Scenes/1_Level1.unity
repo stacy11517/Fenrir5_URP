@@ -13004,7 +13004,7 @@ PrefabInstance:
     - target: {fileID: 8301551503125945567, guid: fc4a6b276ac0f8048ad2bb76e3bbe1ea,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8329052746592494347, guid: fc4a6b276ac0f8048ad2bb76e3bbe1ea,
         type: 3}
@@ -13014,7 +13014,7 @@ PrefabInstance:
     - target: {fileID: 8329052746592494347, guid: fc4a6b276ac0f8048ad2bb76e3bbe1ea,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8882274164651951840, guid: fc4a6b276ac0f8048ad2bb76e3bbe1ea,
         type: 3}
@@ -13145,6 +13145,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &823752822327507764 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8301551503125945567, guid: fc4a6b276ac0f8048ad2bb76e3bbe1ea,
+    type: 3}
+  m_PrefabInstance: {fileID: 823752822327507761}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &834440839427569769 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8525629989709250085, guid: 1bcdf2df55a1fb14ba9b45ecb6fbd2b5,
@@ -13451,12 +13457,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 23}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1529639417399449002 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8329052746592494347, guid: fc4a6b276ac0f8048ad2bb76e3bbe1ea,
-    type: 3}
-  m_PrefabInstance: {fileID: 823752822327507761}
-  m_PrefabAsset: {fileID: 0}
 --- !u!64 &1561617453101604433
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -15749,7 +15749,7 @@ PrefabInstance:
         type: 3}
       propertyPath: deathScreen
       value: 
-      objectReference: {fileID: 1529639417399449002}
+      objectReference: {fileID: 823752822327507764}
     - target: {fileID: 8784028494965770786, guid: 0581dea6987909f42aa93ce215fc8af7,
         type: 3}
       propertyPath: healthPackText

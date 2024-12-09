@@ -4787,7 +4787,7 @@ PrefabInstance:
     - target: {fileID: 8329052746592494347, guid: fc4a6b276ac0f8048ad2bb76e3bbe1ea,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8882274164651951840, guid: fc4a6b276ac0f8048ad2bb76e3bbe1ea,
         type: 3}
@@ -4918,12 +4918,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &553599206 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8329052746592494347, guid: fc4a6b276ac0f8048ad2bb76e3bbe1ea,
-    type: 3}
-  m_PrefabInstance: {fileID: 553599202}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &553599207 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7015110366965444666, guid: fc4a6b276ac0f8048ad2bb76e3bbe1ea,
@@ -17611,7 +17605,7 @@ PrefabInstance:
         type: 3}
       propertyPath: deathScreen
       value: 
-      objectReference: {fileID: 553599206}
+      objectReference: {fileID: 553599204}
     - target: {fileID: 8784028494965770786, guid: 0581dea6987909f42aa93ce215fc8af7,
         type: 3}
       propertyPath: healthPackText

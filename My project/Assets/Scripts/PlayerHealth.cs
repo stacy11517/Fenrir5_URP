@@ -26,6 +26,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Start()
     {
+        IsDead = false;
         currentHealth = maxHealth;      // 初始化玩家生命值
         UpdateHealthBar();              // 初始化血條
         UpdateHealthPackText();         // 初始化補血包數量文本
