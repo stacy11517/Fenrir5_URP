@@ -26,7 +26,7 @@ public class CutsceneManager : MonoBehaviour
     void Update()
     {
         // 檢測是否長按任意鍵
-        if (Input.anyKey)
+        if (Input.anyKey &&cutscenePanel == true)
         {
             if (!isHoldingKey)
             {

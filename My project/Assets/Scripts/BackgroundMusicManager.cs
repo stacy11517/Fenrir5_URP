@@ -21,6 +21,7 @@ public class BackgroundMusicManager : MonoBehaviour
             DontDestroyOnLoad(gameObject); // 保持场景切换时不销毁
             audioSource = GetComponent<AudioSource>();
             SceneManager.sceneLoaded += OnSceneLoaded;
+            audioSource.volume = globalVolume; // 初始音量设置
         }
         else
         {
@@ -50,16 +51,16 @@ public class BackgroundMusicManager : MonoBehaviour
 
     private IEnumerator FadeOutAndChange(AudioClip newClip)
     {
-        if (audioSource.isPlaying)
+        float startVolume = audioSource.volume;
+
+        // 淡出当前音乐
+        for (float t = 0; t < fadeDuration; t += Time.deltaTime)
         {
-            // 淡出当前音乐
-            while (audioSource.volume > 0.1f)
-            {
-                audioSource.volume -= Time.deltaTime / fadeDuration;
-                yield return null;
-            }
-            audioSource.Stop();
+            audioSource.volume = Mathf.Lerp(startVolume, 0, t / fadeDuration);
+            yield return null;
         }
+        audioSource.Stop();
+        audioSource.volume = 0;
 
         // 切换到新音乐
         audioSource.clip = newClip;
@@ -68,12 +69,24 @@ public class BackgroundMusicManager : MonoBehaviour
             audioSource.Play();
 
             // 淡入新音乐
-            while (audioSource.volume < globalVolume)
+            for (float t = 0; t < fadeDuration; t += Time.deltaTime)
             {
-                audioSource.volume += Time.deltaTime / fadeDuration;
+                audioSource.volume = Mathf.Lerp(0, globalVolume, t / fadeDuration);
                 yield return null;
             }
             audioSource.volume = globalVolume; // 确保最终音量正确
         }
     }
+    // 设置音量（Slider 调用此方法）
+    public void SetVolume(float volume)
+    {
+        globalVolume = Mathf.Clamp01(volume);
+        audioSource.volume = globalVolume; // 即时更新音量
+    }
+    // 获取当前音量（方便 UI 初始化时同步显示）
+    public float GetVolume()
+    {
+        return globalVolume;
+    }
+
 }
