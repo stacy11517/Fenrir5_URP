@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class PortalManager : MonoBehaviour
 {
-    public GameObject portal;                // 傳送門對象
     public int requiredKills = 15;          // 開啟傳送門所需的擊殺數
     private int killCount = 0;              // 當前擊殺數
     private bool canEnterPortal = false;    // 是否能夠進入傳送門
@@ -13,39 +12,23 @@ public class PortalManager : MonoBehaviour
 
     void Start()
     {
-        // 初始化傳送門狀態
-        if (portal != null)
-        {
-            portal.SetActive(false);        // 傳送門在一開始是隱藏的
-        }
+        canEnterPortal = false;
+        killCount = 0;
     }
 
-    /// <summary>
+
     /// 增加擊殺數
-    /// </summary>
     public void AddKill()
     {
         killCount++;
         Debug.Log("擊殺數: " + killCount);
 
-        if (killCount >= requiredKills && !canEnterPortal)
+        if (killCount >= requiredKills)
         {
-            EnablePortalEntry();
+            Debug.Log("傳送門現在可以進入！");
+            canEnterPortal = true;
         }
-    }
-
-    /// <summary>
-    /// 允許進入傳送門
-    /// </summary>
-    void EnablePortalEntry()
-    {
-        Debug.Log("傳送門現在可以進入！");
-        canEnterPortal = true;
-
-        if (portal != null)
-        {
-            portal.SetActive(true); // 顯示傳送門
-        }
+    
     }
 
     /// <summary>
@@ -53,25 +36,11 @@ public class PortalManager : MonoBehaviour
     /// </summary>
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && canEnterPortal)
+        if (other.CompareTag("Player") && canEnterPortal==true)
         {
-            Debug.Log("進入傳送門，進入下一關！");
+            Debug.Log("開啟傳送門，進入下一關！");
             levelLoader.LoadNextLevel();
         }
     }
 
-    ///// <summary>
-    ///// 加載下一個場景
-    ///// </summary>
-    //void LoadNextLevel()
-    //{
-    //    if (!string.IsNullOrEmpty(nextSceneName))
-    //    {
-    //        SceneManager.LoadScene(nextSceneName); // 使用場景名稱加載
-    //    }
-    //    else
-    //    {
-    //        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); // 加載下一個場景
-    //    }
-    //}
 }

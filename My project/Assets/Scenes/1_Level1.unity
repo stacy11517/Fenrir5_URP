@@ -14922,6 +14922,17 @@ PrefabInstance:
       propertyPath: portal
       value: 
       objectReference: {fileID: 4290653558209483648}
+    - target: {fileID: 1088802005209116006, guid: 2b72466e50263cf4dbc9f0a0d9a73c6c,
+        type: 3}
+      propertyPath: levelLoader
+      value: 
+      objectReference: {fileID: 1670521518}
+    - target: {fileID: 3658173168245248889, guid: 2b72466e50263cf4dbc9f0a0d9a73c6c,
+        type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000,
+        type: 0}
     - target: {fileID: 3658173168245248889, guid: 2b72466e50263cf4dbc9f0a0d9a73c6c,
         type: 3}
       propertyPath: m_Name

@@ -840,18 +840,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7049925795546544004}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &416193595 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1184673886763629489, guid: ccf31892490fcf4449adc080befc60d1,
-    type: 3}
-  m_PrefabInstance: {fileID: 7049925795546544004}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 416193593}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 654ce40040e238a44a72c5b7b7dff2d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &416193596
 AudioSource:
   m_ObjectHideFlags: 0
@@ -862,7 +850,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 73a3fe2e8c6472d4981575762889a90b, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -948,6 +936,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &416193597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 416193593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3670df5806d5b8a478d0294620205d02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneClips:
+  - {fileID: 8300000, guid: 73a3fe2e8c6472d4981575762889a90b, type: 3}
+  - {fileID: 8300000, guid: f97447dfe3370c3459946800d26afb9c, type: 3}
+  - {fileID: 8300000, guid: 40ef37b861623a84dadbe0139ff32639, type: 3}
+  - {fileID: 8300000, guid: 554bda3b24666e246a96cbc36be0e10f, type: 3}
+  - {fileID: 8300000, guid: 19caee44447ac4c4280ae9e57a898e76, type: 3}
+  fadeDuration: 1
+  globalVolume: 1
 --- !u!1001 &428493457
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12240,7 +12248,7 @@ PrefabInstance:
         type: 3}
       propertyPath: bgmManager
       value: 
-      objectReference: {fileID: 416193595}
+      objectReference: {fileID: 0}
     - target: {fileID: 6678087799352424629, guid: 0550864c8482cb74e9b5b9f09201e189,
         type: 3}
       propertyPath: SettingPanel
@@ -15676,7 +15684,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: BGMcontroller
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1184673886763629489, guid: ccf31892490fcf4449adc080befc60d1, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -15684,6 +15693,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 416193596}
+    - targetCorrespondingSourceObject: {fileID: 5504630460966882846, guid: ccf31892490fcf4449adc080befc60d1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 416193597}
   m_SourcePrefab: {fileID: 100100000, guid: ccf31892490fcf4449adc080befc60d1, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -15691,6 +15704,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1068988804}
   - {fileID: 7049925795546544004}
+  - {fileID: 3819518050290948116}
   - {fileID: 935660383}
   - {fileID: 1613014755}
   - {fileID: 1018950664}
@@ -15699,6 +15713,5 @@ SceneRoots:
   - {fileID: 538668930}
   - {fileID: 1028956783}
   - {fileID: 189558587}
-  - {fileID: 3819518050290948116}
   - {fileID: 826295157}
   - {fileID: 1066614274}

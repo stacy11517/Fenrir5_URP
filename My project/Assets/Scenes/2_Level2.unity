@@ -607,8 +607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 368319527254a15459bc8fa4decf7e65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portal: {fileID: 7718785787584461769}
-  requiredKills: 0
+  requiredKills: 1
   nextSceneName: 3_Level3
   levelLoader: {fileID: 802532288}
 --- !u!4 &71628971 stripped
@@ -2810,7 +2809,7 @@ PrefabInstance:
     - target: {fileID: 5849215492327139724, guid: 82dede1f90283e445af69fcd5ec16c94,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.86
       objectReference: {fileID: 0}
     - target: {fileID: 5849215492327139724, guid: 82dede1f90283e445af69fcd5ec16c94,
         type: 3}
@@ -6245,7 +6244,7 @@ PrefabInstance:
     - target: {fileID: 2198596326913196715, guid: ff671f535716d984fb5ad747beab51b1,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6242326453367031918, guid: ff671f535716d984fb5ad747beab51b1,
         type: 3}
@@ -14768,6 +14767,127 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3317920755857860044}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1769584034
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1769584038}
+  - component: {fileID: 1769584037}
+  - component: {fileID: 1769584036}
+  - component: {fileID: 1769584035}
+  - component: {fileID: 1769584039}
+  m_Layer: 0
+  m_Name: EnemyDisppearController
+  m_TagString: Untagged
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1769584035
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769584034}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1769584036
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769584034}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1769584037
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769584034}
+  m_Mesh: {fileID: 0}
+--- !u!4 &1769584038
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769584034}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 26.05144, y: -22.736, z: 58.18198}
+  m_LocalScale: {x: 13.86, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1769584039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769584034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84959e3e52c6bc845bfb7ddd9bc9ec2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemySpawner: {fileID: 1523947393}
+  enemyTag: Enemy
+  playerTag: Player
 --- !u!4 &1771110791 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: dfae416c23ce952438a5451c76595b17,
@@ -34552,7 +34672,7 @@ GameObject:
   m_Layer: 0
   m_Name: IcePlatformController
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -53708,7 +53828,7 @@ PrefabInstance:
     - target: {fileID: 2677219497243367234, guid: a431721933784ca4d945389b47fbbbb3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -21.71
+      value: -21.526
       objectReference: {fileID: 0}
     - target: {fileID: 2677219497243367234, guid: a431721933784ca4d945389b47fbbbb3,
         type: 3}
@@ -53755,12 +53875,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a431721933784ca4d945389b47fbbbb3, type: 3}
---- !u!1 &7718785787584461769 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2632738979945467134, guid: a431721933784ca4d945389b47fbbbb3,
-    type: 3}
-  m_PrefabInstance: {fileID: 7718785787584461768}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7722047217226464602
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -60408,6 +60522,7 @@ SceneRoots:
   - {fileID: 1523947394}
   - {fileID: 69938930}
   - {fileID: 733592999479907656}
+  - {fileID: 394394992}
   - {fileID: 457692388}
   - {fileID: 553599202}
   - {fileID: 1244141386}
@@ -60421,4 +60536,4 @@ SceneRoots:
   - {fileID: 256930611}
   - {fileID: 2109539112}
   - {fileID: 7718785787584461768}
-  - {fileID: 394394992}
+  - {fileID: 1769584038}

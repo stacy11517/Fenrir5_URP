@@ -25,7 +25,6 @@ public class UIbutton : MonoBehaviour
 
     // 背景音樂音量調整
     public Slider bgmVolumeSlider;      // 音量滑塊
-    public BGMManager bgmManager;       // BGM 管理器
 
     private bool isPause = false;
     private bool isDeathScreenActive = false;
@@ -48,11 +47,7 @@ public class UIbutton : MonoBehaviour
         eventSystem = EventSystem.current;
         if (mainMenuFirstButton != null) SetFirstSelectedButton(mainMenuFirstButton);
 
-        // 初始化音量滑塊
-        if (bgmVolumeSlider != null && bgmManager != null)
-        {
-            bgmVolumeSlider.value = bgmManager.audioSource.volume;
-        }
+
     }
 
     private void Update()
@@ -152,14 +147,6 @@ public class UIbutton : MonoBehaviour
         if (mainMenuFirstButton != null) SetFirstSelectedButton(mainMenuFirstButton);
     }
 
-    // 調整背景音樂音量
-    public void AdjustBGMVolume(float volume)
-    {
-        if (bgmManager != null)
-        {
-            bgmManager.audioSource.volume = Mathf.Clamp01(volume);
-        }
-    }
     // 顯示操作圖片
     public void ShowOperationImage()
     {
