@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class PlayerHealth : MonoBehaviour
     public ParticleSystem healEffect;    // 補血時的特效
 
     public Animator DeadScreenFadeIn;
+
+    public Button DeadScreenFirstButton;
+    private EventSystem eventSystem;
 
     private PlayerController playerController;
     public bool IsDead { get; private set; } = false;  // 玩家死亡狀態，只讀屬性
@@ -145,6 +149,15 @@ public class PlayerHealth : MonoBehaviour
             Die();
         }
     }
+    // 設置第一個選中的按鈕
+    private void SetFirstSelectedButton(Button button)
+    {
+        if (button != null)
+        {
+            eventSystem.SetSelectedGameObject(null);
+            eventSystem.SetSelectedGameObject(button.gameObject);
+        }
+    }
 
     // 玩家死亡邏輯
     void Die()
@@ -171,6 +184,8 @@ public class PlayerHealth : MonoBehaviour
         // 等待死亡動畫完成
         if (animator != null)
         {
+            // 設置死亡面板按鈕
+            if (DeadScreenFirstButton != null) SetFirstSelectedButton(DeadScreenFirstButton);
             yield return new WaitUntil(() =>
                 animator.GetCurrentAnimatorStateInfo(0).IsName("Die") &&
                 animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);

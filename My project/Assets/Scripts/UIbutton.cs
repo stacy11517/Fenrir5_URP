@@ -9,7 +9,6 @@ public class UIbutton : MonoBehaviour
     public GameObject MainPanel;
     public GameObject PausePanel;
     public GameObject SettingPanel;
-    public GameObject DeathScreen;
 
     // 操作圖片和玩法圖片
     public GameObject OperationImage;
@@ -19,16 +18,9 @@ public class UIbutton : MonoBehaviour
     public Button pauseFirstButton;
     public Button mainMenuFirstButton;
     public Button settingsFirstButton;
-    public Button deathFirstButton;
-    public Button volumeSettingsButton; // 音量設定按鈕
-    public Button confirmVolumeButton;  // 確認音量按鈕
 
-    // 背景音樂音量調整
-    public Slider bgmVolumeSlider;      // 音量滑塊
 
     private bool isPause = false;
-    private bool isDeathScreenActive = false;
-    private bool isAdjustingVolume = false; // 是否正在調整音量
     private EventSystem eventSystem;
 
     private void Start()
@@ -37,7 +29,6 @@ public class UIbutton : MonoBehaviour
         if (MainPanel != null) MainPanel.SetActive(true);
         if (PausePanel != null) PausePanel.SetActive(false);
         if (SettingPanel != null) SettingPanel.SetActive(false);
-        if (DeathScreen != null) DeathScreen.SetActive(false);
 
         // 初始化圖片狀態
         if (OperationImage != null) OperationImage.SetActive(false);
@@ -53,26 +44,12 @@ public class UIbutton : MonoBehaviour
     private void Update()
     {
         // 檢測按下暫停按鍵（Escape 或手柄 Start 按鈕）
-        if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton7)) && !isDeathScreenActive)
+        if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton7)))
         {
             TogglePause();
         }
 
-        // 如果在調整音量，允許手柄或鍵盤操作滑塊
-        if (isAdjustingVolume && bgmVolumeSlider != null)
-        {
-            float input = Input.GetAxis("Horizontal"); // 手柄左右軸或鍵盤左右鍵
-            if (Mathf.Abs(input) > 0.1f)
-            {
-                bgmVolumeSlider.value += input * Time.deltaTime; // 平滑調整音量
-            }
-
-            // 按下確認鍵（Enter 或手柄 A 按鈕）時確認音量
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.JoystickButton0))
-            {
-                ConfirmVolumeAdjustment();
-            }
-        }
+        
     }
 
     // 切換暫停狀態
@@ -100,6 +77,13 @@ public class UIbutton : MonoBehaviour
         }
     }
 
+    // 恢复游戏
+    public void ContinueGame()
+    {
+        Time.timeScale = 1f; // 恢复游戏时间
+        PausePanel.SetActive(false); // 隐藏暂停菜单
+    }
+
     // 進入設置面板
     public void EnterSettings()
     {
@@ -111,28 +95,11 @@ public class UIbutton : MonoBehaviour
 
         if (settingsFirstButton != null) SetFirstSelectedButton(settingsFirstButton);
     }
-
-    // 進入音量調整功能
-    public void EnterVolumeSettings()
+    // 返回主菜单
+    public void ReturnToMainMenu()
     {
-        if (bgmVolumeSlider == null || confirmVolumeButton == null) return;
-
-        isAdjustingVolume = true;
-
-        // 激活音量滑塊並設置滑塊為選中目標
-        bgmVolumeSlider.gameObject.SetActive(true);
-        SetFirstSelectedButton(confirmVolumeButton);
-    }
-
-    // 確認音量調整，返回音量設定按鈕
-    public void ConfirmVolumeAdjustment()
-    {
-        isAdjustingVolume = false;
-
-        if (volumeSettingsButton != null)
-        {
-            SetFirstSelectedButton(volumeSettingsButton);
-        }
+        Time.timeScale = 1f; // 恢复时间（防止从暂停状态返回）
+        SceneManager.LoadScene(0); // 加载场景索引为 0 的主菜单
     }
 
     // 返回主畫面
@@ -145,6 +112,16 @@ public class UIbutton : MonoBehaviour
         MainPanel.SetActive(true);
 
         if (mainMenuFirstButton != null) SetFirstSelectedButton(mainMenuFirstButton);
+    }
+    // 返回暫停畫面
+    public void ReturnToPPausePanel()
+    {
+        if (PausePanel == null) return;
+
+        if (SettingPanel != null) SettingPanel.SetActive(false);
+        PausePanel.SetActive(true);
+
+        if (pauseFirstButton != null) SetFirstSelectedButton(pauseFirstButton);
     }
 
     // 顯示操作圖片
@@ -180,5 +157,10 @@ public class UIbutton : MonoBehaviour
 #else
         Application.Quit();
 #endif
+    }
+    public void RestartScene()
+    {
+        // 获取当前活动场景的名称并重新加载
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
