@@ -39,6 +39,8 @@ public class SkillTree : MonoBehaviour
     private CharacterController characterController;
     private bool isPerformingSkill = false;
 
+    public TriggerEvent triggerEvent; // 引用 TriggerEvent
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -207,6 +209,12 @@ public class SkillTree : MonoBehaviour
             PlayEffect(spinAttackEffect, transform.position);
             StartCoroutine(PerformSpinAttack());
             StartCoroutine(CooldownRoutine(spinAttackCooldown, spinAttackCooldownImage));
+
+            // 通知 TriggerEvent
+            if (triggerEvent != null)
+            {
+                triggerEvent.RegisterSkillUse();
+            }
         }
     }
 
