@@ -13,6 +13,7 @@ public class EnemyHealth : MonoBehaviour
     private bool canPlayHurtEffect = true;       // 控制是否可以播放受傷特效
 
     public PortalManager portalManager; // 引用 PortalManager
+    public event System.Action OnEnemyDeath;
 
     void Start()
     {
@@ -67,6 +68,11 @@ public class EnemyHealth : MonoBehaviour
         {
             portalManager.AddKill();
         }
+
+        Destroy(gameObject, 2f); // 延遲銷毀
+
+        // 通知生成器敵人死亡
+        OnEnemyDeath?.Invoke();
 
         Destroy(gameObject, 2f); // 延遲銷毀
     }
