@@ -340,9 +340,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   chaseDistance: 15
-  attackDistance: 3
+  attackDistance: 4
   attackCooldown: 0.6
-  attackDamage: 100
+  attackDamage: 12
   attackRadius: 1.5
   attackAngle: 60
   playerLayer:

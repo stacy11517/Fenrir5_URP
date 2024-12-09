@@ -49,6 +49,11 @@ public class PlayerHealth : MonoBehaviour
             {
                 UseHealthPack();
             }
+            // 測試按鍵 L，扣除 50 血
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                TakeDamage(50);
+            }
         }
     }
 

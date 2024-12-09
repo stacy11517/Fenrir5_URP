@@ -110,6 +110,7 @@ public class EnemyController : MonoBehaviour
                 if (playerHealth != null)
                 {
                     playerHealth.TakeDamage(attackDamage);
+                    Debug.Log("玩家受到攻擊，扣血：" + attackDamage);
                 }
             }
         }
