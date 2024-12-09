@@ -360,7 +360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 282e0f753b75e2946b95e316ac1f2dc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 30
+  maxHealth: 60
   currentHealth: 0
   hurtEffect: {fileID: 3823007768700803612, guid: 371b4d52f0c8a864ab84567b2c3f5057,
     type: 3}

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class TriggerEvent : MonoBehaviour
 {
@@ -16,12 +17,18 @@ public class TriggerEvent : MonoBehaviour
     private bool playerInZone = false; // 玩家是否在區域內
     private bool platformLocked = true; // 平台是否鎖定，初始時為鎖定
 
-    public ParticleSystem skillEffect; // 技能觸發特效
+    public GameObject IceHint;
 
+    private void Start()
+    {
+        IceHint.SetActive(false);
+    }
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            IceHint.SetActive(true);
+
             if (cameraController == null)
             {
                 Debug.LogError("CameraController 未設置！");
@@ -39,6 +46,8 @@ public class TriggerEvent : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            IceHint.SetActive(false);
+
             if (cameraController == null)
             {
                 Debug.LogError("CameraController 未設置！");
@@ -70,11 +79,8 @@ public class TriggerEvent : MonoBehaviour
             StartCoroutine(SmoothMovePlatform(targetPosition, moveDuration));
         }
 
-        // 播放技能特效
-        if (skillEffect != null)
-        {
-            skillEffect.Play();
-        }
+
+        
 
         // 如果是最後一次技能使用，連接下一塊地面
         if (skillUseCount == skillOffsets.Length && nextPlatform != null)

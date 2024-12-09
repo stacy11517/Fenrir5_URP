@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth = 100;          // 玩家最大生命值
     public int currentHealth;            // 玩家當前生命值
     public int healthPackCount = 0;      // 補血包的數量
+    public int AddHealthAmount =75;          //補血量
     public Image healthBar;              // 血條 UI
     public TMP_Text healthPackText;      // 血量包數量的 TextMeshPro 元件
     public GameObject deathScreen;       // 死亡畫面 UI
@@ -86,7 +87,7 @@ public class PlayerHealth : MonoBehaviour
                 playerController.canMove = false; // 禁止玩家移動
             }
 
-            Heal(75);                            // 恢復75點生命值
+            Heal(AddHealthAmount);               // 恢復生命值
             healthPackCount--;                   // 補血包數量減少
             UpdateHealthPackText();              // 更新補血包文本
 
