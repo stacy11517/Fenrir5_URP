@@ -160,6 +160,7 @@ public class UIbutton : MonoBehaviour
     }
     public void RestartScene()
     {
+        Time.timeScale = 1f; // 恢复时间（防止从暂停状态返回）
         // 获取当前活动场景的名称并重新加载
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

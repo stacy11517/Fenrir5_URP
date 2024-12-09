@@ -42,7 +42,8 @@ public class PlayerHealth : MonoBehaviour
         }
 
         playerController = GetComponent<PlayerController>(); // 獲取 PlayerController 元件
-
+                                                             // 初始化 EventSystem
+        eventSystem = EventSystem.current;
     }
 
     void Update()
@@ -184,8 +185,7 @@ public class PlayerHealth : MonoBehaviour
         // 等待死亡動畫完成
         if (animator != null)
         {
-            // 設置死亡面板按鈕
-            if (DeadScreenFirstButton != null) SetFirstSelectedButton(DeadScreenFirstButton);
+            
             yield return new WaitUntil(() =>
                 animator.GetCurrentAnimatorStateInfo(0).IsName("Die") &&
                 animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f);
@@ -195,10 +195,15 @@ public class PlayerHealth : MonoBehaviour
         //顯示死亡畫面
         if (deathScreen != null)
         {
+
             deathScreen.SetActive(true);
+            // 設置死亡面板按鈕
+            if (DeadScreenFirstButton != null) SetFirstSelectedButton(DeadScreenFirstButton);
         }
         Time.timeScale = 0f; // 暫停遊戲
         DeadScreenFadeIn.SetTrigger("Show");
+
+
 
 
     }
