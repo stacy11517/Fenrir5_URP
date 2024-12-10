@@ -18,6 +18,9 @@ public class EnemyController : MonoBehaviour
 
     private EnemyHealth enemyHealth;       // 引用 EnemyHealth
 
+    public AudioClip AttackSound;
+    private AudioSource audioSource;  // 音效播放器
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -35,6 +38,10 @@ public class EnemyController : MonoBehaviour
             {
                 Debug.LogError("未找到玩家，请确保场景中存在带有 'Player' 标签的对象！");
             }
+        }
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
         }
     }
 
@@ -97,6 +104,10 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     public void DealDamage()
     {
+        if (AttackSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(AttackSound);
+        }
         Collider[] hitTargets = Physics.OverlapSphere(transform.position, attackRadius, playerLayer);
         foreach (Collider target in hitTargets)
         {

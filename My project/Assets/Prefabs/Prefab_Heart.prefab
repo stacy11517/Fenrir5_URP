@@ -61,7 +61,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6ab15f170558d5143a291c97f8506e9e,
         type: 3}
       propertyPath: m_Name
-      value: Heart
+      value: Prefab_Heart
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6ab15f170558d5143a291c97f8506e9e,
         type: 3}
@@ -102,5 +102,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.16668649, y: 0.5002635, z: 0.5002636}
-  m_Center: {x: 0, y: -0.025553882, z: 0}
+  m_Size: {x: 0.39655256, y: 0.5002635, z: 0.5002636}
+  m_Center: {x: -0.018445969, y: -0.025553882, z: 8.523011e-26}

@@ -22822,6 +22822,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5492405324770449056, guid: 0581dea6987909f42aa93ce215fc8af7,
         type: 3}
+      propertyPath: hitCooldown
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5492405324770449056, guid: 0581dea6987909f42aa93ce215fc8af7,
+        type: 3}
       propertyPath: triggerEvent
       value: 
       objectReference: {fileID: 1666032342}

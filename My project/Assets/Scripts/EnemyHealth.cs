@@ -15,10 +15,19 @@ public class EnemyHealth : MonoBehaviour
     public PortalManager portalManager; // 引用 PortalManager
     public event System.Action OnEnemyDeath;
 
+    public AudioClip DeadSound;
+    private AudioSource audioSource;  // 音效播放器
+
     void Start()
     {
         currentHealth = maxHealth;
         animator = GetComponent<Animator>();
+
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
     }
 
     public void TakeDamage(int damage)
@@ -61,6 +70,11 @@ public class EnemyHealth : MonoBehaviour
         if (animator != null)
         {
             animator.SetTrigger("Die");
+        }
+
+        if (DeadSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(DeadSound);
         }
 
         // 通知 PortalManager 增加擊殺數

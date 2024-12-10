@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,6 +36,9 @@ public class SkillTree : MonoBehaviour
     public float doubleDashRange = 0.2f;
     public Image doubleDashCooldownImage;
     public ParticleSystem doubleDashEffect;
+    private Dictionary<Collider, float> enemyHitCooldowns = new Dictionary<Collider, float>(); // 記錄敵人最後一次被攻擊的時間
+    public float hitCooldown = 1f; // 每個敵人可被攻擊的最小間隔時間
+
 
     // 起跳旋转攻击技能属性
     public float spinAttackCooldown = 7f;
@@ -210,19 +214,26 @@ public class SkillTree : MonoBehaviour
             {
                 if (enemy.CompareTag("Enemy") || enemy.CompareTag("Odin"))
                 {
-                    // 如果是普通敵人
-                    EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
-                    if (enemyHealth != null)
+                    // 檢查冷卻時間
+                    if (!enemyHitCooldowns.ContainsKey(enemy) || Time.time - enemyHitCooldowns[enemy] > hitCooldown)
                     {
-                        enemyHealth.TakeDamage(doubleDashDamage);
-                    }
+                        // 更新冷卻時間
+                        enemyHitCooldowns[enemy] = Time.time;
 
-                    // 如果是奧丁
-                    OdinHealth odinHealth = enemy.GetComponent<OdinHealth>();
-                    if (odinHealth != null)
-                    {
-                        odinHealth.TakeDamage(doubleDashDamage);
-                        Debug.Log("Odin took " + doubleDashDamage + " damage from Double Dash.");
+                        // 如果是普通敵人
+                        EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+                        if (enemyHealth != null)
+                        {
+                            enemyHealth.TakeDamage(doubleDashDamage);
+                        }
+
+                        // 如果是奧丁
+                        OdinHealth odinHealth = enemy.GetComponent<OdinHealth>();
+                        if (odinHealth != null)
+                        {
+                            odinHealth.TakeDamage(doubleDashDamage);
+                            Debug.Log("Odin took " + doubleDashDamage + " damage from Double Dash.");
+                        }
                     }
                 }
             }
@@ -230,6 +241,7 @@ public class SkillTree : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+    
 
         // 如果是第二次衝刺，技能完成
         if (speed < 0)

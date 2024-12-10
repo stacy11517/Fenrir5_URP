@@ -348,6 +348,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
+  AttackSound: {fileID: 8300000, guid: 32345a5a4d7f02141aa82c3cdcea1486, type: 3}
 --- !u!114 &1411410422046414763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,6 +367,7 @@ MonoBehaviour:
     type: 3}
   hurtEffectCooldown: 1
   portalManager: {fileID: 0}
+  DeadSound: {fileID: 8300000, guid: 1e252452ed7a1f641a17973ba4704dba, type: 3}
 --- !u!54 &8550092713253869049
 Rigidbody:
   m_ObjectHideFlags: 0

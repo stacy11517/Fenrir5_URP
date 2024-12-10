@@ -14,6 +14,9 @@ public class LightningStrike : MonoBehaviour
     public int lightningDamage = 20; // 雷擊傷害
     public float strikeRadius = 5f; // 雷擊傷害範圍半徑
 
+    public AudioClip thunderSound;
+    public AudioSource audioSource;  // 音效播放器
+
     private Transform player;
 
     void Start()
@@ -47,6 +50,11 @@ public class LightningStrike : MonoBehaviour
 
             // 在警告範圍位置生成雷擊
             Instantiate(lightningPrefab, randomPosition, Quaternion.identity);
+
+            if (thunderSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(thunderSound);
+            }
 
             // 檢查玩家是否在雷擊範圍內
             float distanceToPlayer = Vector3.Distance(player.position, randomPosition);
