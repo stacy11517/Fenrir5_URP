@@ -393,7 +393,7 @@ MonoBehaviour:
     type: 3}
   throwPoint: {fileID: 880540578}
   lightningStrikeManager: {fileID: 185549931}
-  thunderBallCooldown: 7
+  thunderBallCooldown: 4
   thunderBallSpeed: 20
   thunderBallDamage: 50
 --- !u!4 &72915218 stripped
@@ -537,7 +537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 293ec2ac9d0189045899a5b795cbb0f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1
+  maxHealth: 800
   currentHealth: 0
   healthBarFill: {fileID: 1622219036}
   hurtEffect: {fileID: 3823007768700803612, guid: 371b4d52f0c8a864ab84567b2c3f5057,
@@ -667,18 +667,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf28d300e9ee8ed478c94f343a20d953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightningCooldown: 5
+  lightningCooldown: 2
   lightningPrefab: {fileID: 3951229733498235658, guid: 0c8413a4bd48c2541b7692ccdf04f84a,
     type: 3}
-  warningCirclePrefab: {fileID: 6648251979812057765, guid: fabb8f6e846a3f24a99fc14926a386b0,
+  warningCirclePrefab: {fileID: 3672287487186755499, guid: 644300ef86ed51e41b39ee94cd49b3d0,
     type: 3}
   platformCenter: {fileID: 1394607069}
   platformRadius: 15
   minStrikes: 2
-  maxStrikes: 3
+  maxStrikes: 5
   warningDuration: 1.5
   lightningDamage: 20
-  strikeRadius: 3
+  strikeRadius: 0.6
 --- !u!1001 &191245674
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2282,6 +2282,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9015972319191461146, guid: 1bcdf2df55a1fb14ba9b45ecb6fbd2b5,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 200
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
