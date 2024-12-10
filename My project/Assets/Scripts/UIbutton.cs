@@ -23,10 +23,17 @@ public class UIbutton : MonoBehaviour
     private bool isPause = false;
     private EventSystem eventSystem;
 
+    public Animator tipsShine;
+
     private void Start()
     {
         // 初始化面板狀態
-        if (MainPanel != null) MainPanel.SetActive(true);
+        if (MainPanel != null) 
+        {
+            MainPanel.SetActive(true);
+            tipsShine.SetTrigger("Shine");
+        }
+        
         if (PausePanel != null) PausePanel.SetActive(false);
         if (SettingPanel != null) SettingPanel.SetActive(false);
 
