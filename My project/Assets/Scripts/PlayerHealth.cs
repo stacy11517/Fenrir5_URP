@@ -25,6 +25,10 @@ public class PlayerHealth : MonoBehaviour
     public Button DeadScreenFirstButton;
     private EventSystem eventSystem;
 
+    public AudioClip pickupSound;
+    public AudioClip healingSound;
+    private AudioSource audioSource;  // 音效播放器
+
     private PlayerController playerController;
     public bool IsDead { get; private set; } = false;  // 玩家死亡狀態，只讀屬性
 
@@ -49,6 +53,11 @@ public class PlayerHealth : MonoBehaviour
         playerController = GetComponent<PlayerController>(); // 獲取 PlayerController 元件
                                                              // 初始化 EventSystem
         eventSystem = EventSystem.current;
+
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
     }
 
     void Update()
@@ -81,6 +90,10 @@ public class PlayerHealth : MonoBehaviour
     {
         if (other.CompareTag("HealthPack"))
         {
+            if (pickupSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(pickupSound);
+            }
             healthPackCount++;               // 補血包數量增加
             UpdateHealthPackText();          // 更新補血包文本
             Destroy(other.gameObject);       // 銷毀補血包物件
@@ -105,6 +118,10 @@ public class PlayerHealth : MonoBehaviour
             if (healEffect != null)
             {
                 Instantiate(healEffect, transform.position, transform.rotation).Play();
+            }
+            if (healingSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(healingSound);
             }
 
             Invoke("EnableMovement", 1f);        // 延遲恢復移動

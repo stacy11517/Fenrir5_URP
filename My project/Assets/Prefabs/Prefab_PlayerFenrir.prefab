@@ -705,6 +705,8 @@ MonoBehaviour:
   animator: {fileID: 5199370834163755310}
   healEffect: {fileID: 261971583009404640, guid: 744a3b18d501774429b2ad1a9ae250e5,
     type: 3}
+  hurtEffect: {fileID: 0}
+  hurtEffectCooldown: 1
   DeadScreenFadeIn: {fileID: 0}
   DeadScreenFirstButton: {fileID: 0}
 --- !u!114 &5492405324770449056
@@ -720,6 +722,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 5199370834163755310}
+  AttackSound: {fileID: 0}
+  DashSound: {fileID: 8300000, guid: 2800bb58328af0f48aa1f556e98da4cd, type: 3}
+  DoubleDashSound: {fileID: 8300000, guid: 1e12f460ee4f48642909f438b3daee1c, type: 3}
+  SpinSound: {fileID: 0}
   attackPoint: {fileID: 3024663783568903462}
   attackRange: 4
   attackAngle: 45
@@ -734,6 +740,7 @@ MonoBehaviour:
   doubleDashDuration: 0.5
   doubleDashCooldown: 5
   doubleDashDamage: 25
+  doubleDashRange: 0.2
   doubleDashCooldownImage: {fileID: 0}
   doubleDashEffect: {fileID: 0}
   spinAttackCooldown: 3

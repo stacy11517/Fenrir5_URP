@@ -7,6 +7,12 @@ public class SkillTree : MonoBehaviour
     // 动画
     public Animator animator;
 
+    public AudioClip AttackSound;// 音效檔案
+    public AudioClip DashSound;
+    public AudioClip DoubleDashSound;
+    public AudioClip SpinSound;
+    private AudioSource audioSource;  // 音效播放器
+
     // 普通攻击属性
     public Transform attackPoint;
     public float attackRange = 0.5f;
@@ -53,6 +59,11 @@ public class SkillTree : MonoBehaviour
         }
 
         ResetCooldownImages();
+
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
     }
 
     void Update()
@@ -78,6 +89,11 @@ public class SkillTree : MonoBehaviour
     // Animator Event: 普通攻擊造成傷害
     public void PerformNormalAttack()
     {
+        if (AttackSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(AttackSound);
+        }
+
         Collider[] hitTargets = Physics.OverlapSphere(attackPoint.position, attackRange);
         foreach (Collider hit in hitTargets)
         {
@@ -120,6 +136,12 @@ public class SkillTree : MonoBehaviour
             isPerformingSkill = true;
 
             PlayEffect(dashEffect, transform.position);
+
+            if (DashSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(DashSound);
+            }
+
             StartCoroutine(PerformDash());
             StartCoroutine(CooldownRoutine(dashCooldown, dashCooldownImage));
         }
@@ -159,6 +181,10 @@ public class SkillTree : MonoBehaviour
     // 動畫事件：觸發第一次衝刺
     public void PerformFirstDash()
     {
+        if (DoubleDashSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(DoubleDashSound);
+        }
         StartCoroutine(DashMovement(doubleDashSpeed, doubleDashDuration));
     }
 
@@ -238,6 +264,10 @@ public class SkillTree : MonoBehaviour
     {
         // 播放起始特效
         PlayEffect(spinAttackEffect, transform.position);
+        if (SpinSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(SpinSound);
+        }
         // 检查范围内的敌人
         Collider[] hitEnemies = Physics.OverlapSphere(transform.position, spinAttackRange);
         foreach (Collider hit in hitEnemies)

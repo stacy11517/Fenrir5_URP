@@ -22904,6 +22904,16 @@ PrefabInstance:
       objectReference: {fileID: 553599204}
     - target: {fileID: 8784028494965770786, guid: 0581dea6987909f42aa93ce215fc8af7,
         type: 3}
+      propertyPath: pickupSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 99447f7a873ba5a42bb9ae3451c5af59, type: 3}
+    - target: {fileID: 8784028494965770786, guid: 0581dea6987909f42aa93ce215fc8af7,
+        type: 3}
+      propertyPath: healingSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 383fa48810e42d2448538aeb1f5fce00, type: 3}
+    - target: {fileID: 8784028494965770786, guid: 0581dea6987909f42aa93ce215fc8af7,
+        type: 3}
       propertyPath: healthPackText
       value: 
       objectReference: {fileID: 1804058223}
