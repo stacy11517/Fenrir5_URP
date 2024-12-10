@@ -9,8 +9,8 @@ public class SkillTree : MonoBehaviour
 
     // 普通攻击属性
     public Transform attackPoint;
-    public float attackRange = 1f;
-    public float attackAngle = 45f;
+    public float attackRange = 0.5f;
+    public float attackAngle = 120f;
     public int normalAttackDamage = 10;
     public ParticleSystem normalAttackEffect;
 
@@ -22,17 +22,18 @@ public class SkillTree : MonoBehaviour
     public ParticleSystem dashEffect;
 
     // 来回冲刺技能属性
-    public float doubleDashSpeed = 20f;
-    public float doubleDashDuration = 0.5f;
+    public float doubleDashSpeed = 15f;
+    public float doubleDashDuration = 0.3f;
     public float doubleDashCooldown = 5f;
-    public int doubleDashDamage = 25;
+    public int doubleDashDamage = 20;
+    public float doubleDashRange = 0.2f;
     public Image doubleDashCooldownImage;
     public ParticleSystem doubleDashEffect;
 
     // 起跳旋转攻击技能属性
     public float spinAttackCooldown = 7f;
     public int spinAttackDamage = 20;
-    public float spinAttackRange = 2.5f;
+    public float spinAttackRange = 4f;
     public Image spinAttackCooldownImage;
     public ParticleSystem spinAttackEffect;
 
@@ -144,25 +145,31 @@ public class SkillTree : MonoBehaviour
     {
         if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.JoystickButton3)) && doubleDashCooldownImage.fillAmount == 1f)
         {
-            animator.SetTrigger("DoubleDash");
+            animator.SetTrigger("DoubleDash"); // 播放动画
             isPerformingSkill = true;
 
+            // 播放特效（初始位置）
             PlayEffect(doubleDashEffect, transform.position);
-            StartCoroutine(PerformDoubleDash());
+
+            // 开始冷却计时
             StartCoroutine(CooldownRoutine(doubleDashCooldown, doubleDashCooldownImage));
         }
     }
 
-    IEnumerator PerformDoubleDash()
+    // 動畫事件：觸發第一次衝刺
+    public void PerformFirstDash()
     {
-        yield return PerformDashAndAttack(doubleDashSpeed, doubleDashDuration);
-        yield return new WaitForSeconds(0.2f);
-        yield return PerformDashAndAttack(-doubleDashSpeed, doubleDashDuration);
-
-        isPerformingSkill = false;
+        StartCoroutine(DashMovement(doubleDashSpeed, doubleDashDuration));
     }
 
-    IEnumerator PerformDashAndAttack(float speed, float duration)
+    // 動畫事件：觸發第二次衝刺
+    public void PerformSecondDash()
+    {
+        StartCoroutine(DashMovement(-doubleDashSpeed, doubleDashDuration));
+    }
+
+    // 衝刺的位移和攻擊邏輯
+    IEnumerator DashMovement(float speed, float duration)
     {
         float elapsedTime = 0f;
 
@@ -171,7 +178,8 @@ public class SkillTree : MonoBehaviour
             Vector3 dashDirection = transform.forward * speed;
             characterController.Move(dashDirection * Time.deltaTime);
 
-            Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange);
+            // 攻擊判定
+            Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, doubleDashRange);
             foreach (Collider enemy in hitEnemies)
             {
                 if (enemy.CompareTag("Enemy") || enemy.CompareTag("Odin"))
@@ -188,7 +196,7 @@ public class SkillTree : MonoBehaviour
                     if (odinHealth != null)
                     {
                         odinHealth.TakeDamage(doubleDashDamage);
-                        Debug.Log("Odin took " + doubleDashDamage + " damage from Spin Attack.");
+                        Debug.Log("Odin took " + doubleDashDamage + " damage from Double Dash.");
                     }
                 }
             }
@@ -196,21 +204,28 @@ public class SkillTree : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+
+        // 如果是第二次衝刺，技能完成
+        if (speed < 0)
+        {
+            isPerformingSkill = false; // 技能結束
+        }
     }
+
 
     // 起跳旋转攻击
     void HandleSpinAttack()
     {
         if ((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton1)) && spinAttackCooldownImage.fillAmount == 1f)
         {
-            animator.SetTrigger("SpinAttack");
+            animator.SetTrigger("SpinAttack"); // 触发动画
             isPerformingSkill = true;
 
-            PlayEffect(spinAttackEffect, transform.position);
-            StartCoroutine(PerformSpinAttack());
+
+            // 开始冷却计时
             StartCoroutine(CooldownRoutine(spinAttackCooldown, spinAttackCooldownImage));
 
-            // 通知 TriggerEvent
+            // 通知 TriggerEvent（如果有事件系统）
             if (triggerEvent != null)
             {
                 triggerEvent.RegisterSkillUse();
@@ -218,10 +233,12 @@ public class SkillTree : MonoBehaviour
         }
     }
 
-    IEnumerator PerformSpinAttack()
+    // 动画事件：触发旋转攻击的实际效果
+    public void PerformSpinAttack()
     {
-        yield return new WaitForSeconds(0.5f);
-
+        // 播放起始特效
+        PlayEffect(spinAttackEffect, transform.position);
+        // 检查范围内的敌人
         Collider[] hitEnemies = Physics.OverlapSphere(transform.position, spinAttackRange);
         foreach (Collider hit in hitEnemies)
         {
@@ -244,8 +261,15 @@ public class SkillTree : MonoBehaviour
             }
         }
 
-        isPerformingSkill = false;
+        
     }
+
+    // 动画事件：技能完成时调用
+    public void EndSpinAttack()
+    {
+        isPerformingSkill = false; // 技能完成，恢复正常状态
+    }
+
 
     // 公共方法：播放特效
     void PlayEffect(ParticleSystem effect, Vector3 position)

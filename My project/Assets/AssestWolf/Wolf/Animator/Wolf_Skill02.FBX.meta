@@ -263,7 +263,7 @@ ModelImporter:
     second: wolf
   - first:
       74: 7400000
-    second: Skill02
+    second: Skill02_SpinAttack
   - first:
       95: 9500000
     second: //RootNode
@@ -300,7 +300,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Skill02
+      name: Skill02_SpinAttack
       takeName: Take 001
       internalID: 0
       firstFrame: 0
@@ -324,8 +324,15 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.3298036
+      - time: 0.19301064
         functionName: PerformSpinAttack
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.9614407
+        functionName: EndSpinAttack
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

@@ -16,6 +16,10 @@ public class PlayerHealth : MonoBehaviour
     public Animator animator;            // 用於播放死亡動畫的 Animator
     public ParticleSystem healEffect;    // 補血時的特效
 
+    public ParticleSystem hurtEffect;            // 受傷特效
+    public float hurtEffectCooldown = 1f;        // 受傷特效的冷卻時間
+    private bool canPlayHurtEffect = true;       // 控制是否可以播放受傷特效
+
     public Animator DeadScreenFadeIn;
 
     public Button DeadScreenFirstButton;
@@ -142,6 +146,12 @@ public class PlayerHealth : MonoBehaviour
 
         Debug.Log($"Player took damage: {damage}. Current health: {currentHealth}");
 
+        if (hurtEffect != null && canPlayHurtEffect)
+        {
+            Instantiate(hurtEffect, transform.position, transform.rotation).Play();
+            StartCoroutine(HurtEffectCooldownRoutine());
+        }
+
         // 更新血量条（如果有）
         UpdateHealthBar();
 
@@ -151,6 +161,13 @@ public class PlayerHealth : MonoBehaviour
             Die();
         }
     }
+    IEnumerator HurtEffectCooldownRoutine()
+    {
+        canPlayHurtEffect = false;
+        yield return new WaitForSeconds(hurtEffectCooldown);
+        canPlayHurtEffect = true;
+    }
+
     // 設置第一個選中的按鈕
     private void SetFirstSelectedButton(Button button)
     {
