@@ -1,25 +1,29 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public enum CameraMode { FollowPlayer, SideView, FixedView }
+    public enum CameraMode { FollowPlayer, SideView }
     public CameraMode currentMode;
 
-    public Transform target;         // ª±®a¨¤¦âªº Transform
-    public Vector3 offset;           // ¬Û¾÷»Pª±®aªº°¾²¾¶q
-    public Transform fixedPosition;  // ©T©wÄá¼v¾÷¦ì¸m¡]²Ä¤TÃö¡^
+    public Transform target;         // ç©å®¶è§’è‰²çš„ Transform
+    public Vector3 offset;           // ç›¸æ©Ÿèˆ‡ç©å®¶çš„åç§»é‡
+    public Transform fixedPosition;  // å›ºå®šæ”å½±æ©Ÿä½ç½®ï¼ˆç¬¬ä¸‰é—œï¼‰
 
-    public Vector3 sideViewOffset = new Vector3(10f, 3f, 0f); // °¼©ç¼Ò¦¡ªº¦ì¸m°¾²¾¶q
+    public Vector3 sideViewOffset = new Vector3(10f, 3f, 0f); // å´æ‹æ¨¡å¼çš„ä½ç½®åç§»é‡
 
-    public float shakeDuration = 0.5f;   // ¾_°Ê«ùÄò®É¶¡
-    public float shakeMagnitude = 0.1f;  // ¾_°Ê´T«×
+    public LayerMask obstacleMask;   // éšœç¤™ç‰©åœ–å±¤
+    public float collisionBuffer = 0.5f; // èˆ‡éšœç¤™ç‰©çš„è·é›¢ç·©è¡
+    public float smoothSpeed = 5f;   // æ”å½±æ©Ÿå¹³æ»‘ç§»å‹•é€Ÿåº¦
 
-    private bool isShaking = false;  // ¬O§_¥¿¦b¾_°Ê
+    public float shakeDuration = 0.5f;   // éœ‡å‹•æŒçºŒæ™‚é–“
+    public float shakeMagnitude = 0.1f; // éœ‡å‹•å¹…åº¦
+
+    private bool isShaking = false;  // æ˜¯å¦æ­£åœ¨éœ‡å‹•
 
     void Start()
     {
-        // ¦pªG offset ¥¼³]¸m¡A­pºâªì©l°¾²¾¶q
+        // å¦‚æœ offset æœªè¨­ç½®ï¼Œè¨ˆç®—åˆå§‹åç§»é‡
         if (offset == Vector3.zero && target != null)
         {
             offset = transform.position - target.position;
@@ -28,13 +32,13 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
-        if (isShaking) return; // ¦pªG¥¿¦b¾_°Ê¡A¸õ¹L´¶³q§ó·s
+        if (isShaking) return; // å¦‚æœæ­£åœ¨éœ‡å‹•ï¼Œè·³éæ™®é€šæ›´æ–°
 
-        UpdateCameraPosition(); // §ó·sÄá¼v¾÷¦ì¸m
+        UpdateCameraPosition(); // æ›´æ–°æ”å½±æ©Ÿä½ç½®
     }
 
     /// <summary>
-    /// §ó·sÄá¼v¾÷¦ì¸m©M¦æ¬°
+    /// æ›´æ–°æ”å½±æ©Ÿä½ç½®å’Œè¡Œç‚º
     /// </summary>
     void UpdateCameraPosition()
     {
@@ -47,62 +51,62 @@ public class CameraController : MonoBehaviour
             case CameraMode.SideView:
                 SideView();
                 break;
-
-            case CameraMode.FixedView:
-                FixedView();
-                break;
         }
     }
 
     /// <summary>
-    /// Äá¼v¾÷¸òÀHª±®a
+    /// æ”å½±æ©Ÿè·Ÿéš¨ç©å®¶
     /// </summary>
     void FollowPlayer()
     {
         if (target == null) return;
-        transform.position = target.position + offset;
+
+        Vector3 desiredPosition = target.position + offset;
+
+        // æª¢æ¸¬æ˜¯å¦æœ‰éšœç¤™ç‰©
+        if (Physics.Linecast(target.position, desiredPosition, out RaycastHit hit, obstacleMask))
+        {
+            // å¦‚æœæœ‰éšœç¤™ç‰©ï¼Œå°‡æ”å½±æ©Ÿç§»åˆ°éšœç¤™ç‰©çš„å‰æ–¹
+            Vector3 direction = (desiredPosition - target.position).normalized;
+            desiredPosition = hit.point - direction * collisionBuffer;
+        }
+
+        // å¹³æ»‘ç§»å‹•åˆ°ç›®æ¨™ä½ç½®
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
+
+        // ç¢ºä¿æ”å½±æ©Ÿçœ‹å‘ç©å®¶
         transform.LookAt(target);
     }
 
     /// <summary>
-    /// Äá¼v¾÷°¼©çª±®a
+    /// æ”å½±æ©Ÿå´æ‹ç©å®¶
     /// </summary>
     void SideView()
     {
         if (target == null) return;
 
-        // ¨Ï¥Î¤½¶}ªº°¼©ç°¾²¾¶q
+        // ä½¿ç”¨å…¬é–‹çš„å´æ‹åç§»é‡
         Vector3 sideViewPosition = target.position + sideViewOffset;
 
-        // ³]¸mÄá¼v¾÷ªº¦ì¸m©M¤è¦V
+        // è¨­ç½®æ”å½±æ©Ÿçš„ä½ç½®å’Œæ–¹å‘
         transform.position = sideViewPosition;
-        transform.LookAt(target.position + Vector3.up * 1.5f); // µy·L¤W²¾¡AÅıÄá¼v¾÷¬İ¦Vª±®aªº¤W¥b¨­
+        transform.LookAt(target.position + Vector3.up * 1.5f); // ç¨å¾®ä¸Šç§»ï¼Œè®“æ”å½±æ©Ÿçœ‹å‘ç©å®¶çš„ä¸ŠåŠèº«
     }
 
     /// <summary>
-    /// Äá¼v¾÷©T©w¦ì¸m
+    /// è¨­å®šæ”å½±æ©Ÿæ¨¡å¼
     /// </summary>
-    void FixedView()
-    {
-        if (fixedPosition == null) return;
-        transform.position = fixedPosition.position;
-        transform.rotation = fixedPosition.rotation;
-    }
-
-    /// <summary>
-    /// ³]©wÄá¼v¾÷¼Ò¦¡
-    /// </summary>
-    /// <param name="mode">·sªºÄá¼v¾÷¼Ò¦¡</param>
+    /// <param name="mode">æ–°çš„æ”å½±æ©Ÿæ¨¡å¼</param>
     public void SetCameraMode(CameraMode mode)
     {
         currentMode = mode;
     }
 
     /// <summary>
-    /// Ä²µoÄá¼v¾÷¾_°Ê
+    /// è§¸ç™¼æ”å½±æ©Ÿéœ‡å‹•
     /// </summary>
-    /// <param name="duration">¾_°Ê«ùÄò®É¶¡</param>
-    /// <param name="magnitude">¾_°Ê´T«×</param>
+    /// <param name="duration">éœ‡å‹•æŒçºŒæ™‚é–“</param>
+    /// <param name="magnitude">éœ‡å‹•å¹…åº¦</param>
     public void TriggerShake(float duration, float magnitude)
     {
         if (!isShaking)
@@ -114,13 +118,13 @@ public class CameraController : MonoBehaviour
     }
 
     /// <summary>
-    /// Äá¼v¾÷¾_°Ê¨óµ{
+    /// æ”å½±æ©Ÿéœ‡å‹•å”ç¨‹
     /// </summary>
     IEnumerator Shake()
     {
         isShaking = true;
 
-        Vector3 originalPosition = transform.position; // °O¿ı¾_°Ê«eªºªì©l¦ì¸m
+        Vector3 originalPosition = transform.position; // è¨˜éŒ„éœ‡å‹•å‰çš„åˆå§‹ä½ç½®
         float elapsed = 0.0f;
 
         while (elapsed < shakeDuration)
@@ -128,15 +132,15 @@ public class CameraController : MonoBehaviour
             float x = Random.Range(-1f, 1f) * shakeMagnitude;
             float y = Random.Range(-1f, 1f) * shakeMagnitude;
 
-            Vector3 shakePosition = new Vector3(x, y, 0); // ¾_°Ê¦ì¸m°¾²¾
-            transform.position = originalPosition + shakePosition; // §ó·sÄá¼v¾÷¦ì¸m
+            Vector3 shakePosition = new Vector3(x, y, 0); // éœ‡å‹•ä½ç½®åç§»
+            transform.position = originalPosition + shakePosition; // æ›´æ–°æ”å½±æ©Ÿä½ç½®
 
             elapsed += Time.deltaTime;
 
             yield return null;
         }
 
-        // «ì´_¨ì¥¿±`¦ì¸m
+        // æ¢å¾©åˆ°æ­£å¸¸ä½ç½®
         transform.position = originalPosition;
         isShaking = false;
     }
