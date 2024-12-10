@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class HealthPackSpawner : MonoBehaviour
 {
@@ -7,11 +8,21 @@ public class HealthPackSpawner : MonoBehaviour
     public float respawnTime = 20f;    // 重新生成补包的时间
 
     private GameObject[] currentHealthPacks; // 当前场景中每个生成点的补包实例
+    private bool[] isRespawning; // 标记每个生成点是否正在重新生成
 
     void Start()
     {
-        // 初始化补包数组
+        // 检查是否正确设置
+        if (healthPackPrefab == null || spawnPoints == null || spawnPoints.Length == 0)
+        {
+            Debug.LogError("HealthPackSpawner 未正确配置：请检查Prefab和生成点！");
+            return;
+        }
+
+        // 初始化补包数组和标志位数组
         currentHealthPacks = new GameObject[spawnPoints.Length];
+        isRespawning = new bool[spawnPoints.Length];
+
         // 在每个生成点生成补包
         for (int i = 0; i < spawnPoints.Length; i++)
         {
@@ -24,7 +35,7 @@ public class HealthPackSpawner : MonoBehaviour
         // 检查每个生成点是否需要重新生成补包
         for (int i = 0; i < spawnPoints.Length; i++)
         {
-            if (currentHealthPacks[i] == null)
+            if (currentHealthPacks[i] == null && !isRespawning[i])
             {
                 StartCoroutine(RespawnHealthPack(i));
             }
@@ -45,8 +56,9 @@ public class HealthPackSpawner : MonoBehaviour
     }
 
     // 等待一定时间后重新生成补包
-    private System.Collections.IEnumerator RespawnHealthPack(int index)
+    private IEnumerator RespawnHealthPack(int index)
     {
+        isRespawning[index] = true; // 设置正在重新生成标志
         yield return new WaitForSeconds(respawnTime);
 
         // 检查是否已经生成补包（避免重复生成）
@@ -54,5 +66,7 @@ public class HealthPackSpawner : MonoBehaviour
         {
             SpawnHealthPackAt(index);
         }
+
+        isRespawning[index] = false; // 重置标志位
     }
 }
